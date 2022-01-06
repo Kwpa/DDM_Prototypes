@@ -342,8 +342,9 @@ GameObject:
   - component: {fileID: 1889158397368072261}
   - component: {fileID: 1889158397368072263}
   - component: {fileID: 1889158397368072262}
+  - component: {fileID: 2063491895461605300}
   m_Layer: 5
-  m_Name: Global Feed
+  m_Name: BroadcasterFeed
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -408,6 +409,19 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &2063491895461605300
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1889158397368072260}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9653c530cbecfa546844dbe7bdaf21ae, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _hidden: 0
 --- !u!1 &1889158397637634036
 GameObject:
   m_ObjectHideFlags: 0
@@ -1649,6 +1663,7 @@ GameObject:
   - component: {fileID: 1889158398411761725}
   - component: {fileID: 1889158398411761727}
   - component: {fileID: 1889158398411761726}
+  - component: {fileID: 7250190472904330105}
   m_Layer: 5
   m_Name: Broadcaster
   m_TagString: Untagged
@@ -1715,6 +1730,19 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &7250190472904330105
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1889158398411761724}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 31ad625e657dadb4aa6c5af1d8b0b2ba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _hidden: 0
 --- !u!1 &1889158398495267404
 GameObject:
   m_ObjectHideFlags: 0
@@ -2012,6 +2040,7 @@ GameObject:
   - component: {fileID: 1889158398656001292}
   - component: {fileID: 1889158398656001294}
   - component: {fileID: 1889158398656001293}
+  - component: {fileID: 7588436561075973473}
   m_Layer: 5
   m_Name: Voting Booth
   m_TagString: Untagged
@@ -2079,6 +2108,19 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &7588436561075973473
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1889158398656001291}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5e941e88171890b4ba5cfa3ca796f971, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _hidden: 0
 --- !u!1 &1889158398761672797
 GameObject:
   m_ObjectHideFlags: 0

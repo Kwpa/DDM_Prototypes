@@ -4,14 +4,9 @@ using UnityEngine;
 
 public class UIElement : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    public bool _hidden;
 
-    // Update is called once per frame
-    void Update()
+    public virtual void Init()
     {
         
     }
