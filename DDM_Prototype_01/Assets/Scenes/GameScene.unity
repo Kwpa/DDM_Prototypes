@@ -168,7 +168,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _gameProfile: {fileID: 11400000, guid: 279948bae04a98c41a53f8d63b63f0a2, type: 2}
   _days: 0
+  _daysPerGame: 0
   _rounds: 0
+  _roundsPerDay: 0
+  _roundTime: 0
+  _dancingTime: 0
   _actionPoints: 0
   _sparkPoints: 0
   _timeFactor: 1

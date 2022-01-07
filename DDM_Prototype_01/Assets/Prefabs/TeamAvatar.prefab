@@ -885,7 +885,7 @@ GameObject:
   - component: {fileID: 7158420640915648577}
   - component: {fileID: 2601654917183467986}
   m_Layer: 5
-  m_Name: Avatar
+  m_Name: TeamAvatar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -968,6 +968,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _hidden: 0
+  _teamNameText: {fileID: 7158420640068398381}
+  _callToActionText: {fileID: 7158420641456228719}
+  _donateEnergyText: {fileID: 7158420639463820914}
+  _iconBackground: {fileID: 6281245207073896748}
+  _icon: {fileID: 7792283863523760013}
 --- !u!1 &7158420640928071501
 GameObject:
   m_ObjectHideFlags: 0

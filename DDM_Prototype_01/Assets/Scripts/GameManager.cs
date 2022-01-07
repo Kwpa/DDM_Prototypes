@@ -58,6 +58,9 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
+        //state machine
+        SetupStates();
+
         //setup UI and initial variables
         _uiMgr.Init();
         LoadGameProfile(_gameProfile);
@@ -65,9 +68,6 @@ public class GameManager : MonoBehaviour
         //time
         _timeSpan = new System.TimeSpan(0, 0, 0, 0);
         _startTime = DateTime.UtcNow;
-
-        //state machine
-        SetupStates();
     }
 
     void Update()
@@ -75,12 +75,23 @@ public class GameManager : MonoBehaviour
         //time
         _endTime = DateTime.UtcNow;
         _timeSpan = _endTime - _startTime;
+        int roundMins = Mathf.Clamp(_roundTime-_roundSpan.Minutes-1, 0, 100000);
+        int roundSecs = Mathf.Clamp(59 - _roundSpan.Seconds, 0, 100000);
+        if(GetCurrentStateName()=="Dancing")
+        {
+            roundMins -= _roundTime - _dancingTime;
+        }
+        else if (GetCurrentStateName()=="Resting")
+        {
+            roundMins -= _dancingTime;
+        }
+        roundMins = Mathf.Clamp(roundMins, 0, 100000);
 
         //state machine
         _fsm.Update();
 
-        _uiMgr.SetVariables(_days, _rounds, _actionPoints, _sparkPoints, _roundTime-_roundSpan.Minutes, 60-_roundSpan.Seconds);
-        print(_roundSpan);
+        //ui
+        _uiMgr.SetVariables(_days, _rounds, _actionPoints, _sparkPoints, roundMins, roundSecs);
     }
 
     void FixedUpdate()
@@ -117,6 +128,11 @@ public class GameManager : MonoBehaviour
     //game functions
     //***************************************************************************
 
+    public string GetCurrentStateName()
+    {
+        return _fsm.GetCurrentState().Name;
+    }
+
     public void LoadGameProfile(GameProfile profile)
     {
         GainActionPoints(profile._startingActionPoints);
@@ -125,9 +141,16 @@ public class GameManager : MonoBehaviour
         _daysPerGame = profile._daysPerGame;
         _roundsPerDay = profile._roundsPerDay;
         _roundTime = profile._roundTime;
+        _dancingTime = profile._dancingTime;
 
+        SpawnAvatars(profile);
 
         _uiMgr.SetVariables(_days, _rounds, _actionPoints, _sparkPoints,_roundTime,0);
+    }
+
+    public void SpawnAvatars(GameProfile profile)
+    {
+        
     }
 
     public void GainDays(int value)
@@ -226,9 +249,10 @@ public class GameManager : MonoBehaviour
 
     public void DancingUpdate()
     {
-        print("DancingUpdate");
+        //print("DancingUpdate");
         _roundSpan = _endTime - _startRound;
-        if(_roundSpan.TotalMinutes >= _dancingTime)
+
+        if (_roundSpan.TotalMinutes >= _dancingTime)
         {
             _fsm.SetCurrentState(GameStates.Resting);
         }
@@ -237,6 +261,7 @@ public class GameManager : MonoBehaviour
     public void RestingEnter()
     {
         print("Resting");
+        
         // show ui
     }
 

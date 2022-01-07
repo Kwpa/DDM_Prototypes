@@ -13,10 +13,12 @@ public class UIManager : MonoBehaviour
     public GameObject _avatarPrefab;
     public Dictionary<string, GameObject> _baseSpawnedItems;
 
+    GameManager _gMgr;
     bool _activeUpdate = false;
 
     public void Init()
     {
+        _gMgr = GameObject.Find("GameManager").GetComponent<GameManager>();
         _baseSpawnedItems = new Dictionary<string, GameObject>();
         _baseSpawnedItems.Add("stage", Instantiate(_stagePrefab, this.transform));
         _baseSpawnedItems.Add("infoBar", Instantiate(_infoBarPrefab, this.transform));
@@ -32,6 +34,7 @@ public class UIManager : MonoBehaviour
         InfoBar infoBar = _baseSpawnedItems["infoBar"].GetComponent<InfoBar>();
         infoBar.SetDaysText(days);
         infoBar.SetRoundsText(rounds);
+        infoBar.SetRoundSectionText(_gMgr.GetCurrentStateName());
         infoBar.SetActionsText(actions);
         infoBar.SetSparksText(sparks);
         infoBar.SetTimeLeftText(minutesLeft, secondsLeft);

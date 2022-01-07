@@ -8,6 +8,7 @@ public class InfoBar : UIElement
     public TextMeshProUGUI _daysText;
     public TextMeshProUGUI _roundsText;
     public TextMeshProUGUI _timeLeftText;
+    public TextMeshProUGUI _roundSectionText;
     public TextMeshProUGUI _gainText;
     public TextMeshProUGUI _actionsText;
     public TextMeshProUGUI _sparksText;
@@ -39,7 +40,17 @@ public class InfoBar : UIElement
 
     public void SetTimeLeftText(int minutes, int seconds)
     {
-        _timeLeftText.text = minutes + " mins " + seconds + " seconds"; 
+        string minsCount = minutes == 1 ? " min " : " mins ";
+        string secsCount = seconds == 1 ? " second" : " seconds";
+        _timeLeftText.text = minutes + minsCount + seconds + secsCount;
+    }
+
+    public void SetRoundSectionText(string roundSectionName)
+    {
+        if(roundSectionName=="Dancing" || roundSectionName == "Resting")
+        {
+            _roundSectionText.text = roundSectionName + " ends in:"; 
+        }
     }
 
     public void SetGainText(int value)
