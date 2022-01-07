@@ -16,8 +16,10 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 2b4ac000d4bad044ba1d6cd7d2f7e228, type: 2}
   _playerProfiles:
   - {fileID: 11400000, guid: 7eeba9d24de59dd44830d8a106646fc4, type: 2}
-  _rounds: 24
-  _days: 5
+  _daysPerGame: 3
+  _roundsPerDay: 5
+  _roundTime: 2
+  _dancingTime: 1
+  _timeFactor: 1
   _startingActionPoints: 12
   _startingSparkPoints: 0
-  _timeFactor: 1

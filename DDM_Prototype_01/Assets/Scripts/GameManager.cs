@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Patterns;
+using System;
 
 //***************************************************************************
 //game manager with finite state machine and time tracking
@@ -18,16 +19,20 @@ public class GameManager : MonoBehaviour
     UIManager _uiMgr;
 
     public int _days = 0;
+    public int _daysPerGame = 0;
     public int _rounds = 0;
+    public int _roundsPerDay = 0;
     public int _roundTime;
     public int _dancingTime = 0;
     public int _actionPoints = 0;
     public int _sparkPoints = 0;
     public int _timeFactor = 1;
-    public System.DateTime _startTime;
-    public System.DateTime _endTime;
-    public System.TimeSpan _timeSpan;
-    public System.DateTime _startRound;
+
+    public DateTime _startTime;
+    public DateTime _endTime;
+    public TimeSpan _timeSpan;
+    public DateTime _startRound;
+    public TimeSpan _roundSpan;
 
     public bool _debug = false;
 
@@ -37,19 +42,19 @@ public class GameManager : MonoBehaviour
         NewDay,
         NewRound,
         Dancing,
+        Resting
     }
 
     FiniteStateMachine<GameStates> _fsm = new FiniteStateMachine<GameStates>();
 
     //***************************************************************************
-    //functions
+    //Unity functions
     //***************************************************************************
 
     void Awake()
     {
         _uiMgr = GameObject.Find("UIManager").GetComponent<UIManager>();
     }
-
 
     void Start()
     {
@@ -59,7 +64,7 @@ public class GameManager : MonoBehaviour
 
         //time
         _timeSpan = new System.TimeSpan(0, 0, 0, 0);
-        _startTime = System.DateTime.UtcNow;
+        _startTime = DateTime.UtcNow;
 
         //state machine
         SetupStates();
@@ -68,17 +73,24 @@ public class GameManager : MonoBehaviour
     void Update()
     {
         //time
-        _endTime = System.DateTime.UtcNow;
+        _endTime = DateTime.UtcNow;
         _timeSpan = _endTime - _startTime;
 
         //state machine
         _fsm.Update();
+
+        _uiMgr.SetVariables(_days, _rounds, _actionPoints, _sparkPoints, _roundTime-_roundSpan.Minutes, 60-_roundSpan.Seconds);
+        print(_roundSpan);
     }
 
     void FixedUpdate()
     {
         _fsm.FixedUpdate();    
     }
+
+    //***************************************************************************
+    //state setup
+    //***************************************************************************
 
     void SetupStates()
     {
@@ -92,17 +104,30 @@ public class GameManager : MonoBehaviour
             new State<GameStates>(GameStates.NewRound, "NewRound", NewRoundEnter, null, null, null));
 
         _fsm.Add(
-            new State<GameStates>(GameStates.Dancing, "Dancing", DancingEnter, null, null, null));
+            new State<GameStates>(GameStates.Dancing, "Dancing", DancingEnter, null, DancingUpdate, null));
+
+        _fsm.Add(
+            new State<GameStates>(GameStates.Resting, "Resting", RestingEnter, null, RestingUpdate, null));
+
 
         _fsm.SetCurrentState(GameStates.FirstVisit);
     }
+
+    //***************************************************************************
+    //game functions
+    //***************************************************************************
 
     public void LoadGameProfile(GameProfile profile)
     {
         GainActionPoints(profile._startingActionPoints);
         GainSparkPoints(profile._startingSparkPoints);
         SetTimeFactor(profile._timeFactor);
-        _uiMgr.SetVariables(_days, _rounds, _actionPoints, _sparkPoints);
+        _daysPerGame = profile._daysPerGame;
+        _roundsPerDay = profile._roundsPerDay;
+        _roundTime = profile._roundTime;
+
+
+        _uiMgr.SetVariables(_days, _rounds, _actionPoints, _sparkPoints,_roundTime,0);
     }
 
     public void GainDays(int value)
@@ -164,36 +189,70 @@ public class GameManager : MonoBehaviour
         _dancingTime = value;
     }
 
-
     //***************************************************************************
     //state delegate definitions
     //***************************************************************************
 
     public void FirstVisitEnter()
     {
+        print("First Visit");
         _fsm.SetCurrentState(GameStates.NewDay);
     }
 
     public void NewDayEnter()
     {
+        print("New Day");
         GainDays(1);
+
+        //show ui
+
         _fsm.SetCurrentState(GameStates.NewRound);
     }
 
     public void NewRoundEnter()
     {
+        print("New Round");
         GainRounds(1);
         _fsm.SetCurrentState(GameStates.Dancing);
     }
 
     public void DancingEnter()
     {
-        
+        print("Dancing");
+        _startRound = DateTime.UtcNow;
+
+        //show ui
     }
 
     public void DancingUpdate()
     {
+        print("DancingUpdate");
+        _roundSpan = _endTime - _startRound;
+        if(_roundSpan.TotalMinutes >= _dancingTime)
+        {
+            _fsm.SetCurrentState(GameStates.Resting);
+        }
+    }
 
-        if(_endTime-_startRound)
+    public void RestingEnter()
+    {
+        print("Resting");
+        // show ui
+    }
+
+    public void RestingUpdate()
+    {
+        _roundSpan = _endTime - _startRound;
+        if (_roundSpan.TotalMinutes >= _roundTime)
+        {
+            if(_rounds >= _roundsPerDay)
+            {
+                _fsm.SetCurrentState(GameStates.NewDay);
+            }
+            else
+            {
+                _fsm.SetCurrentState(GameStates.NewRound);
+            }
+        }
     }
 }

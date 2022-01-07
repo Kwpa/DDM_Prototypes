@@ -27,13 +27,14 @@ public class UIManager : MonoBehaviour
         _activeUpdate = true;
     }
 
-    public void SetVariables(int days, int rounds, int actions, int sparks)
+    public void SetVariables(int days, int rounds, int actions, int sparks, int minutesLeft, int secondsLeft)
     {
         InfoBar infoBar = _baseSpawnedItems["infoBar"].GetComponent<InfoBar>();
         infoBar.SetDaysText(days);
         infoBar.SetRoundsText(rounds);
         infoBar.SetActionsText(actions);
         infoBar.SetSparksText(sparks);
+        infoBar.SetTimeLeftText(minutesLeft, secondsLeft);
     }
 
     private void Update()

@@ -44,6 +44,6 @@ public class InfoBar : UIElement
 
     public void SetGainText(int value)
     {
-        _gainText.text = "Gain " + value + " extra action");
+        _gainText.text = "Gain " + value + " extra action";
     }
 }
