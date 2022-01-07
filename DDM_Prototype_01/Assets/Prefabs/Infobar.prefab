@@ -280,7 +280,7 @@ GameObject:
   - component: {fileID: 3332124371036333796}
   - component: {fileID: 3332124371036333797}
   m_Layer: 5
-  m_Name: Stat
+  m_Name: TimeLeft
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -569,7 +569,7 @@ GameObject:
   - component: {fileID: 3332124371464611502}
   - component: {fileID: 3332124371464611503}
   m_Layer: 5
-  m_Name: Stat
+  m_Name: Gain
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -724,7 +724,7 @@ GameObject:
   - component: {fileID: 3332124371641631536}
   - component: {fileID: 3332124371641631537}
   m_Layer: 5
-  m_Name: Stat
+  m_Name: Sparks
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1605,7 +1605,7 @@ GameObject:
   - component: {fileID: 3332124372008505437}
   - component: {fileID: 3332124372008505438}
   m_Layer: 5
-  m_Name: Stat
+  m_Name: Rounds
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1950,7 +1950,7 @@ GameObject:
   - component: {fileID: 3332124372738612834}
   - component: {fileID: 3332124372738612835}
   m_Layer: 5
-  m_Name: Stat
+  m_Name: Actions
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2026,6 +2026,7 @@ GameObject:
   - component: {fileID: 3332124372866673782}
   - component: {fileID: 3332124372866673780}
   - component: {fileID: 3332124372866673781}
+  - component: {fileID: -2025557168496238305}
   m_Layer: 5
   m_Name: Infobar
   m_TagString: Untagged
@@ -2092,6 +2093,25 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &-2025557168496238305
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3332124372866673783}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 77399ff0df579384ea8aaecb1333c469, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _hidden: 0
+  _daysText: {fileID: 3332124371022995420}
+  _roundsText: {fileID: 3332124372145463037}
+  _timeLeftText: {fileID: 3332124371797751589}
+  _gainText: {fileID: 3332124372923746986}
+  _actionsText: {fileID: 3332124372281252213}
+  _sparksText: {fileID: 3332124371874435263}
 --- !u!1 &3332124372923746988
 GameObject:
   m_ObjectHideFlags: 0
@@ -2238,7 +2258,7 @@ GameObject:
   - component: {fileID: 3332124372948838738}
   - component: {fileID: 3332124372948838739}
   m_Layer: 5
-  m_Name: Stat
+  m_Name: Days
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

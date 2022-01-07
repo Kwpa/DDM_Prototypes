@@ -15,11 +15,6 @@ public class UIManager : MonoBehaviour
 
     bool _activeUpdate = false;
 
-    private void Start()
-    {
-        Init();
-    }
-
     public void Init()
     {
         _baseSpawnedItems = new Dictionary<string, GameObject>();
@@ -32,9 +27,13 @@ public class UIManager : MonoBehaviour
         _activeUpdate = true;
     }
 
-    public void SetVariables(int a, int b, int c, int d)
+    public void SetVariables(int days, int rounds, int actions, int sparks)
     {
-        _baseSpawnedItems["infoBar"].GetComponent<InfoBar>().
+        InfoBar infoBar = _baseSpawnedItems["infoBar"].GetComponent<InfoBar>();
+        infoBar.SetDaysText(days);
+        infoBar.SetRoundsText(rounds);
+        infoBar.SetActionsText(actions);
+        infoBar.SetSparksText(sparks);
     }
 
     private void Update()

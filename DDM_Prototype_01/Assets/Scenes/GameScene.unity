@@ -166,6 +166,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4bfb995ecfa546746917bf99511052d4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _gameProfile: {fileID: 11400000, guid: 279948bae04a98c41a53f8d63b63f0a2, type: 2}
+  _days: 0
+  _rounds: 0
+  _actionPoints: 0
+  _sparkPoints: 0
+  _timeFactor: 1
+  _debug: 0
 --- !u!1 &223352445
 GameObject:
   m_ObjectHideFlags: 0
@@ -456,7 +463,7 @@ MonoBehaviour:
   _infoBarPrefab: {fileID: 3332124372866673783, guid: 04e99c7194acd8c48b9ff2cc3dd78018, type: 3}
   _chatFeedPrefab: {fileID: 5766345685014814953, guid: aea44ddea4e392648b96a1fd71db9c7a, type: 3}
   _chatMessagePrefab: {fileID: 974451836333542169, guid: 68bb418125e6f416fbec8449215a8c4b, type: 3}
-  _broadcasterFeedPrefab: {fileID: 1889158398411761724, guid: b2e3d395a0d41d14c9f11d84ce6c965a, type: 3}
+  _broadcasterPrefab: {fileID: 1889158398411761724, guid: b2e3d395a0d41d14c9f11d84ce6c965a, type: 3}
   _broadcasterMessagePrefab: {fileID: 6019168176528894172, guid: c40db068bccae4b7bbc6e41af3c243be, type: 3}
   _avatarPrefab: {fileID: 7158420640915648579, guid: 0d8cb4196975749a986bc80765581733, type: 3}
 --- !u!1 &1168354851
