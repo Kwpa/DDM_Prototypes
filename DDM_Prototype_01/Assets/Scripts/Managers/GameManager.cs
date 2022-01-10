@@ -26,8 +26,6 @@ public class GameManager : MonoBehaviour
     public int _roundMins;
     public int _roundSecs;
     public int _dancingTime = 0;
-    public int _actionPoints = 0;
-    public int _sparkPoints = 0;
     public int _timeFactor = 1;
 
     public DateTime _startTime;
@@ -37,6 +35,8 @@ public class GameManager : MonoBehaviour
     public TimeSpan _roundSpan;
 
     public Dictionary<string, Team> _teams;
+    public Dictionary<string, Player> _players;
+    public Player _activePlayer;
 
     public bool _debug = false;
 
@@ -65,7 +65,7 @@ public class GameManager : MonoBehaviour
         //state machine
         SetupStates();
 
-        //setup UI and initial variables
+        //setup UI and initial variables (create teams, players etc)
         _uiMgr.Init();
         LoadGameProfile(_gameProfile);
 
@@ -81,6 +81,12 @@ public class GameManager : MonoBehaviour
 
         //state machine
         _fsm.Update();
+
+        //players
+        UpdatePlayers();
+
+        //teams
+        UpdateTeams();
 
         //ui
         _uiMgr.UpdateUI();
@@ -137,6 +143,22 @@ public class GameManager : MonoBehaviour
         _roundMins = Mathf.Clamp(_roundMins, 0, 100000);
     }
 
+    public void UpdateTeams()
+    {
+        foreach (KeyValuePair<string, Team> kvp in _teams)
+        {
+            kvp.Value.UpdateTeam();
+        }
+    }
+
+    public void UpdatePlayers()
+    {
+        foreach(KeyValuePair<string,Player> kvp in _players)
+        {
+            kvp.Value.UpdatePlayer(_teams);
+        }
+    }
+
     public string GetCurrentStateName()
     {
         return _fsm.GetCurrentState().Name;
@@ -144,8 +166,6 @@ public class GameManager : MonoBehaviour
 
     public void LoadGameProfile(GameProfile profile)
     {
-        GainActionPoints(profile._startingActionPoints);
-        GainSparkPoints(profile._startingSparkPoints);
         SetTimeFactor(profile._timeFactor);
         _daysPerGame = profile._daysPerGame;
         _roundsPerDay = profile._roundsPerDay;
@@ -153,8 +173,30 @@ public class GameManager : MonoBehaviour
         _dancingTime = profile._dancingTime;
 
         CreateTeams(profile);
+        CreatePlayers(profile);
+
+        //temp: set active player
+        _activePlayer = _players[profile._activePlayerID];
+    
 
         _uiMgr.UpdateUI();
+    }
+
+    public void CreatePlayers(GameProfile profile)
+    {
+        _players = new Dictionary<string, Player>();
+        List<PlayerProfile> playerProfiles = profile._playerProfiles;
+        foreach (PlayerProfile pp in playerProfiles)
+        {
+            _players.Add(pp._playerID, new Player(pp, _teams));
+        }
+        foreach(KeyValuePair<string, Player> kvp in _players)
+        {
+            Player player = kvp.Value;
+            player.GainActionPoints(profile._startingActionPoints);
+            player.GainSparkPoints(profile._startingSparkPoints);
+            player.SetupPlayerToTeamData(_teams);
+        }
     }
 
     public void CreateTeams(GameProfile profile)
@@ -166,12 +208,14 @@ public class GameManager : MonoBehaviour
             _teams.Add(tp._teamID, new Team(tp));
         }
 
-        foreach(KeyValuePair<string,Team> kvp in _teams)
+        foreach(KeyValuePair<string, Team> kvp in _teams)
         {
-            kvp.Value._assignedAvatar = _uiMgr.SpawnAvatar(kvp.Value);
+            Team t = kvp.Value;
+            t._assignedAvatar = _uiMgr.SpawnAvatar(kvp.Value);
         }
-
     }
+
+    //public void Click
 
     public void GainDays(int value)
     {
@@ -181,40 +225,6 @@ public class GameManager : MonoBehaviour
     public void GainRounds(int value)
     {
         _rounds += value;
-    }
-
-    public void GainActionPoints(int value)
-    {
-        _actionPoints += value;
-        _actionPoints = Mathf.Clamp(_actionPoints, 0, 1000);
-    }
-
-    public void LoseActionPoints(int value)
-    {
-        _actionPoints -= value;
-        _actionPoints = Mathf.Clamp(_actionPoints, 0, 1000);
-    }
-
-    public void SpendActionPoints(int value)
-    {
-        LoseActionPoints(value);
-    }
-
-    public void GainSparkPoints(int value)
-    {
-        _sparkPoints += value;
-        _sparkPoints = Mathf.Clamp(_sparkPoints, 0, 1000);
-    }
-
-    public void LoseSparkPoints(int value)
-    {
-        _sparkPoints -= value;
-        _sparkPoints = Mathf.Clamp(_sparkPoints, 0, 1000);
-    }
-
-    public void SpendSparkPoints(int value)
-    {
-        LoseSparkPoints(value);
     }
 
     public void SetTimeFactor(int value)

@@ -7,6 +7,7 @@ public class GameProfile : ScriptableObject
 {
     public List<TeamProfile> _teamProfiles;
     public List<PlayerProfile> _playerProfiles;
+    public string _activePlayerID;
     public int _daysPerGame = 5;
     public int _roundsPerDay = 24;
     public int _roundTime = 60;

@@ -12,4 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5f604813f51147a4cb4dc1c6b33a8419, type: 3}
   m_Name: TeamProfile_001
   m_EditorClassIdentifier: 
-  _teamName: Team Name
+  _teamID: Team_001
+  _teamName: Alphie and Alphonse
+  _teamBio: bio
+  _teamHealth: 10
+  _teamMaxHealth: 10
+  _teamDonationAmount: 1

@@ -21,6 +21,9 @@ public class UIManager : MonoBehaviour
     public void Init()
     {
         _gMgr = GameObject.Find("GameManager").GetComponent<GameManager>();
+        _baseUI = new Dictionary<string, GameObject>();
+        _avatarsUI = new Dictionary<string, GameObject>();
+        _messagesUI = new Dictionary<string, GameObject>();
 
         SpawnBaseUI();
 
@@ -29,7 +32,6 @@ public class UIManager : MonoBehaviour
 
     public void SpawnBaseUI()
     {
-        _baseUI = new Dictionary<string, GameObject>();
         _baseUI.Add("stage", Instantiate(_stagePrefab, this.transform));
         _baseUI.Add("infoBar", Instantiate(_infoBarPrefab, this.transform));
         _baseUI.Add("chatFeed", Instantiate(_chatFeedPrefab, this.transform));
@@ -49,12 +51,13 @@ public class UIManager : MonoBehaviour
 
     public void UpdateInfoBar()
     {
-        _baseUI["infoBar"].GetComponent<InfoBar>().SetInfoBarVariables(
+        InfoBar infoBar = _baseUI["infoBar"].GetComponent<InfoBar>();
+        infoBar.SetInfoBarVariables(
             _gMgr._days,
             _gMgr._rounds,
-            _gMgr._actionPoints,
+            _gMgr._activePlayer._actionPoints,
             _gMgr.GetCurrentStateName(),
-            _gMgr._sparkPoints,
+            _gMgr._activePlayer._sparkPoints,
             _gMgr._roundMins,
             _gMgr._roundSecs
             );
@@ -66,8 +69,13 @@ public class UIManager : MonoBehaviour
         {
             TeamAvatar avatar = kvp.Value.GetComponent<TeamAvatar>();
             Team teamRef = _gMgr._teams[avatar._teamID];
+            PlayerToTeamData _data = _gMgr._activePlayer._playerToTeamData[avatar._teamID];
+
             avatar.SetValues(
-                teamRef.);
+                teamRef._teamName,
+                teamRef._donationNeeded,
+                _data._teamDonationAmount
+                );
         }
     }
 
@@ -76,6 +84,7 @@ public class UIManager : MonoBehaviour
         if(_activeUpdate)
         {
             UpdateInfoBar();
+            UpdateAvatars();
 
             foreach (KeyValuePair<string,GameObject> entry in _baseUI)
             {

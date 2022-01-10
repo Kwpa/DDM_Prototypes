@@ -9,8 +9,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1ef8367be86c696458eb44979ceb1cb9, type: 3}
-  m_Name: PlayerProfile_001
+  m_Script: {fileID: 11500000, guid: 5f604813f51147a4cb4dc1c6b33a8419, type: 3}
+  m_Name: TeamProfile_003
   m_EditorClassIdentifier: 
-  _playerID: Player_001
-  _username: Gradiustheguide
+  _teamID: Team_003
+  _teamName: Calcifer and Connie
+  _teamBio: bio
+  _teamHealth: 10
+  _teamMaxHealth: 10
+  _teamDonationAmount: 1
