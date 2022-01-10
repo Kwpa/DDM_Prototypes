@@ -18,6 +18,17 @@ public class InfoBar : UIElement
         base.Init();
     }
 
+    public void SetInfoBarVariables(int days, int rounds, int actions, string currentStateName, int sparks, int minutesLeft, int secondsLeft)
+    {
+        InfoBar infoBar = this;
+        infoBar.SetDaysText(days);
+        infoBar.SetRoundsText(rounds);
+        infoBar.SetRoundSectionText(currentStateName);
+        infoBar.SetActionsText(actions);
+        infoBar.SetSparksText(sparks);
+        infoBar.SetTimeLeftText(minutesLeft, secondsLeft);
+    }
+
     public void SetDaysText(int value)
     {
         _daysText.text = value.ToString();

@@ -23,6 +23,8 @@ public class GameManager : MonoBehaviour
     public int _rounds = 0;
     public int _roundsPerDay = 0;
     public int _roundTime;
+    public int _roundMins;
+    public int _roundSecs;
     public int _dancingTime = 0;
     public int _actionPoints = 0;
     public int _sparkPoints = 0;
@@ -33,6 +35,8 @@ public class GameManager : MonoBehaviour
     public TimeSpan _timeSpan;
     public DateTime _startRound;
     public TimeSpan _roundSpan;
+
+    public Dictionary<string, Team> _teams;
 
     public bool _debug = false;
 
@@ -73,25 +77,13 @@ public class GameManager : MonoBehaviour
     void Update()
     {
         //time
-        _endTime = DateTime.UtcNow;
-        _timeSpan = _endTime - _startTime;
-        int roundMins = Mathf.Clamp(_roundTime-_roundSpan.Minutes-1, 0, 100000);
-        int roundSecs = Mathf.Clamp(59 - _roundSpan.Seconds, 0, 100000);
-        if(GetCurrentStateName()=="Dancing")
-        {
-            roundMins -= _roundTime - _dancingTime;
-        }
-        else if (GetCurrentStateName()=="Resting")
-        {
-            roundMins -= _dancingTime;
-        }
-        roundMins = Mathf.Clamp(roundMins, 0, 100000);
+        UpdateTime();
 
         //state machine
         _fsm.Update();
 
         //ui
-        _uiMgr.SetVariables(_days, _rounds, _actionPoints, _sparkPoints, roundMins, roundSecs);
+        _uiMgr.UpdateUI();
     }
 
     void FixedUpdate()
@@ -128,6 +120,23 @@ public class GameManager : MonoBehaviour
     //game functions
     //***************************************************************************
 
+    public void UpdateTime()
+    {
+        _endTime = DateTime.UtcNow;
+        _timeSpan = _endTime - _startTime;
+        _roundMins = Mathf.Clamp(_roundTime - _roundSpan.Minutes - 1, 0, 100000);
+        _roundSecs = Mathf.Clamp(59 - _roundSpan.Seconds, 0, 100000);
+        if (GetCurrentStateName() == "Dancing")
+        {
+            _roundMins -= _roundTime - _dancingTime;
+        }
+        else if (GetCurrentStateName() == "Resting")
+        {
+            _roundMins -= _dancingTime;
+        }
+        _roundMins = Mathf.Clamp(_roundMins, 0, 100000);
+    }
+
     public string GetCurrentStateName()
     {
         return _fsm.GetCurrentState().Name;
@@ -143,14 +152,25 @@ public class GameManager : MonoBehaviour
         _roundTime = profile._roundTime;
         _dancingTime = profile._dancingTime;
 
-        SpawnAvatars(profile);
+        CreateTeams(profile);
 
-        _uiMgr.SetVariables(_days, _rounds, _actionPoints, _sparkPoints,_roundTime,0);
+        _uiMgr.UpdateUI();
     }
 
-    public void SpawnAvatars(GameProfile profile)
+    public void CreateTeams(GameProfile profile)
     {
-        
+        _teams = new Dictionary<string, Team>();
+        List<TeamProfile> teamProfiles = profile._teamProfiles;
+        foreach(TeamProfile tp in teamProfiles)
+        {
+            _teams.Add(tp._teamID, new Team(tp));
+        }
+
+        foreach(KeyValuePair<string,Team> kvp in _teams)
+        {
+            kvp.Value._assignedAvatar = _uiMgr.SpawnAvatar(kvp.Value);
+        }
+
     }
 
     public void GainDays(int value)
