@@ -15,6 +15,6 @@ MonoBehaviour:
   _teamID: Team_002
   _teamName: Betty and Bovinda
   _teamBio: bio
-  _teamHealth: 10
+  _teamHealth: 0
   _teamMaxHealth: 10
   _teamDonationAmount: 1

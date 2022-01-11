@@ -15,6 +15,6 @@ MonoBehaviour:
   _teamID: Team_003
   _teamName: Calcifer and Connie
   _teamBio: bio
-  _teamHealth: 10
+  _teamHealth: 0
   _teamMaxHealth: 10
   _teamDonationAmount: 1

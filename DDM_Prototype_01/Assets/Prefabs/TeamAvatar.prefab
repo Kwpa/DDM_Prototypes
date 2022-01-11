@@ -616,7 +616,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 7158420639709523194}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 2601654917183467986}
+        m_TargetAssemblyTypeName: TeamAvatar, Assembly-CSharp
+        m_MethodName: ClickDonationButton
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &7158420640068398383
 GameObject:
   m_ObjectHideFlags: 0
@@ -871,7 +883,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 7158420640233361333}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 2601654917183467986}
+        m_TargetAssemblyTypeName: TeamAvatar, Assembly-CSharp
+        m_MethodName: OpenTeamProfilePopup
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &7158420640915648579
 GameObject:
   m_ObjectHideFlags: 0
@@ -929,6 +953,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _hidden: 0
+  _gMgr: {fileID: 0}
+  _uMgr: {fileID: 0}
   _teamID: 
   _teamNameText: {fileID: 7158420640068398381}
   _callToActionText: {fileID: 7158420641456228719}

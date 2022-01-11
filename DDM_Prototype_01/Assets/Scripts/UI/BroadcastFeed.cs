@@ -6,6 +6,6 @@ public class BroadcastFeed : UIElement
 {
     public override void Init()
     {
-        base.Init();
+        //...
     }
 }

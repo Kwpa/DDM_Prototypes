@@ -15,7 +15,7 @@ public class TeamAvatar : UIElement
 
     public override void Init()
     {
-        base.Init();
+        //...
     }
 
     public void SetValues(string name, int requirement, int donation)
@@ -38,5 +38,15 @@ public class TeamAvatar : UIElement
     public void SetDonateEnergyText(int value)
     {
         _donateEnergyText.text = "+" + value + " energy";
+    }
+
+    public void ClickDonationButton()
+    {
+        _gMgr.SpendActionOnDonation(_gMgr._activePlayer._playerID, _teamID);
+    }
+
+    public void OpenTeamProfilePopup()
+    {
+        _uMgr.OpenTeamProfilePopup(_teamID);
     }
 }

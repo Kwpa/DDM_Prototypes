@@ -172,9 +172,9 @@ MonoBehaviour:
   _rounds: 0
   _roundsPerDay: 0
   _roundTime: 0
+  _roundMins: 0
+  _roundSecs: 0
   _dancingTime: 0
-  _actionPoints: 0
-  _sparkPoints: 0
   _timeFactor: 1
   _debug: 0
 --- !u!1 &223352445
@@ -470,6 +470,7 @@ MonoBehaviour:
   _broadcasterPrefab: {fileID: 1889158398411761724, guid: b2e3d395a0d41d14c9f11d84ce6c965a, type: 3}
   _broadcasterMessagePrefab: {fileID: 6019168176528894172, guid: c40db068bccae4b7bbc6e41af3c243be, type: 3}
   _avatarPrefab: {fileID: 7158420640915648579, guid: 0d8cb4196975749a986bc80765581733, type: 3}
+  _teamProfilePopupPrefab: {fileID: 2155011548093070273, guid: c86328b0e54a8264d8191a99c2a84109, type: 3}
 --- !u!1 &1168354851
 GameObject:
   m_ObjectHideFlags: 0

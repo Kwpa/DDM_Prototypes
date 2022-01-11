@@ -11,7 +11,10 @@ public class TeamProfile : ScriptableObject
     public int _teamHealth = 0;
     public int _teamMaxHealth = 0;
     public int _teamDonationAmount = 1;
-    public List<PersonalityStat> _teamPersonalityStats;
-    public List<Upgrade> _teamUpgrades;
-    public List<StoryReveal> _storyReveals;
+    [SerializeField]
+    public List<PersonalityStatDef> _teamPersonalityStats;
+    [SerializeField]
+    public List<UpgradeDef> _teamUpgrades;
+    [SerializeField]
+    public List<StoryRevealDef> _storyReveals;
 }

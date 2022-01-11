@@ -12,14 +12,15 @@ public class Team
     public int _baseDonationAmount = 0;
     public int _donationAddModifier = 0;
 
-    public List<PersonalityStat> _teamPersonalityStats;
-    public List<Upgrade> _teamUpgrades;
-    public List<StoryReveal> _storyReveals;
+    public List<PersonalityStatDef> _teamPersonalityStats;
+    public List<UpgradeDef> _teamUpgrades;
+    public List<StoryRevealDef> _teamStoryReveals;
 
     public GameObject _assignedAvatar;
+    public GameObject _assignedProfilePopup;
     public int _donationNeeded = 0;
 
-    public Team(string id, string name, string bio, int health, int maxHealth, int donationAmount, List<PersonalityStat> stats, List<Upgrade> upgrades, List<StoryReveal> reveals)
+    public Team(string id, string name, string bio, int health, int maxHealth, int donationAmount, List<PersonalityStatDef> stats, List<UpgradeDef> upgrades, List<StoryRevealDef> reveals)
     {
         _teamID = id;
         _teamName = name;
@@ -29,7 +30,7 @@ public class Team
         _baseDonationAmount = donationAmount;
         _teamPersonalityStats = stats;
         _teamUpgrades = upgrades;
-        _storyReveals = reveals;
+        _teamStoryReveals = reveals;
     }
 
     public Team(TeamProfile profile)
@@ -42,12 +43,13 @@ public class Team
         _baseDonationAmount = profile._teamDonationAmount;
         _teamPersonalityStats = profile._teamPersonalityStats;
         _teamUpgrades = profile._teamUpgrades;
-        _storyReveals = profile._storyReveals;
+        _teamStoryReveals = profile._storyReveals;
     }
 
     public void UpdateTeam()
     {
-        //
+        _donationNeeded = _teamMaxHealth - _teamHealth;
+
     }
 
     public void SetHealth(int value)
@@ -77,7 +79,7 @@ public class Team
         _teamHealth = Mathf.Clamp(_teamHealth, 0, _teamMaxHealth);
     }
 
-    public void SetStat(PersonalityStat stat)
+    public void SetStat(PersonalityStatDef stat)
     {
         // todo
     }
@@ -94,16 +96,30 @@ public class TeamMember
     public string _name = "team member name";
 }
 
-public class PersonalityStat
+[System.Serializable]
+public class UpgradeDef
+{
+    public string _upgradeID = "upgrade id";
+    public string _upgradeName = "upgrade name";
+    public string _upgradeDescription = "upgrade description";
+    public int _upgradeCost = 0;
+
+}
+
+[System.Serializable]
+public class PersonalityStatDef
 {
     public string _statID = "statID";
     public string _statName = "stat name";
+    public string _statUpperName = "stat name";
+    public string _statUpperLower = "stat name";
     public int _rangeMin = 0;
     public int _rangeMax = 10;
     public int _statValue = 5;
 }
 
-public class StoryReveal
+[System.Serializable]
+public class StoryRevealDef
 {
     public string _storySectionTitle = "story title";
     [TextArea] public string _storySectionContent = "story content";

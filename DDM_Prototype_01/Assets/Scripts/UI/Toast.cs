@@ -6,6 +6,6 @@ public class Toast : UIElement
 {
     public override void Init()
     {
-        base.Init();
+        //...
     }
 }

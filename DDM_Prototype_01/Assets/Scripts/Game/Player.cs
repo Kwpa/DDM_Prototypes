@@ -95,6 +95,7 @@ public class PlayerToTeamData
     public string _teamID;
     public int _donationFactor = 1;
     public int _teamDonationAmount = 1;
+    public bool _playerIsInFanClub = false;
 
     public PlayerToTeamData(string id)
     {

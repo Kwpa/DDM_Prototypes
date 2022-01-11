@@ -15,7 +15,7 @@ public class InfoBar : UIElement
 
     public override void Init()
     {
-        base.Init();
+        //...
     }
 
     public void SetInfoBarVariables(int days, int rounds, int actions, string currentStateName, int sparks, int minutesLeft, int secondsLeft)

@@ -422,6 +422,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _hidden: 0
+  _gMgr: {fileID: 0}
 --- !u!1 &1889158397637634036
 GameObject:
   m_ObjectHideFlags: 0
@@ -1663,7 +1664,7 @@ GameObject:
   - component: {fileID: 1889158398411761725}
   - component: {fileID: 1889158398411761727}
   - component: {fileID: 1889158398411761726}
-  - component: {fileID: 7250190472904330105}
+  - component: {fileID: 7192554166251668218}
   m_Layer: 5
   m_Name: Broadcaster
   m_TagString: Untagged
@@ -1730,7 +1731,7 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &7250190472904330105
+--- !u!114 &7192554166251668218
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1739,10 +1740,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 1889158398411761724}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 31ad625e657dadb4aa6c5af1d8b0b2ba, type: 3}
+  m_Script: {fileID: 11500000, guid: 1dc741fe23a01934cbea50da53f2b507, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _hidden: 0
+  _gMgr: {fileID: 0}
 --- !u!1 &1889158398495267404
 GameObject:
   m_ObjectHideFlags: 0
@@ -2121,6 +2123,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _hidden: 0
+  _gMgr: {fileID: 0}
 --- !u!1 &1889158398761672797
 GameObject:
   m_ObjectHideFlags: 0

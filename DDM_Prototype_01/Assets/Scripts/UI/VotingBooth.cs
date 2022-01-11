@@ -6,6 +6,6 @@ public class VotingBooth : UIElement
 {
     public override void Init()
     {
-        base.Init();
+        //...
     }
 }

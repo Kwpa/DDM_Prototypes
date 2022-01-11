@@ -15,6 +15,78 @@ MonoBehaviour:
   _teamID: Team_001
   _teamName: Alphie and Alphonse
   _teamBio: bio
-  _teamHealth: 10
+  _teamHealth: 0
   _teamMaxHealth: 10
   _teamDonationAmount: 1
+  _teamPersonalityStats:
+  - _statID: Stat_001
+    _statName: Wildness
+    _statUpperName: Tame
+    _statUpperLower: Wild
+    _rangeMin: 0
+    _rangeMax: 10
+    _statValue: 5
+  - _statID: Stat_002
+    _statName: Tentacles
+    _statUpperName: No tentacles
+    _statUpperLower: Lots of them
+    _rangeMin: 0
+    _rangeMax: 10
+    _statValue: 10
+  - _statID: Stat_002
+    _statName: Tentacles
+    _statUpperName: No tentacles
+    _statUpperLower: Lots of them
+    _rangeMin: 0
+    _rangeMax: 10
+    _statValue: 10
+  - _statID: Stat_002
+    _statName: Tentacles
+    _statUpperName: No tentacles
+    _statUpperLower: Lots of them
+    _rangeMin: 0
+    _rangeMax: 10
+    _statValue: 10
+  - _statID: Stat_002
+    _statName: Tentacles
+    _statUpperName: No tentacles
+    _statUpperLower: Lots of them
+    _rangeMin: 0
+    _rangeMax: 10
+    _statValue: 10
+  - _statID: Stat_002
+    _statName: Tentacles
+    _statUpperName: No tentacles
+    _statUpperLower: Lots of them
+    _rangeMin: 0
+    _rangeMax: 10
+    _statValue: 10
+  - _statID: Stat_002
+    _statName: Tentacles
+    _statUpperName: No tentacles
+    _statUpperLower: Lots of them
+    _rangeMin: 0
+    _rangeMax: 10
+    _statValue: 10
+  - _statID: Stat_002
+    _statName: Tentacles
+    _statUpperName: No tentacles
+    _statUpperLower: Lots of them
+    _rangeMin: 0
+    _rangeMax: 10
+    _statValue: 10
+  - _statID: Stat_002
+    _statName: Tentacles
+    _statUpperName: No tentacles
+    _statUpperLower: Lots of them
+    _rangeMin: 0
+    _rangeMax: 10
+    _statValue: 10
+  _teamUpgrades:
+  - _upgradeID: Upgrade_001
+    _upgradeName: Power Shoes
+    _upgradeDescription: Gain more energy!
+    _upgradeCost: 1
+  _storyReveals:
+  - _storySectionTitle: Story Reveal
+    _storySectionContent: The big reveal!

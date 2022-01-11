@@ -10,7 +10,6 @@ using System;
 
 public class GameManager : MonoBehaviour
 {
-
     //***************************************************************************
     //variables
     //***************************************************************************
@@ -211,11 +210,23 @@ public class GameManager : MonoBehaviour
         foreach(KeyValuePair<string, Team> kvp in _teams)
         {
             Team t = kvp.Value;
-            t._assignedAvatar = _uiMgr.SpawnAvatar(kvp.Value);
+            t._assignedAvatar = _uiMgr.SpawnAvatar(t);
+            t._assignedProfilePopup = _uiMgr.SpawnTeamPopup(t);
         }
     }
 
-    //public void Click
+    public void SpendActionOnDonation(string playerID, string teamID)
+    {
+        Player player = _players[playerID];
+        Team team = _teams[teamID];
+        int substractionCheck = player._actionPoints - 1;
+        if (substractionCheck >= 0)
+        {
+            int actionCost = 1;
+            player.SpendActionPoints(actionCost);
+            team.GainHealth(player._playerToTeamData[teamID]._teamDonationAmount);
+        }
+    }
 
     public void GainDays(int value)
     {
