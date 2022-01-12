@@ -6,7 +6,7 @@ public abstract class UIElement : MonoBehaviour
 {
     public bool _hidden;
     [HideInInspector] public GameManager _gMgr;
-    [HideInInspector] public UIManager _uMgr;
+    [HideInInspector] public UIManager _uiMgr;
 
     public void InitBase()
     {
@@ -21,8 +21,13 @@ public abstract class UIElement : MonoBehaviour
 
     public void GetUIManager()
     {
-        _uMgr = GameObject.Find("UIManager").GetComponent<UIManager>();
+        _uiMgr = GameObject.Find("UIManager").GetComponent<UIManager>();
     }
 
     public abstract void Init();
+
+    public void UIVisibility()
+    {
+        this.gameObject.SetActive(!_hidden);
+    }
 }

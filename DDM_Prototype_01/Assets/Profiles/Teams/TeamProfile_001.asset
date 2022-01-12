@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: TeamProfile_001
   m_EditorClassIdentifier: 
   _teamID: Team_001
-  _teamName: Alphie and Alphonse
+  _teamName: Alphy and Alphonse
   _teamBio: bio
   _teamHealth: 0
   _teamMaxHealth: 10
@@ -26,34 +26,6 @@ MonoBehaviour:
     _rangeMin: 0
     _rangeMax: 10
     _statValue: 5
-  - _statID: Stat_002
-    _statName: Tentacles
-    _statUpperName: No tentacles
-    _statUpperLower: Lots of them
-    _rangeMin: 0
-    _rangeMax: 10
-    _statValue: 10
-  - _statID: Stat_002
-    _statName: Tentacles
-    _statUpperName: No tentacles
-    _statUpperLower: Lots of them
-    _rangeMin: 0
-    _rangeMax: 10
-    _statValue: 10
-  - _statID: Stat_002
-    _statName: Tentacles
-    _statUpperName: No tentacles
-    _statUpperLower: Lots of them
-    _rangeMin: 0
-    _rangeMax: 10
-    _statValue: 10
-  - _statID: Stat_002
-    _statName: Tentacles
-    _statUpperName: No tentacles
-    _statUpperLower: Lots of them
-    _rangeMin: 0
-    _rangeMax: 10
-    _statValue: 10
   - _statID: Stat_002
     _statName: Tentacles
     _statUpperName: No tentacles

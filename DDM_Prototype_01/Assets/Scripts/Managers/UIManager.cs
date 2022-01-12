@@ -56,7 +56,7 @@ public class UIManager : MonoBehaviour
         popup._teamID = team._teamID;
         popup.InitBase();
         _teamProfilePopupsUI.Add(team._teamID, popupGo);
-
+        
         return popupGo;
     }
 
@@ -98,7 +98,9 @@ public class UIManager : MonoBehaviour
             avatar.SetValues(
                 teamRef._teamName,
                 teamRef._donationNeeded,
-                data._teamDonationAmount
+                data._teamDonationAmount,
+                teamRef._teamMaxHealth,
+                teamRef._teamHealth
                 );
         }
     }
@@ -123,67 +125,56 @@ public class UIManager : MonoBehaviour
         }
     }
 
+    public void UIVisibility(bool hidden, GameObject go)
+    {
+        go.SetActive(!hidden);
+    }
+
+    
+
     public void UpdateUI()
     {
-        if(_activeUpdate)
+        UpdateInfoBar();
+        UpdateAvatars();
+        UpdateTeamProfilePopups();
+
+        if (_baseUI != null && _baseUI.Count > 0)
+        foreach (KeyValuePair<string,GameObject> entry in _baseUI)
         {
-            UpdateInfoBar();
-            UpdateAvatars();
-            UpdateTeamProfilePopups();
+            bool hidden = entry.Value.GetComponent<UIElement>()._hidden;
+            UIVisibility(hidden, entry.Value);
+        }
+        if (_avatarsUI != null && _avatarsUI.Count > 0)
+        foreach (KeyValuePair<string, GameObject> entry in _avatarsUI)
+        {
+            bool hidden = entry.Value.GetComponent<UIElement>()._hidden;
+            UIVisibility(hidden, entry.Value);
+        }
 
-            foreach (KeyValuePair<string,GameObject> entry in _baseUI)
-            {
-                if(entry.Value.GetComponent<UIElement>()._hidden)
-                {
-                    entry.Value.SetActive(false);
-                }
-                else
-                {
-                    entry.Value.SetActive(true);
-                }
-            }
+        if (_teamProfilePopupsUI != null && _teamProfilePopupsUI.Count > 0)
+        foreach (KeyValuePair<string, GameObject> entry in _teamProfilePopupsUI)
+        {
+            bool hidden = entry.Value.GetComponent<UIElement>()._hidden;
+            UIVisibility(hidden, entry.Value);
+        }
 
-            foreach (KeyValuePair<string, GameObject> entry in _avatarsUI)
-            {
-                if (entry.Value.GetComponent<UIElement>()._hidden)
-                {
-                    entry.Value.SetActive(false);
-                }
-                else
-                {
-                    entry.Value.SetActive(true);
-                }
-            }
-
-            foreach (KeyValuePair<string, GameObject> entry in _teamProfilePopupsUI)
-            {
-                if (entry.Value.GetComponent<UIElement>()._hidden)
-                {
-                    entry.Value.SetActive(false);
-                }
-                else
-                {
-                    entry.Value.SetActive(true);
-                }
-            }
-
-            foreach (KeyValuePair<string, GameObject> entry in _messagesUI)
-            {
-                if (entry.Value.GetComponent<UIElement>()._hidden)
-                {
-                    entry.Value.SetActive(false);
-                }
-                else
-                {
-                    entry.Value.SetActive(true);
-                }
-            }
+        if(_messagesUI!=null && _messagesUI.Count >0)
+        foreach (KeyValuePair<string, GameObject> entry in _messagesUI)
+        {
+            bool hidden = entry.Value.GetComponent<UIElement>()._hidden;
+            UIVisibility(hidden, entry.Value);
         }
     }
 
     public void OpenTeamProfilePopup(string teamID)
     {
-        print(teamID);
-        _teamProfilePopupsUI[teamID].GetComponent<TeamProfilePopup>().Open();
+        TeamProfilePopup popup = _teamProfilePopupsUI[teamID].GetComponent<TeamProfilePopup>();
+        popup.Open();
+    }
+
+    public void CloseTeamProfilePopup(string teamID)
+    {
+        TeamProfilePopup popup = _teamProfilePopupsUI[teamID].GetComponent<TeamProfilePopup>();
+        popup.Close();
     }
 }

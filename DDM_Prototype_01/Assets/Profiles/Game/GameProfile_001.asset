@@ -14,8 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _teamProfiles:
   - {fileID: 11400000, guid: 2b4ac000d4bad044ba1d6cd7d2f7e228, type: 2}
-  - {fileID: 11400000, guid: b7f447ccad3c942eb91ef79d772b2527, type: 2}
-  - {fileID: 11400000, guid: f37b1b36ed1ae498db821d854412be26, type: 2}
+  - {fileID: 11400000, guid: f55d75889d5f246b4ad07e1dc3fc9c2d, type: 2}
+  - {fileID: 11400000, guid: 2e102f399a977462a8146bfb86504698, type: 2}
   _playerProfiles:
   - {fileID: 11400000, guid: 7eeba9d24de59dd44830d8a106646fc4, type: 2}
   _activePlayerID: Player_001

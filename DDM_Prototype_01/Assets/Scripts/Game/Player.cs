@@ -26,7 +26,6 @@ public class Player
         _playerID = profile._playerID;
         _username = profile._username;
         SetupPlayerToTeamData(teamData);
-
     }
 
     public void UpdatePlayer(Dictionary<string, Team> teams)

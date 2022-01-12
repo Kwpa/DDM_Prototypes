@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Team
+public class Team : IUpgradeMaxHealth
 {
     public string _teamID = "team id";
     public string _teamName = "team name";
@@ -31,6 +31,7 @@ public class Team
         _teamPersonalityStats = stats;
         _teamUpgrades = upgrades;
         _teamStoryReveals = reveals;
+        GetDonationNeeded();
     }
 
     public Team(TeamProfile profile)
@@ -44,12 +45,17 @@ public class Team
         _teamPersonalityStats = profile._teamPersonalityStats;
         _teamUpgrades = profile._teamUpgrades;
         _teamStoryReveals = profile._storyReveals;
+        GetDonationNeeded();
     }
 
     public void UpdateTeam()
     {
-        _donationNeeded = _teamMaxHealth - _teamHealth;
+        //
+    }
 
+    public void GetDonationNeeded()
+    {
+        _donationNeeded = _teamMaxHealth - _teamHealth;
     }
 
     public void SetHealth(int value)
@@ -71,12 +77,14 @@ public class Team
     {
         _teamHealth += value;
         _teamHealth = Mathf.Clamp(_teamHealth, 0, _teamMaxHealth);
+        GetDonationNeeded();
     }
 
     public void LoseHealth(int value)
     {
         _teamHealth -= value;
         _teamHealth = Mathf.Clamp(_teamHealth, 0, _teamMaxHealth);
+        GetDonationNeeded();
     }
 
     public void SetStat(PersonalityStatDef stat)
@@ -87,6 +95,11 @@ public class Team
     public int GetDonationAmount(int playerFactor)
     {
         return (_baseDonationAmount + _donationAddModifier) * playerFactor ;
+    }
+
+    public void UpgradeMaxHealth()
+    {
+        
     }
 }
 

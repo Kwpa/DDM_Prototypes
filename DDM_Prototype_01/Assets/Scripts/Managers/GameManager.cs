@@ -32,12 +32,14 @@ public class GameManager : MonoBehaviour
     public TimeSpan _timeSpan;
     public DateTime _startRound;
     public TimeSpan _roundSpan;
+    public bool _pauseTime = false;
 
     public Dictionary<string, Team> _teams;
     public Dictionary<string, Player> _players;
     public Player _activePlayer;
 
     public bool _debug = false;
+    public bool _activeUpdate = false;
 
     enum GameStates
     {
@@ -61,12 +63,21 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
+        print("Start");
+
+        //ui
+        _uiMgr.Init();
+
         //state machine
         SetupStates();
 
-        //setup UI and initial variables (create teams, players etc)
-        _uiMgr.Init();
+        //ui
         LoadGameProfile(_gameProfile);
+        _uiMgr.UpdateUI();
+
+
+        //set update to active
+        _activeUpdate = true;
 
         //time
         _timeSpan = new System.TimeSpan(0, 0, 0, 0);
@@ -75,20 +86,24 @@ public class GameManager : MonoBehaviour
 
     void Update()
     {
-        //time
-        UpdateTime();
+        if (_activeUpdate)
+        {
+            //time
+            UpdateTime();
 
-        //state machine
-        _fsm.Update();
+            //state machine
+            _fsm.Update();
 
-        //players
-        UpdatePlayers();
+            //players
+            UpdatePlayers();
 
-        //teams
-        UpdateTeams();
+            //teams
+            UpdateTeams();
 
-        //ui
-        _uiMgr.UpdateUI();
+            //ui
+            //_uiMgr.UpdateUI();
+        }
+        
     }
 
     void FixedUpdate()
@@ -140,18 +155,26 @@ public class GameManager : MonoBehaviour
             _roundMins -= _dancingTime;
         }
         _roundMins = Mathf.Clamp(_roundMins, 0, 100000);
+
+        if (!_pauseTime)
+        {
+            _uiMgr._baseUI["infoBar"].GetComponent<InfoBar>().SetTimeLeftText(_roundMins, _roundSecs);
+        }
     }
 
     public void UpdateTeams()
     {
         foreach (KeyValuePair<string, Team> kvp in _teams)
         {
-            kvp.Value.UpdateTeam();
+            Team team = kvp.Value;
+            team.UpdateTeam();
+            //print(team._donationNeeded);
         }
     }
 
     public void UpdatePlayers()
     {
+        if(_players != null)
         foreach(KeyValuePair<string,Player> kvp in _players)
         {
             kvp.Value.UpdatePlayer(_teams);
@@ -165,6 +188,7 @@ public class GameManager : MonoBehaviour
 
     public void LoadGameProfile(GameProfile profile)
     {
+        print("load game profile");
         SetTimeFactor(profile._timeFactor);
         _daysPerGame = profile._daysPerGame;
         _roundsPerDay = profile._roundsPerDay;
@@ -176,9 +200,6 @@ public class GameManager : MonoBehaviour
 
         //temp: set active player
         _activePlayer = _players[profile._activePlayerID];
-    
-
-        _uiMgr.UpdateUI();
     }
 
     public void CreatePlayers(GameProfile profile)
@@ -219,13 +240,34 @@ public class GameManager : MonoBehaviour
     {
         Player player = _players[playerID];
         Team team = _teams[teamID];
-        int substractionCheck = player._actionPoints - 1;
-        if (substractionCheck >= 0)
+        int actionPointCheck = player._actionPoints - 1;
+        int donationNeededCheck = team._donationNeeded;
+        if (actionPointCheck >= 0 && donationNeededCheck > 0)
         {
             int actionCost = 1;
             player.SpendActionPoints(actionCost);
             team.GainHealth(player._playerToTeamData[teamID]._teamDonationAmount);
+
+            if (playerID == _activePlayer._playerID)
+            {
+                ActivePlayerDonates(teamID);
+            }
         }
+    }
+
+    public void ActivePlayerDonates(string teamID)
+    {
+        //ui
+        int getActions = _activePlayer._actionPoints;
+        int getRemaining = _teams[teamID]._donationNeeded;
+        int getMaxHealth = _teams[teamID]._teamMaxHealth;
+        int getHealth = _teams[teamID]._teamHealth;
+
+        _uiMgr._baseUI["infoBar"].GetComponent<InfoBar>().SetActionsText(getActions);
+        _uiMgr._avatarsUI[teamID].GetComponent<TeamAvatar>().SetCTAText(getRemaining);
+        _uiMgr._avatarsUI[teamID].GetComponent<TeamAvatar>().SetHealthBar(getMaxHealth, getHealth);
+        _uiMgr._teamProfilePopupsUI[teamID].GetComponent<TeamProfilePopup>().SetCTAText(getRemaining);
+        _uiMgr._teamProfilePopupsUI[teamID].GetComponent<TeamProfilePopup>().SetHealthBar(getMaxHealth, getHealth);
     }
 
     public void GainDays(int value)
@@ -268,7 +310,8 @@ public class GameManager : MonoBehaviour
         print("New Day");
         GainDays(1);
 
-        //show ui
+        //ui
+        _uiMgr._baseUI["infoBar"].GetComponent<InfoBar>().SetDaysText(_days);
 
         _fsm.SetCurrentState(GameStates.NewRound);
     }
@@ -277,6 +320,10 @@ public class GameManager : MonoBehaviour
     {
         print("New Round");
         GainRounds(1);
+
+        //ui
+        _uiMgr._baseUI["infoBar"].GetComponent<InfoBar>().SetRoundsText(_rounds);
+
         _fsm.SetCurrentState(GameStates.Dancing);
     }
 
@@ -285,7 +332,8 @@ public class GameManager : MonoBehaviour
         print("Dancing");
         _startRound = DateTime.UtcNow;
 
-        //show ui
+        //ui
+        _uiMgr._baseUI["infoBar"].GetComponent<InfoBar>().SetRoundSectionText(GetCurrentStateName());
     }
 
     public void DancingUpdate()
@@ -302,8 +350,9 @@ public class GameManager : MonoBehaviour
     public void RestingEnter()
     {
         print("Resting");
-        
-        // show ui
+
+        //ui
+        _uiMgr._baseUI["infoBar"].GetComponent<InfoBar>().SetRoundSectionText(GetCurrentStateName());
     }
 
     public void RestingUpdate()

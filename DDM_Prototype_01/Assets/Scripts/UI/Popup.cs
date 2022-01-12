@@ -15,10 +15,12 @@ public abstract class Popup : UIElement
     public virtual void Open()
     {
         _hidden = false;
+        UIVisibility();
     }
 
     public virtual void Close()
     {
         _hidden = true;
+        UIVisibility();
     }
 }

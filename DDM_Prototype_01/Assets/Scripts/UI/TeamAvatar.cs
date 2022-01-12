@@ -10,6 +10,7 @@ public class TeamAvatar : UIElement
     public TextMeshProUGUI _teamNameText;
     public TextMeshProUGUI _callToActionText;
     public TextMeshProUGUI _donateEnergyText;
+    public Slider _healthBar;
     public Image _iconBackground;
     public Image _icon;
 
@@ -18,11 +19,12 @@ public class TeamAvatar : UIElement
         //...
     }
 
-    public void SetValues(string name, int requirement, int donation)
+    public void SetValues(string name, int requirement, int donation, int maxHealth, int currentHealth)
     {
         SetTeamNameText(name);
         SetCTAText(requirement);
         SetDonateEnergyText(donation);
+        SetHealthBar(maxHealth, currentHealth);
     }
 
     public void SetTeamNameText(string value)
@@ -40,13 +42,20 @@ public class TeamAvatar : UIElement
         _donateEnergyText.text = "+" + value + " energy";
     }
 
+    public void SetHealthBar(int maxValue, int currentValue)
+    {
+        _healthBar.minValue = 0;
+        _healthBar.maxValue = maxValue;
+        _healthBar.value = currentValue;
+    }
+
     public void ClickDonationButton()
     {
-        _gMgr.SpendActionOnDonation(_gMgr._activePlayer._playerID, _teamID);
+        _gMgr.SpendActionOnDonation(_gMgr._activePlayer._playerID, _teamID);        
     }
 
     public void OpenTeamProfilePopup()
     {
-        _uMgr.OpenTeamProfilePopup(_teamID);
+        _uiMgr.OpenTeamProfilePopup(_teamID);
     }
 }

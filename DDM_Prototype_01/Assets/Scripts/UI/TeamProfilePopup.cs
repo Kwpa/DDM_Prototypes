@@ -9,6 +9,7 @@ public class TeamProfilePopup : Popup
     public string _teamID;
     public TextMeshProUGUI _teamNameText;
     public TextMeshProUGUI _callToActionText;
+    public Slider _healthBar;
     public TextMeshProUGUI _bio;
     public Image _iconBackground;
     public Image _icon;
@@ -62,9 +63,16 @@ public class TeamProfilePopup : Popup
         _callToActionText.text = "Needs " + value + " more health today";
     }
 
+    public void SetHealthBar(int maxValue, int currentValue)
+    {
+        _healthBar.minValue = 0;
+        _healthBar.maxValue = maxValue;
+        _healthBar.value = currentValue;
+    }
+
     public void SetBioText(string value)
     {
-        _callToActionText.text = value;
+        _bio.text = value;
     }
 
     public void CreatePersonalityStat(PersonalityStatDef stats)
