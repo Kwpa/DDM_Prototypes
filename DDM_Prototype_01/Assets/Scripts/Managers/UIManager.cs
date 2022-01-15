@@ -77,8 +77,8 @@ public class UIManager : MonoBehaviour
     {
         InfoBar infoBar = _baseUI["infoBar"].GetComponent<InfoBar>();
         infoBar.SetInfoBarVariables(
-            _gMgr._days,
-            _gMgr._rounds,
+            _gMgr._currentDay,
+            _gMgr._currentRound,
             _gMgr._activePlayer._actionPoints,
             _gMgr.GetCurrentStateName(),
             _gMgr._activePlayer._sparkPoints,

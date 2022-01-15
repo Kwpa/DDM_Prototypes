@@ -17,10 +17,11 @@ public class GameManager : MonoBehaviour
     public GameProfile _gameProfile;
     UIManager _uiMgr;
 
-    public int _days = 0;
+    public int _currentDay = 0;
     public int _daysPerGame = 0;
-    public int _rounds = 0;
+    public int _currentRound = 0;
     public int _roundsPerDay = 0;
+    public List<RoundDef> _roundDefs;
     public int _roundTime;
     public int _roundMins;
     public int _roundSecs;
@@ -272,12 +273,12 @@ public class GameManager : MonoBehaviour
 
     public void GainDays(int value)
     {
-        _days += value;
+        _currentDay += value;
     }
 
     public void GainRounds(int value)
     {
-        _rounds += value;
+        _currentRound += value;
     }
 
     public void SetTimeFactor(int value)
@@ -311,7 +312,7 @@ public class GameManager : MonoBehaviour
         GainDays(1);
 
         //ui
-        _uiMgr._baseUI["infoBar"].GetComponent<InfoBar>().SetDaysText(_days);
+        _uiMgr._baseUI["infoBar"].GetComponent<InfoBar>().SetDaysText(_currentDay);
 
         _fsm.SetCurrentState(GameStates.NewRound);
     }
@@ -322,7 +323,7 @@ public class GameManager : MonoBehaviour
         GainRounds(1);
 
         //ui
-        _uiMgr._baseUI["infoBar"].GetComponent<InfoBar>().SetRoundsText(_rounds);
+        _uiMgr._baseUI["infoBar"].GetComponent<InfoBar>().SetRoundsText(_currentRound);
 
         _fsm.SetCurrentState(GameStates.Dancing);
     }
@@ -360,7 +361,7 @@ public class GameManager : MonoBehaviour
         _roundSpan = _endTime - _startRound;
         if (_roundSpan.TotalMinutes >= _roundTime)
         {
-            if(_rounds >= _roundsPerDay)
+            if(_currentRound >= _roundsPerDay)
             {
                 _fsm.SetCurrentState(GameStates.NewDay);
             }
