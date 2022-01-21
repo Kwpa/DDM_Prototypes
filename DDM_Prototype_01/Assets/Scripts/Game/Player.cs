@@ -6,7 +6,7 @@ public class Player
 {
     public string _playerID = "player id";
     public string _username = "player name";
-
+    public int _baseActionPoints = 0;
     public int _actionPoints = 0;
     public int _sparkPoints = 0;
     public int _donationFactor = 1;
@@ -57,6 +57,16 @@ public class Player
     {
         List<string> upgrades = _playerToTeamData[_teamID]._acquiredUpgrades;
         return upgrades.Contains(_upgradeID); 
+    }
+
+    public void SetBaseActionPoints(int value)
+    {
+        _baseActionPoints = value;
+    }
+
+    public void ResetActionPoints()
+    {
+        _actionPoints = _baseActionPoints;
     }
 
     public void GainActionPoints(int value)

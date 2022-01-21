@@ -15,7 +15,7 @@ public class GameProfile : ScriptableObject
     public int _roundTime = 60;
     public int _dancingTime = 50;
     public int _timeFactor = 1;
-    public int _startingActionPoints = 12;
+    public int _baseActionPoints = 12;
     public int _startingSparkPoints = 0;
 
 }
@@ -26,5 +26,4 @@ public class RoundDef
     public int _roundNumber = 0;
     public int _setMaxHealth = 10;
     public int _setHealth = 0;
-
 }

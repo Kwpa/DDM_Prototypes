@@ -15,50 +15,45 @@ MonoBehaviour:
   _teamID: Team_003
   _teamName: Cerwin and Cromwell
   _teamBio: bio
-  _teamHealth: 0
-  _teamMaxHealth: 10
   _teamDonationAmount: 1
   _teamPersonalityStats:
   - _statID: Stat_001
-    _statName: Wildness
-    _statUpperName: Tame
-    _statUpperLower: Wild
-    _rangeMin: 0
-    _rangeMax: 10
-    _statValue: 5
+    _statComparisonValueOne: comp 1
+    statComparison: 0
+    _statComparisonValueTwo: comp 2
   - _statID: Stat_002
-    _statName: Tentacles
-    _statUpperName: No tentacles
-    _statUpperLower: Lots of them
-    _rangeMin: 0
-    _rangeMax: 10
-    _statValue: 10
+    _statComparisonValueOne: comp 1
+    statComparison: 0
+    _statComparisonValueTwo: comp 2
   - _statID: Stat_002
-    _statName: Tentacles
-    _statUpperName: No tentacles
-    _statUpperLower: Lots of them
-    _rangeMin: 0
-    _rangeMax: 10
-    _statValue: 10
+    _statComparisonValueOne: comp 1
+    statComparison: 0
+    _statComparisonValueTwo: comp 2
   - _statID: Stat_002
-    _statName: Tentacles
-    _statUpperName: No tentacles
-    _statUpperLower: Lots of them
-    _rangeMin: 0
-    _rangeMax: 10
-    _statValue: 10
+    _statComparisonValueOne: comp 1
+    statComparison: 0
+    _statComparisonValueTwo: comp 2
   - _statID: Stat_002
-    _statName: Tentacles
-    _statUpperName: No tentacles
-    _statUpperLower: Lots of them
-    _rangeMin: 0
-    _rangeMax: 10
-    _statValue: 10
+    _statComparisonValueOne: comp 1
+    statComparison: 0
+    _statComparisonValueTwo: comp 2
   _teamUpgrades:
   - _upgradeID: Upgrade_001
     _upgradeName: Power Shoes
     _upgradeDescription: Gain more energy!
     _upgradeCost: 1
+    _locked: 0
+    _acquired: 0
+    _requiresUpgrade: 0
+    _requiredUpgradeID: 
   _storyReveals:
-  - _storySectionTitle: Story Reveal
+  - _storyRevealID: storyrevealID
+    _storySectionTitle: Story Reveal
+    _storySectionDescription: description
     _storySectionContent: The big reveal!
+    _requiresUpgrade: 0
+    _requiredUpgradeID: 
+    _requiresAchievement: 0
+    _requiredAchievementID: 
+    requiresStoryRevealID: 0
+    _requiredStoryRevealID: 

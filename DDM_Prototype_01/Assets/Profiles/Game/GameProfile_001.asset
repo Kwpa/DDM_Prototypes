@@ -21,8 +21,24 @@ MonoBehaviour:
   _activePlayerID: Player_001
   _daysPerGame: 5
   _roundsPerDay: 1
-  _roundTime: 10
-  _dancingTime: 8
+  _roundDefs:
+  - _roundNumber: 1
+    _setMaxHealth: 2
+    _setHealth: 0
+  - _roundNumber: 2
+    _setMaxHealth: 2
+    _setHealth: 0
+  - _roundNumber: 3
+    _setMaxHealth: 3
+    _setHealth: 0
+  - _roundNumber: 4
+    _setMaxHealth: 3
+    _setHealth: 0
+  - _roundNumber: 5
+    _setMaxHealth: 4
+    _setHealth: 0
+  _roundTime: 2
+  _dancingTime: 1
   _timeFactor: 1
-  _startingActionPoints: 5
+  _baseActionPoints: 5
   _startingSparkPoints: 0

@@ -105,6 +105,21 @@ public class UIManager : MonoBehaviour
         }
     }
 
+    public void UpdateAvatar(string id)
+    {
+        TeamAvatar avatar = _avatarsUI[id].GetComponent<TeamAvatar>();
+        Team teamRef = _gMgr._teams[id];
+        PlayerToTeamData data = _gMgr._activePlayer._playerToTeamData[id];
+
+        avatar.SetValues(
+            teamRef._teamName,
+            teamRef._donationNeeded,
+            data._teamDonationAmount,
+            teamRef._teamMaxHealth,
+            teamRef._teamHealth
+            );
+    }
+
     public void SetTeamProfilePopups()
     {
         foreach (KeyValuePair<string, GameObject> kvp in _teamProfilePopupsUI)

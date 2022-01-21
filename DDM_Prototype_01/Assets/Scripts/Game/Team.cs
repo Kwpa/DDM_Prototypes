@@ -40,8 +40,6 @@ public class Team : IUpgradeMaxHealth
         _teamID = profile._teamID;
         _teamName = profile._teamName;
         _teamBio = profile._teamBio;
-        _teamHealth = profile._teamHealth;
-        _teamMaxHealth = profile._teamMaxHealth;
         _baseDonationAmount = profile._teamDonationAmount;
         _teamPersonalityStats = profile._teamPersonalityStats;
         _teamUpgrades = profile._teamUpgrades;

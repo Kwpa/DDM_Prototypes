@@ -70,13 +70,14 @@ public class GameManager : MonoBehaviour
         //ui
         _uiMgr.Init();
 
+        //profile
+        LoadGameProfile(_gameProfile);
+        
         //state machine
         SetupStates();
 
         //ui
-        LoadGameProfile(_gameProfile);
         _uiMgr.UpdateUI();
-
 
         //set update to active
         _activeUpdate = true;
@@ -215,7 +216,7 @@ public class GameManager : MonoBehaviour
         foreach(KeyValuePair<string, Player> kvp in _players)
         {
             Player player = kvp.Value;
-            player.GainActionPoints(profile._startingActionPoints);
+            player.SetBaseActionPoints(profile._baseActionPoints);
             player.GainSparkPoints(profile._startingSparkPoints);
             player.SetupPlayerToTeamData(_teams);
         }
@@ -236,6 +237,8 @@ public class GameManager : MonoBehaviour
             t._assignedAvatar = _uiMgr.SpawnAvatar(t);
             t._assignedProfilePopup = _uiMgr.SpawnTeamPopup(t);
         }
+
+        print("created teams");
     }
 
     public void SpendActionOnHealthDonation(string playerID, string teamID)
@@ -349,6 +352,35 @@ public class GameManager : MonoBehaviour
         _dancingTime = value;
     }
 
+    public void SetTeamsMaxHealthPerPlayerCountPerRound()
+    {
+        foreach (KeyValuePair<string, Team> kvp in _teams)
+        {
+            Team team = kvp.Value;
+            
+            RoundDef defFromRound = _gameProfile._roundDefs.FirstOrDefault(p => p._roundNumber == _currentRound);
+            print("Rounds values" + defFromRound._setMaxHealth + " " + defFromRound._setHealth);
+            if (defFromRound != null)
+            {
+                team.SetMaxHealth(defFromRound._setMaxHealth);
+                team.SetHealth(defFromRound._setHealth);
+                team.GetDonationNeeded();
+                _uiMgr.UpdateAvatar(team._teamID);
+                _uiMgr.UpdateTeamProfilePopup(team._teamID);
+            }
+        }
+    }
+
+    public void ResetPlayersActionPoints()
+    {
+        foreach(KeyValuePair<string, Player> kvp in _players)
+        {
+            Player player = kvp.Value;
+            player.ResetActionPoints();
+            _uiMgr.UpdateInfoBar();
+        }
+    }
+
     //***************************************************************************
     //state delegate definitions
     //***************************************************************************
@@ -374,7 +406,8 @@ public class GameManager : MonoBehaviour
     {
         print("New Round");
         GainRounds(1);
-
+        SetTeamsMaxHealthPerPlayerCountPerRound(); // todo: could be put into new day at this stage?
+        ResetPlayersActionPoints();
         //ui
         _uiMgr._baseUI["infoBar"].GetComponent<InfoBar>().SetRoundsText(_currentRound);
 

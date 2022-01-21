@@ -963,7 +963,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 245615064026244200}
   m_HandleRect: {fileID: 1643452907218555052}
   m_Direction: 0
-  m_Value: 1
+  m_Value: 0
   m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
@@ -4771,12 +4771,12 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 18
+  m_fontSize: 15
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
-  m_fontSizeMin: 18
-  m_fontSizeMax: 18
+  m_fontSizeMin: 13
+  m_fontSizeMax: 15
   m_fontStyle: 0
   m_HorizontalAlignment: 2
   m_VerticalAlignment: 512
@@ -4933,7 +4933,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 5760451471107060268}
   m_HandleRect: {fileID: 5070156848477198027}
   m_Direction: 2
-  m_Value: 0
+  m_Value: 1
   m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
@@ -5293,14 +5293,14 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8a66fbb6fd2e14b54a7a30a054fab4ba, type: 3}
---- !u!224 &6587977604508695042 stripped
-RectTransform:
-  m_CorrespondingSourceObject: {fileID: 2479983389907872194, guid: 8a66fbb6fd2e14b54a7a30a054fab4ba, type: 3}
-  m_PrefabInstance: {fileID: 8721107956527780800}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &2155011548093070273 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 7273237459798353921, guid: 8a66fbb6fd2e14b54a7a30a054fab4ba, type: 3}
+  m_PrefabInstance: {fileID: 8721107956527780800}
+  m_PrefabAsset: {fileID: 0}
+--- !u!224 &6587977604508695042 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 2479983389907872194, guid: 8a66fbb6fd2e14b54a7a30a054fab4ba, type: 3}
   m_PrefabInstance: {fileID: 8721107956527780800}
   m_PrefabAsset: {fileID: 0}
 --- !u!114 &1419679861493358344
@@ -5322,7 +5322,7 @@ MonoBehaviour:
   _teamNameText: {fileID: 3381182347284001188}
   _callToActionText: {fileID: 1841450834798706643}
   _healthBar: {fileID: 7437260432335098920}
-  _bio: {fileID: 5958129059010353351}
+  _bio: {fileID: 327788118582078344}
   _iconBackground: {fileID: 5431615068156196907}
   _icon: {fileID: 9040781543264266606}
   _stats: []

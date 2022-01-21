@@ -14,9 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _teamID: Team_001
   _teamName: Alphy and Alphonse
-  _teamBio: bio
-  _teamHealth: 0
-  _teamMaxHealth: 10
+  _teamBio: 'Origin: Alphy and Alphonse are from a planetary system that experiences
+    dramatic thermal changes on an hourly basis. They can switch between hibernationand
+    an awakened state immediately!'
   _teamDonationAmount: 1
   _teamPersonalityStats:
   - _statID: Stat_001
