@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 
 public class Team : IUpgradeMaxHealth
 {
@@ -51,6 +52,21 @@ public class Team : IUpgradeMaxHealth
     public void UpdateTeam()
     {
         //
+    }
+
+    public UpgradeDef GetUpgrade(string id)
+    {
+        return _teamUpgrades.FirstOrDefault(p => p._upgradeID == id);
+    }
+
+    public PersonalityStatDef GetStat(string id)
+    {
+        return _teamPersonalityStats.FirstOrDefault(p => p._statID == id);
+    }
+
+    public StoryRevealDef GetStoryReveal(string id)
+    {
+        return _teamStoryReveals.FirstOrDefault(p => p._storyRevealID == id);
     }
 
     public void GetDonationNeeded()
@@ -116,26 +132,52 @@ public class UpgradeDef
     public string _upgradeName = "upgrade name";
     public string _upgradeDescription = "upgrade description";
     public int _upgradeCost = 0;
+    public bool _locked = false;
+    public bool _acquired = false;
 
+    public bool _requiresUpgrade = false;
+    public string _requiredUpgradeID;
+
+    public void LockUpgrade()
+    {
+        _locked = true;
+    }
+    public void UnlockUpgrade()
+    {
+        _locked = false;
+    }
+
+    public void GetUpgrade()
+    {
+        _acquired = true;
+    }
 }
 
 [System.Serializable]
 public class PersonalityStatDef
 {
     public string _statID = "statID";
-    public string _statName = "stat name";
-    public string _statUpperName = "stat name";
-    public string _statUpperLower = "stat name";
-    public int _rangeMin = 0;
-    public int _rangeMax = 10;
-    public int _statValue = 5;
+    public string _statComparisonValueOne = "comp 1";
+    public PersonalityStatElement.StatComparison statComparison;
+    public string _statComparisonValueTwo = "comp 2";
 }
 
 [System.Serializable]
 public class StoryRevealDef
 {
+    public string _storyRevealID = "storyrevealID";
     public string _storySectionTitle = "story title";
+    public string _storySectionDescription = "description";
     [TextArea] public string _storySectionContent = "story content";
-    public Achievement _achievementTrigger;
-    public Upgrade _upgradeTrigger;
+    bool _locked;
+    bool _acquired;
+
+    public bool _requiresUpgrade = false;
+    public string _requiredUpgradeID;
+
+    public bool _requiresAchievement = false;
+    public string _requiredAchievementID;
+
+    public bool requiresStoryRevealID = false;
+    public string _requiredStoryRevealID;
 }

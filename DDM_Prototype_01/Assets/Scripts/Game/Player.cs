@@ -48,6 +48,17 @@ public class Player
         UpdatePlayer(teams);
     }
 
+    public void GainTeamUpgrade(string _teamID, string _upgradeID)
+    {
+        _playerToTeamData[_teamID]._acquiredUpgrades.Add(_upgradeID);
+    }
+
+    public bool CheckTeamUpgrade(string _teamID, string _upgradeID)
+    {
+        List<string> upgrades = _playerToTeamData[_teamID]._acquiredUpgrades;
+        return upgrades.Contains(_upgradeID); 
+    }
+
     public void GainActionPoints(int value)
     {
         _actionPoints += value;
@@ -95,9 +106,13 @@ public class PlayerToTeamData
     public int _donationFactor = 1;
     public int _teamDonationAmount = 1;
     public bool _playerIsInFanClub = false;
+    public List<string> _acquiredUpgrades;
+    public List<string> _acquiredStoryReveals;
 
     public PlayerToTeamData(string id)
     {
+        _acquiredUpgrades = new List<string>();
+        _acquiredStoryReveals = new List<string>();
         _teamID = id;
     }
 }

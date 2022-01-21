@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Patterns;
 using System;
+using System.Linq;
 
 //***************************************************************************
 //game manager with finite state machine and time tracking
@@ -237,7 +238,7 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public void SpendActionOnDonation(string playerID, string teamID)
+    public void SpendActionOnHealthDonation(string playerID, string teamID)
     {
         Player player = _players[playerID];
         Team team = _teams[teamID];
@@ -269,6 +270,58 @@ public class GameManager : MonoBehaviour
         _uiMgr._avatarsUI[teamID].GetComponent<TeamAvatar>().SetHealthBar(getMaxHealth, getHealth);
         _uiMgr._teamProfilePopupsUI[teamID].GetComponent<TeamProfilePopup>().SetCTAText(getRemaining);
         _uiMgr._teamProfilePopupsUI[teamID].GetComponent<TeamProfilePopup>().SetHealthBar(getMaxHealth, getHealth);
+    }
+
+    public void BuyUpgrade(string playerID, string teamID, string upgradeID)
+    {
+        UpgradeDef upgrade = _teams[teamID]._teamUpgrades.FirstOrDefault(p => p._upgradeID == upgradeID);
+        Player player = _players[playerID];
+
+        if (upgrade == null) return;
+        if (player._actionPoints - upgrade._upgradeCost < 0) return;
+        if (upgrade._requiresUpgrade && upgrade._requiredUpgradeID == upgradeID)
+        {
+            if (player.CheckTeamUpgrade(teamID, upgradeID) == false) return;
+        }
+
+        // if passed all checks
+        player.SpendActionPoints(upgrade._upgradeCost);
+        player.GainTeamUpgrade(teamID, upgradeID);
+        upgrade.GetUpgrade();
+    }
+
+    public void ActivePlayerUpgrade(string teamID, string upgradeID)
+    {
+        BuyUpgrade(_activePlayer._playerID, teamID, upgradeID);
+        _uiMgr.UpdateTeamProfilePopup(teamID);
+    }
+
+    public void SetUpgradeStatus(string playerID, string teamID, string upgradeID)
+    {
+        UpgradeDef upgradeDef = _teams[teamID]._teamUpgrades.FirstOrDefault(p => p._upgradeID == upgradeID);
+        Player player = _players[playerID];
+        if (upgradeDef._requiresUpgrade)
+        {
+            if(player.CheckTeamUpgrade(teamID, upgradeDef._requiredUpgradeID))
+            {
+                if (!upgradeDef._acquired)
+                {
+                    upgradeDef.UnlockUpgrade();
+                }
+                else
+                {
+                    upgradeDef.GetUpgrade();
+                }
+            }
+            else
+            {
+                upgradeDef.LockUpgrade();
+            }
+
+        }
+        upgradeDef.UnlockUpgrade();
+
+        _uiMgr.UpdateUpgrade(teamID, upgradeID);
     }
 
     public void GainDays(int value)

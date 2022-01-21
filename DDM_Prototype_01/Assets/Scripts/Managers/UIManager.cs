@@ -105,7 +105,7 @@ public class UIManager : MonoBehaviour
         }
     }
 
-    public void UpdateTeamProfilePopups()
+    public void SetTeamProfilePopups()
     {
         foreach (KeyValuePair<string, GameObject> kvp in _teamProfilePopupsUI)
         {
@@ -117,12 +117,35 @@ public class UIManager : MonoBehaviour
                 teamRef._teamName,
                 teamRef._donationNeeded,
                 teamRef._teamBio,
-                teamRef._teamPersonalityStats,
-                teamRef._teamUpgrades,
-                teamRef._teamStoryReveals,
                 data._playerIsInFanClub
                 );
+
+            popup.CreateCards(
+                teamRef._teamPersonalityStats,
+                teamRef._teamUpgrades,
+                teamRef._teamStoryReveals
+                );
         }
+    }
+
+    public void UpdateTeamProfilePopup(string teamID)
+    {
+        TeamProfilePopup popup = _teamProfilePopupsUI[teamID].GetComponent<TeamProfilePopup>();
+        Team teamRef = _gMgr._teams[teamID];
+        PlayerToTeamData data = _gMgr._activePlayer._playerToTeamData[teamID];
+
+        popup.SetValues(
+            teamRef._teamName,
+            teamRef._donationNeeded,
+            teamRef._teamBio,
+            data._playerIsInFanClub
+            );
+
+        popup.SetCards(
+            teamRef._teamPersonalityStats,
+            teamRef._teamUpgrades,
+            teamRef._teamStoryReveals
+            );
     }
 
     public void UIVisibility(bool hidden, GameObject go)
@@ -136,7 +159,7 @@ public class UIManager : MonoBehaviour
     {
         UpdateInfoBar();
         UpdateAvatars();
-        UpdateTeamProfilePopups();
+        SetTeamProfilePopups();
 
         if (_baseUI != null && _baseUI.Count > 0)
         foreach (KeyValuePair<string,GameObject> entry in _baseUI)
@@ -166,6 +189,12 @@ public class UIManager : MonoBehaviour
         }
     }
 
+    public void UpdateUpgrade(string teamID, string upgradeID)
+    {
+        TeamProfilePopup popup = _teamProfilePopupsUI[teamID].GetComponent<TeamProfilePopup>();
+        popup.SetUpgradeButtonStatus(upgradeID);
+    }
+
     public void OpenTeamProfilePopup(string teamID)
     {
         TeamProfilePopup popup = _teamProfilePopupsUI[teamID].GetComponent<TeamProfilePopup>();
@@ -173,6 +202,18 @@ public class UIManager : MonoBehaviour
     }
 
     public void CloseTeamProfilePopup(string teamID)
+    {
+        TeamProfilePopup popup = _teamProfilePopupsUI[teamID].GetComponent<TeamProfilePopup>();
+        popup.Close();
+    }
+
+    public void OpenStoryRevealPopup(string teamID, string storyRevealID)
+    {
+        TeamProfilePopup popup = _teamProfilePopupsUI[teamID].GetComponent<TeamProfilePopup>();
+        popup.Open();
+    }
+
+    public void CloseStoryRevealPopup(string teamID, string storyRevealID)
     {
         TeamProfilePopup popup = _teamProfilePopupsUI[teamID].GetComponent<TeamProfilePopup>();
         popup.Close();

@@ -20,45 +20,68 @@ MonoBehaviour:
   _teamDonationAmount: 1
   _teamPersonalityStats:
   - _statID: Stat_001
-    _statName: Wildness
-    _statUpperName: Tame
-    _statUpperLower: Wild
-    _rangeMin: 0
-    _rangeMax: 10
-    _statValue: 5
+    _statComparisonValueOne: WILD
+    statComparison: 0
+    _statComparisonValueTwo: TAME
   - _statID: Stat_002
-    _statName: Tentacles
-    _statUpperName: No tentacles
-    _statUpperLower: Lots of them
-    _rangeMin: 0
-    _rangeMax: 10
-    _statValue: 10
-  - _statID: Stat_002
-    _statName: Tentacles
-    _statUpperName: No tentacles
-    _statUpperLower: Lots of them
-    _rangeMin: 0
-    _rangeMax: 10
-    _statValue: 10
-  - _statID: Stat_002
-    _statName: Tentacles
-    _statUpperName: No tentacles
-    _statUpperLower: Lots of them
-    _rangeMin: 0
-    _rangeMax: 10
-    _statValue: 10
-  - _statID: Stat_002
-    _statName: Tentacles
-    _statUpperName: No tentacles
-    _statUpperLower: Lots of them
-    _rangeMin: 0
-    _rangeMax: 10
-    _statValue: 10
+    _statComparisonValueOne: SECRETIVE
+    statComparison: 2
+    _statComparisonValueTwo: OPENESS
   _teamUpgrades:
   - _upgradeID: Upgrade_001
     _upgradeName: Power Shoes
     _upgradeDescription: Gain more energy!
     _upgradeCost: 1
+    _locked: 0
+    _acquired: 0
+    _requiresUpgrade: 0
+    _requiredUpgradeID: 
+  - _upgradeID: Upgrade_002
+    _upgradeName: Rocket  Shoes
+    _upgradeDescription: Gain more energy!
+    _upgradeCost: 1
+    _locked: 0
+    _acquired: 0
+    _requiresUpgrade: 1
+    _requiredUpgradeID: Upgrade_001
   _storyReveals:
-  - _storySectionTitle: Story Reveal
+  - _storyRevealID: storyrevealID
+    _storySectionTitle: Story Reveal
+    _storySectionDescription: 1000 clicks
     _storySectionContent: The big reveal!
+    _requiresUpgrade: 0
+    _requiredUpgradeID: 
+    _requiresAchievement: 0
+    _requiredAchievementID: 
+    requiresStoryRevealID: 0
+    _requiredStoryRevealID: 
+  - _storyRevealID: storyrevealID
+    _storySectionTitle: Story Reveal
+    _storySectionDescription: 1000 clicks
+    _storySectionContent: The big reveal!
+    _requiresUpgrade: 0
+    _requiredUpgradeID: 
+    _requiresAchievement: 0
+    _requiredAchievementID: 
+    requiresStoryRevealID: 0
+    _requiredStoryRevealID: 
+  - _storyRevealID: storyrevealID
+    _storySectionTitle: Story Reveal
+    _storySectionDescription: 1000 clicks
+    _storySectionContent: The big reveal!
+    _requiresUpgrade: 0
+    _requiredUpgradeID: 
+    _requiresAchievement: 0
+    _requiredAchievementID: 
+    requiresStoryRevealID: 0
+    _requiredStoryRevealID: 
+  - _storyRevealID: storyrevealID
+    _storySectionTitle: Story Reveal
+    _storySectionDescription: 1000 clicks
+    _storySectionContent: The big reveal!
+    _requiresUpgrade: 0
+    _requiredUpgradeID: 
+    _requiresAchievement: 0
+    _requiredAchievementID: 
+    requiresStoryRevealID: 0
+    _requiredStoryRevealID: 

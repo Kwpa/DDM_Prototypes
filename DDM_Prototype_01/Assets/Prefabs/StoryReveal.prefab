@@ -54,6 +54,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5000f06b832624ced8380a172af3b369, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _hidden: 0
+  _gMgr: {fileID: 0}
+  _uiMgr: {fileID: 0}
+  _storyRevealID: 
+  _teamID: 
+  _titleText: {fileID: 974451836398502662}
+  _descriptionText: {fileID: 974451836655693568}
+  _storyRevealAcquired: 0
+  _lockedUI: {fileID: 5020277246513999744}
+  _acquiredUI: {fileID: 2149716911230952457}
 --- !u!1 &974451836398502660
 GameObject:
   m_ObjectHideFlags: 0
@@ -66,7 +76,7 @@ GameObject:
   - component: {fileID: 974451836398502663}
   - component: {fileID: 974451836398502662}
   m_Layer: 5
-  m_Name: Name
+  m_Name: Title
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

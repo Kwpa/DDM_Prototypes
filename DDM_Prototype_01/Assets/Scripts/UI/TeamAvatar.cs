@@ -51,7 +51,7 @@ public class TeamAvatar : UIElement
 
     public void ClickDonationButton()
     {
-        _gMgr.SpendActionOnDonation(_gMgr._activePlayer._playerID, _teamID);        
+        _gMgr.SpendActionOnHealthDonation(_gMgr._activePlayer._playerID, _teamID);        
     }
 
     public void OpenTeamProfilePopup()

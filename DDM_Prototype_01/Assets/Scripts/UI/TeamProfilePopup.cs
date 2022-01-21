@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
+using System.Linq;
 
 public class TeamProfilePopup : Popup
 {
@@ -34,12 +35,16 @@ public class TeamProfilePopup : Popup
         _storyReveals = new List<GameObject>();
     }
 
-    public void SetValues(string name, int requirement, string bio, List<PersonalityStatDef> stats, List<UpgradeDef> upgrades, List<StoryRevealDef> storyReveals, bool playerInFanClub)
+    public void SetValues(string name, int requirement, string bio, bool playerInFanClub)
     {
         SetTeamNameText(name);
         SetCTAText(requirement);
-        SetBioText(bio);
-        foreach(PersonalityStatDef stat in stats)
+        SetBioText(bio); 
+    }
+
+    public void CreateCards(List<PersonalityStatDef> stats, List<UpgradeDef> upgrades, List<StoryRevealDef> storyReveals)
+    {
+        foreach (PersonalityStatDef stat in stats)
         {
             CreatePersonalityStat(stat);
         }
@@ -51,6 +56,24 @@ public class TeamProfilePopup : Popup
         {
             CreateStoryReveal(reveal);
         }
+        SetUpgradeButtonStatuses();
+    }
+
+    public void SetCards(List<PersonalityStatDef> stats, List<UpgradeDef> upgrades, List<StoryRevealDef> storyReveals)
+    {
+        foreach (PersonalityStatDef stat in stats)
+        {
+            CreatePersonalityStat(stat);
+        }
+        foreach (UpgradeDef upgrade in upgrades)
+        {
+            CreateUpgrade(upgrade);
+        }
+        foreach (StoryRevealDef reveal in storyReveals)
+        {
+            CreateStoryReveal(reveal);
+        }
+        SetUpgradeButtonStatuses();
     }
 
     public void SetTeamNameText(string value)
@@ -75,19 +98,70 @@ public class TeamProfilePopup : Popup
         _bio.text = value;
     }
 
-    public void CreatePersonalityStat(PersonalityStatDef stats)
+    public void CreatePersonalityStat(PersonalityStatDef stat)
     {
-        _stats.Add(Instantiate(_statPrefab,_statParent.transform));
+        GameObject statGo = Instantiate(_statPrefab, _statParent.transform);
+        statGo.GetComponent<PersonalityStatElement>().SetStatText(stat._statComparisonValueOne, stat._statComparisonValueTwo, stat.statComparison);
+        _stats.Add(statGo);
+    }
+
+    public void SetPersonalityStatElement(PersonalityStatDef stat)
+    {
+        GameObject statGo = _stats.FirstOrDefault(p => p.GetComponent<PersonalityStatElement>()._statID == stat._statID);
+        if (statGo == null) return;
+
+        statGo.GetComponent<PersonalityStatElement>().SetStatText(stat._statComparisonValueOne, stat._statComparisonValueTwo, stat.statComparison);
     }
 
     public void CreateUpgrade(UpgradeDef upgrade)
     {
-        _upgrades.Add(Instantiate(_upgradePrefab, _upgradeParent.transform));
+        GameObject upgradeGo = Instantiate(_upgradePrefab, _upgradeParent.transform);
+        upgradeGo.GetComponent<UpgradeElement>().SetUpgradeElement(upgrade, _teamID);
+        _upgrades.Add(upgradeGo);
+    }
+
+    public void SetUpgradeElements(UpgradeDef upgrade)
+    {
+        GameObject upgradeGo = _stats.FirstOrDefault(p => p.GetComponent<UpgradeElement>()._upgradeID == upgrade._upgradeID);
+        if (upgradeGo == null) return;
+
+        upgradeGo.GetComponent<UpgradeElement>().SetUpgradeElement(upgrade, _teamID);
+    }
+
+    public void SetUpgradeButtonStatuses()
+    {
+        List<UpgradeDef> upgradeDefs = _gMgr._teams[_teamID]._teamUpgrades;
+
+        foreach(GameObject go in _upgrades)
+        {
+            UpgradeElement upgradeElement = go.GetComponent<UpgradeElement>();
+            UpgradeDef upgradeDef = upgradeDefs.FirstOrDefault(p => p._upgradeID == upgradeElement._upgradeID);
+            upgradeElement.SetUpgradeButton(upgradeDef);
+        }
+    }
+
+    public void SetUpgradeButtonStatus(string upgradeID)
+    {
+        GameObject go = _upgrades.FirstOrDefault(p => p.GetComponent<UpgradeElement>()._upgradeID == upgradeID);
+        UpgradeElement element = go.GetComponent<UpgradeElement>();
+        List<UpgradeDef> upgradeDefs = _gMgr._teams[_teamID]._teamUpgrades;
+        UpgradeDef upgradeDef = upgradeDefs.FirstOrDefault(p => p._upgradeID == element._upgradeID);
+        element.SetUpgradeButton(upgradeDef);
     }
 
     public void CreateStoryReveal(StoryRevealDef storyReveal)
     {
-        _storyReveals.Add(Instantiate(_storyRevealPrefab, _storyRevealParent.transform));
+        GameObject storyGo = Instantiate(_storyRevealPrefab, _storyRevealParent.transform);
+        storyGo.GetComponent<StoryRevealElement>().SetStoryRevealElement(storyReveal, _teamID);
+        _storyReveals.Add(storyGo);
+    }
+
+    public void SetStoryReveal(StoryRevealDef storyReveal)
+    {
+        GameObject storyGo = _storyReveals.FirstOrDefault(p => p.GetComponent<StoryRevealElement>()._storyRevealID == storyReveal._storyRevealID);
+        if (storyGo == null) return;
+
+        storyGo.GetComponent<StoryRevealElement>().SetStoryRevealElement(storyReveal, _teamID);
     }
 
     public void UnlockExclusiveContent(bool unlocked)
