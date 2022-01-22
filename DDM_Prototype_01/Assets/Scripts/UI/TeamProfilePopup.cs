@@ -35,11 +35,16 @@ public class TeamProfilePopup : Popup
         _storyReveals = new List<GameObject>();
     }
 
-    public void SetValues(string name, int requirement, string bio, bool playerInFanClub)
+    public void SetValues(string name, int requirement, string bio, int maxHealth, int currentHealth, bool playerInFanClub, bool outOfCompetition)
     {
         SetTeamNameText(name);
         SetCTAText(requirement);
-        SetBioText(bio); 
+        SetBioText(bio);
+        SetHealthBar(maxHealth, currentHealth);
+        if(outOfCompetition)
+        {
+            KickTeamUI();
+        }
     }
 
     public void CreateCards(List<PersonalityStatDef> stats, List<UpgradeDef> upgrades, List<StoryRevealDef> storyReveals)
@@ -167,5 +172,10 @@ public class TeamProfilePopup : Popup
     public void UnlockExclusiveContent(bool unlocked)
     {
         _exclusiveContentLockPanel.SetActive(!unlocked);
+    }
+
+    public void KickTeamUI()
+    {
+
     }
 }

@@ -49,7 +49,9 @@ public class GameManager : MonoBehaviour
         NewDay,
         NewRound,
         Dancing,
-        Resting
+        Resting,
+        EndRound,
+        EndGame
     }
 
     FiniteStateMachine<GameStates> _fsm = new FiniteStateMachine<GameStates>();
@@ -134,6 +136,12 @@ public class GameManager : MonoBehaviour
 
         _fsm.Add(
             new State<GameStates>(GameStates.Resting, "Resting", RestingEnter, null, RestingUpdate, null));
+
+        _fsm.Add(
+            new State<GameStates>(GameStates.EndRound, "EndRound", EndOfRound, null, null, null));
+
+        _fsm.Add(
+            new State<GameStates>(GameStates.EndGame, "EndGame", EndOfGame, null, null, null));
 
 
         _fsm.SetCurrentState(GameStates.FirstVisit);
@@ -381,6 +389,36 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    public void KickLosingTeams()
+    {
+        foreach(KeyValuePair<string,Team>kvp in _teams)
+        {
+            Team team = kvp.Value;
+            if(!team._outOfCompetition)
+            {
+                team.EvaluateHealth();
+                if(team._outOfCompetition)
+                {
+                    _uiMgr.UpdateAvatar(team._teamID);
+                    _uiMgr.UpdateTeamProfilePopup(team._teamID);
+                }
+            }
+        }
+    }
+
+    public List<string> GetLosersIDs()
+    {
+        List<string> loserIDs = new List<string>();
+        
+        foreach(KeyValuePair<string,Team> kvp in _teams)
+        {
+            Team team = kvp.Value;
+            if (team._outOfCompetition) loserIDs.Add(team._teamID);
+        }
+
+        return loserIDs;
+    }
+
     //***************************************************************************
     //state delegate definitions
     //***************************************************************************
@@ -447,14 +485,34 @@ public class GameManager : MonoBehaviour
         _roundSpan = _endTime - _startRound;
         if (_roundSpan.TotalMinutes >= _roundTime)
         {
-            if(_currentRound >= _roundsPerDay)
+            _fsm.SetCurrentState(GameStates.EndRound);
+        }
+    }
+
+    public void EndOfRound()
+    {
+        KickLosingTeams();
+        //_uiMgr.ShowEndOfRoundPopup();
+
+        if (_currentRound >= _roundsPerDay)
+        {
+            if (_currentDay > _daysPerGame)
             {
-                _fsm.SetCurrentState(GameStates.NewDay);
+                _fsm.SetCurrentState(GameStates.EndGame);
             }
             else
             {
-                _fsm.SetCurrentState(GameStates.NewRound);
+                _fsm.SetCurrentState(GameStates.NewDay);
             }
         }
+        else
+        {
+            _fsm.SetCurrentState(GameStates.NewRound);
+        }
+    }
+
+    public void EndOfGame()
+    {
+
     }
 }

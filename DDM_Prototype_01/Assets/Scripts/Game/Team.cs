@@ -21,6 +21,8 @@ public class Team : IUpgradeMaxHealth
     public GameObject _assignedProfilePopup;
     public int _donationNeeded = 0;
 
+    public bool _outOfCompetition = false;
+
     public Team(string id, string name, string bio, int health, int maxHealth, int donationAmount, List<PersonalityStatDef> stats, List<UpgradeDef> upgrades, List<StoryRevealDef> reveals)
     {
         _teamID = id;
@@ -114,6 +116,11 @@ public class Team : IUpgradeMaxHealth
     public void UpgradeMaxHealth()
     {
         
+    }
+
+    public void EvaluateHealth()
+    {
+        _outOfCompetition = _teamHealth < _teamMaxHealth;
     }
 }
 

@@ -9,6 +9,7 @@ public class UIManager : MonoBehaviour
     public GameObject _chatFeedPrefab;
     public GameObject _chatMessagePrefab;
     public GameObject _broadcasterPrefab;
+    public GameObject _endOfRoundPrefab;
     public GameObject _broadcasterMessagePrefab;
     public GameObject _avatarPrefab;
     public GameObject _teamProfilePopupPrefab;
@@ -39,8 +40,10 @@ public class UIManager : MonoBehaviour
         _baseUI.Add("infoBar", Instantiate(_infoBarPrefab, this.transform));
         _baseUI.Add("chatFeed", Instantiate(_chatFeedPrefab, this.transform));
         _baseUI.Add("broadcaster", Instantiate(_broadcasterPrefab, this.transform));
+        //_baseUI.Add("endOfRoundPopup", Instantiate(_endOfRoundPrefab, this.transform));
         _baseUI.Add("broadcastFeed", _baseUI["broadcaster"].GetComponentInChildren<BroadcastFeed>().gameObject);
         _baseUI.Add("votingBooth", _baseUI["broadcaster"].GetComponentInChildren<VotingBooth>().gameObject);
+
         foreach(KeyValuePair<string,GameObject> kvp in _baseUI)
         {
             UIElement uiElement = kvp.Value.GetComponent<UIElement>();
@@ -87,6 +90,14 @@ public class UIManager : MonoBehaviour
             );
     }
 
+    public void UpdateEndOfRoundPopup()
+    {
+//        EndOfRoundPopup eorPopup = _baseUI["endOfRoundPopup"].GetComponent<EndOfRoundPopup>();
+  //      EndOfRoundPopup.SetEndOfRoundPopupVariables(
+            
+ //           );
+    }
+
     public void UpdateAvatars()
     {
         foreach(KeyValuePair<string,GameObject> kvp in _avatarsUI)
@@ -100,7 +111,8 @@ public class UIManager : MonoBehaviour
                 teamRef._donationNeeded,
                 data._teamDonationAmount,
                 teamRef._teamMaxHealth,
-                teamRef._teamHealth
+                teamRef._teamHealth,
+                teamRef._outOfCompetition
                 );
         }
     }
@@ -116,7 +128,8 @@ public class UIManager : MonoBehaviour
             teamRef._donationNeeded,
             data._teamDonationAmount,
             teamRef._teamMaxHealth,
-            teamRef._teamHealth
+            teamRef._teamHealth,
+            teamRef._outOfCompetition
             );
     }
 
@@ -132,7 +145,10 @@ public class UIManager : MonoBehaviour
                 teamRef._teamName,
                 teamRef._donationNeeded,
                 teamRef._teamBio,
-                data._playerIsInFanClub
+                teamRef._teamMaxHealth,
+                teamRef._teamHealth,
+                data._playerIsInFanClub,
+                teamRef._outOfCompetition
                 );
 
             popup.CreateCards(
@@ -153,7 +169,10 @@ public class UIManager : MonoBehaviour
             teamRef._teamName,
             teamRef._donationNeeded,
             teamRef._teamBio,
-            data._playerIsInFanClub
+            teamRef._teamMaxHealth, 
+            teamRef._teamHealth,
+            data._playerIsInFanClub,
+            teamRef._outOfCompetition
             );
 
         popup.SetCards(
@@ -232,5 +251,15 @@ public class UIManager : MonoBehaviour
     {
         TeamProfilePopup popup = _teamProfilePopupsUI[teamID].GetComponent<TeamProfilePopup>();
         popup.Close();
+    }
+
+    public void ShowEndOfRoundUI()
+    {
+
+    }
+
+    public void CloseEndOfRoundUI()
+    {
+
     }
 }

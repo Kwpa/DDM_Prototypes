@@ -13,18 +13,24 @@ public class TeamAvatar : UIElement
     public Slider _healthBar;
     public Image _iconBackground;
     public Image _icon;
+    public GameObject _inGamePanel;
+    public GameObject _kickedOutPanel;
 
     public override void Init()
     {
         //...
     }
 
-    public void SetValues(string name, int requirement, int donation, int maxHealth, int currentHealth)
+    public void SetValues(string name, int requirement, int donation, int maxHealth, int currentHealth, bool outOfCompetition)
     {
         SetTeamNameText(name);
         SetCTAText(requirement);
         SetDonateEnergyText(donation);
         SetHealthBar(maxHealth, currentHealth);
+        if(outOfCompetition)
+        {
+            KickTeamUI();
+        }
     }
 
     public void SetTeamNameText(string value)
@@ -57,5 +63,11 @@ public class TeamAvatar : UIElement
     public void OpenTeamProfilePopup()
     {
         _uiMgr.OpenTeamProfilePopup(_teamID);
+    }
+
+    public void KickTeamUI()
+    {
+        _inGamePanel.SetActive(false);
+        _inGamePanel.SetActive(true);
     }
 }
