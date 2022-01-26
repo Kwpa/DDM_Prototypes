@@ -29,6 +29,7 @@ public class TeamAvatar : UIElement
         SetHealthBar(maxHealth, currentHealth);
         if(outOfCompetition)
         {
+            print("out of comp!");
             KickTeamUI();
         }
     }
@@ -68,6 +69,6 @@ public class TeamAvatar : UIElement
     public void KickTeamUI()
     {
         _inGamePanel.SetActive(false);
-        _inGamePanel.SetActive(true);
+        _kickedOutPanel.SetActive(true);
     }
 }

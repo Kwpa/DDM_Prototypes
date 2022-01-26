@@ -6,6 +6,7 @@ public class Player
 {
     public string _playerID = "player id";
     public string _username = "player name";
+    public bool _playerIsBot = false;
     public int _baseActionPoints = 0;
     public int _actionPoints = 0;
     public int _sparkPoints = 0;
@@ -14,18 +15,18 @@ public class Player
 
     public Dictionary<string, PlayerToTeamData> _playerToTeamData;
 
-    public Player(string id, string name, Dictionary<string,Team> teamData)
+    public Player(string id, string name, int allocateBaseActionPoints, Dictionary<string,Team> teamsData)
     {
         _playerID = id;
         _username = name;
-        SetupPlayerToTeamData(teamData);
+        SetupPlayerToTeamData(teamsData);
     }
 
-    public Player(PlayerProfile profile, Dictionary<string,Team> teamData)
+    public Player(PlayerProfile profile, Dictionary<string,Team> teamsData)
     {
         _playerID = profile._playerID;
         _username = profile._username;
-        SetupPlayerToTeamData(teamData);
+        SetupPlayerToTeamData(teamsData);
     }
 
     public void UpdatePlayer(Dictionary<string, Team> teams)
@@ -118,6 +119,7 @@ public class PlayerToTeamData
     public bool _playerIsInFanClub = false;
     public List<string> _acquiredUpgrades;
     public List<string> _acquiredStoryReveals;
+    public int _botLikeDislike = 0;
 
     public PlayerToTeamData(string id)
     {

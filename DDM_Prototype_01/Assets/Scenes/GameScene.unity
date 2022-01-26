@@ -167,10 +167,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _gameProfile: {fileID: 11400000, guid: 279948bae04a98c41a53f8d63b63f0a2, type: 2}
-  _days: 0
+  _currentDay: 0
   _daysPerGame: 0
-  _rounds: 0
+  _currentRound: 0
   _roundsPerDay: 0
+  _roundDefs: []
   _roundTime: 0
   _roundMins: 0
   _roundSecs: 0
@@ -179,6 +180,171 @@ MonoBehaviour:
   _pauseTime: 0
   _debug: 0
   _activeUpdate: 0
+--- !u!1 &135804387
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 135804389}
+  - component: {fileID: 135804388}
+  m_Layer: 0
+  m_Name: PlayerBotManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &135804388
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 135804387}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cbeae060cb9625c48b493e4a4544152b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _genSize: 2
+  _actionPointAllocations: 05000000
+  _usernames:
+  - blantsargue
+  - instructorcosty
+  - carpentergillette
+  - luminouspipeweed
+  - parsleycautious
+  - flenchstore
+  - healthymullins
+  - rodolphmangoes
+  - mountmell
+  - eightyquietly
+  - risottorustica
+  - spinolaeeffluvium
+  - spreadproduct
+  - fastenguitar
+  - nairobiforemast
+  - longaristotelis
+  - fliskssample
+  - woodscoop
+  - residentmay
+  - reindeerpallograph
+  - narnishserrirostris
+  - ochotonafuga
+  - zoonderkinsscrap
+  - quaaltaghthumbsdown
+  - salfordeuropaeus
+  - felinetotalus
+  - covetloxahatchee
+  - pipchinadmired
+  - beepybaryphyma
+  - impossiblemoria
+  - toucancroe
+  - housewoots
+  - junkyixobrychus
+  - jarenhay
+  - atroflavahassel
+  - nitrogenlinhope
+  - egfordgadolinium
+  - travelermatutolypea
+  - bothlongifolia
+  - howickdodgeball
+  - fizkinaccess
+  - wootshealth
+  - sharpcomet
+  - hornseybreeding
+  - forgetfulwetsuit
+  - typicalvehicle
+  - paludosauncertain
+  - serpentinefraid
+  - macrocephalaholy
+  - biohazardflig
+  - pourcaring
+  - soldierclyde
+  - boreheadtraligill
+  - motheramalia
+  - crapulouspocket
+  - sanguinemecopisthes
+  - beefimperio
+  - overworldamon
+  - reubenpass
+  - moshgracilis
+  - enterpriseplunk
+  - tagespinicola
+  - spikesplastic
+  - crapulentcomplex
+  - pisicrawn
+  - incurvatumspumps
+  - majesticfobly
+  - berserkquiche
+  - askghast
+  - wryalvine
+  - adventillusion
+  - frequentpriscilla
+  - dewslitherum
+  - gorgedzhengzhou
+  - quiltcarneolutea
+  - sousaphonepurr
+  - otherdomesticus
+  - borealissetaceous
+  - suitstrudel
+  - platejukebox
+  - clipsdolphin
+  - cardellinahewn
+  - moneywhispering
+  - spustairplane
+  - tavernershimy
+  - radicalwolverhampton
+  - norboindiscreet
+  - bildbeauty
+  - frugilegusneomycin
+  - malkinrodge
+  - quagswagdroning
+  - koalalipsothrix
+  - troglodytecreamy
+  - acaulonherbert
+  - agilisclooves
+  - homestoat
+  - trelawneyjotten
+  - loyaltymelanoxeros
+  - vuffinfulgens
+  - diarsiamocking
+  - proposeborder
+  - existencehat
+  - smuetrounce
+  - phyteumaalve
+  - kosingmough
+  - cellsplume
+  - arklesamarium
+  - opossummann
+  - individualrange
+  - overallscells
+  - compressusboatswain
+  - googlenunney
+  - vouchgaywood
+  - weightspair
+  - griseawhirlwind
+  - chinebag
+  - winchesterjamesoniella
+  - defiantought
+  - portlandneodymium
+--- !u!4 &135804389
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 135804387}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &223352445
 GameObject:
   m_ObjectHideFlags: 0
@@ -237,7 +403,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 7
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &519420028
 GameObject:
@@ -350,7 +516,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &989479872
 GameObject:
@@ -446,7 +612,7 @@ RectTransform:
   m_Children:
   - {fileID: 1550486045}
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -470,6 +636,7 @@ MonoBehaviour:
   _chatFeedPrefab: {fileID: 5766345685014814953, guid: aea44ddea4e392648b96a1fd71db9c7a, type: 3}
   _chatMessagePrefab: {fileID: 974451836333542169, guid: 68bb418125e6f416fbec8449215a8c4b, type: 3}
   _broadcasterPrefab: {fileID: 1889158398411761724, guid: b2e3d395a0d41d14c9f11d84ce6c965a, type: 3}
+  _endOfRoundPrefab: {fileID: 0}
   _broadcasterMessagePrefab: {fileID: 6019168176528894172, guid: c40db068bccae4b7bbc6e41af3c243be, type: 3}
   _avatarPrefab: {fileID: 7158420640915648579, guid: 0d8cb4196975749a986bc80765581733, type: 3}
   _teamProfilePopupPrefab: {fileID: 2155011548093070273, guid: 734087a2822e94d91833f1d61fa7b2ce, type: 3}
@@ -501,7 +668,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1220851524
 GameObject:
@@ -567,7 +734,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 6
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1550486044
 GameObject:
@@ -673,5 +840,5 @@ Transform:
   m_Children:
   - {fileID: 519420032}
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

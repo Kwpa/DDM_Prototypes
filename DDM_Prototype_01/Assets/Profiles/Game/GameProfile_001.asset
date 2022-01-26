@@ -37,7 +37,7 @@ MonoBehaviour:
   - _roundNumber: 5
     _setMaxHealth: 4
     _setHealth: 0
-  _roundTime: 2
+  _roundTime: 1
   _dancingTime: 1
   _timeFactor: 1
   _baseActionPoints: 5

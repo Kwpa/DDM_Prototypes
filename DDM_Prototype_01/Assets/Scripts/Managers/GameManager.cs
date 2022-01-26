@@ -17,6 +17,7 @@ public class GameManager : MonoBehaviour
 
     public GameProfile _gameProfile;
     UIManager _uiMgr;
+    PlayerBotManager _pbMgr;
 
     public int _currentDay = 0;
     public int _daysPerGame = 0;
@@ -63,6 +64,7 @@ public class GameManager : MonoBehaviour
     void Awake()
     {
         _uiMgr = GameObject.Find("UIManager").GetComponent<UIManager>();
+        _pbMgr = GameObject.Find("PlayerBotManager").GetComponent<PlayerBotManager>();
     }
 
     void Start()
@@ -207,6 +209,7 @@ public class GameManager : MonoBehaviour
         _dancingTime = profile._dancingTime;
 
         CreateTeams(profile);
+        _pbMgr.Init();
         CreatePlayers(profile);
 
         //temp: set active player
@@ -221,10 +224,18 @@ public class GameManager : MonoBehaviour
         {
             _players.Add(pp._playerID, new Player(pp, _teams));
         }
+        foreach(Player p in _pbMgr._generatedPlayers)
+        {
+            _players.Add(p._playerID, p);
+        }
         foreach(KeyValuePair<string, Player> kvp in _players)
         {
             Player player = kvp.Value;
-            player.SetBaseActionPoints(profile._baseActionPoints);
+
+            if (!player._playerIsBot)
+            {
+                player.SetBaseActionPoints(profile._baseActionPoints); //set at player creation
+            }
             player.GainSparkPoints(profile._startingSparkPoints);
             player.SetupPlayerToTeamData(_teams);
         }
@@ -260,10 +271,15 @@ public class GameManager : MonoBehaviour
             int actionCost = 1;
             player.SpendActionPoints(actionCost);
             team.GainHealth(player._playerToTeamData[teamID]._teamDonationAmount);
+            print("Username: " + player._username + " donated health to " + team._teamName);
 
             if (playerID == _activePlayer._playerID)
             {
                 ActivePlayerDonates(teamID);
+            }
+            else
+            {
+                BotPlayerDonates(teamID);
             }
         }
     }
@@ -277,6 +293,19 @@ public class GameManager : MonoBehaviour
         int getHealth = _teams[teamID]._teamHealth;
 
         _uiMgr._baseUI["infoBar"].GetComponent<InfoBar>().SetActionsText(getActions);
+        _uiMgr._avatarsUI[teamID].GetComponent<TeamAvatar>().SetCTAText(getRemaining);
+        _uiMgr._avatarsUI[teamID].GetComponent<TeamAvatar>().SetHealthBar(getMaxHealth, getHealth);
+        _uiMgr._teamProfilePopupsUI[teamID].GetComponent<TeamProfilePopup>().SetCTAText(getRemaining);
+        _uiMgr._teamProfilePopupsUI[teamID].GetComponent<TeamProfilePopup>().SetHealthBar(getMaxHealth, getHealth);
+    }
+
+    public void BotPlayerDonates(string teamID)
+    {
+        //ui
+        int getRemaining = _teams[teamID]._donationNeeded;
+        int getMaxHealth = _teams[teamID]._teamMaxHealth;
+        int getHealth = _teams[teamID]._teamHealth;
+
         _uiMgr._avatarsUI[teamID].GetComponent<TeamAvatar>().SetCTAText(getRemaining);
         _uiMgr._avatarsUI[teamID].GetComponent<TeamAvatar>().SetHealthBar(getMaxHealth, getHealth);
         _uiMgr._teamProfilePopupsUI[teamID].GetComponent<TeamProfilePopup>().SetCTAText(getRemaining);
@@ -394,11 +423,13 @@ public class GameManager : MonoBehaviour
         foreach(KeyValuePair<string,Team>kvp in _teams)
         {
             Team team = kvp.Value;
+            print("team - " + team._teamName);
             if(!team._outOfCompetition)
             {
                 team.EvaluateHealth();
                 if(team._outOfCompetition)
                 {
+                    print("Get them out! " + team._teamName);
                     _uiMgr.UpdateAvatar(team._teamID);
                     _uiMgr.UpdateTeamProfilePopup(team._teamID);
                 }
@@ -446,6 +477,7 @@ public class GameManager : MonoBehaviour
         GainRounds(1);
         SetTeamsMaxHealthPerPlayerCountPerRound(); // todo: could be put into new day at this stage?
         ResetPlayersActionPoints();
+        _pbMgr.BotsPerformActions();
         //ui
         _uiMgr._baseUI["infoBar"].GetComponent<InfoBar>().SetRoundsText(_currentRound);
 
@@ -491,6 +523,7 @@ public class GameManager : MonoBehaviour
 
     public void EndOfRound()
     {
+        print("EndOfRound");
         KickLosingTeams();
         //_uiMgr.ShowEndOfRoundPopup();
 
@@ -513,6 +546,6 @@ public class GameManager : MonoBehaviour
 
     public void EndOfGame()
     {
-
+        print("EndOfGame");
     }
 }
