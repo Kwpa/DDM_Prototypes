@@ -19,6 +19,7 @@ public class Player
     {
         _playerID = id;
         _username = name;
+        _baseActionPoints = allocateBaseActionPoints;
         SetupPlayerToTeamData(teamsData);
     }
 
@@ -31,10 +32,17 @@ public class Player
 
     public void UpdatePlayer(Dictionary<string, Team> teams)
     {
+        Dictionary<string, PlayerToTeamData> dict = new Dictionary<string, PlayerToTeamData>();
         foreach (KeyValuePair<string, PlayerToTeamData> ptdVal in _playerToTeamData)
         {
             PlayerToTeamData data = ptdVal.Value;
             data._teamDonationAmount = teams[data._teamID].GetDonationAmount(data._donationFactor);
+            dict.Add(ptdVal.Key, data);
+        }
+        _playerToTeamData.Clear();
+        foreach(KeyValuePair<string, PlayerToTeamData> kvp in dict)
+        {
+            _playerToTeamData.Add(kvp.Key, kvp.Value);
         }
     }
 
@@ -46,6 +54,7 @@ public class Player
             Team team = teamVal.Value;
             _playerToTeamData.Add(team._teamID, new PlayerToTeamData(team._teamID));
         }
+        Debug.Log("Player " + _username + " ** " + teams.Count);
         UpdatePlayer(teams);
     }
 
@@ -102,6 +111,16 @@ public class Player
     public void SpendSparkPoints(int value)
     {
         LoseSparkPoints(value);
+    }
+
+    public void JoinFanClub(string teamID)
+    {
+        _playerToTeamData[teamID]._playerIsInFanClub = true;
+    }
+
+    public void UpgradeTeamRelationship(string teamID, string upgradeID)
+    {
+        _playerToTeamData[teamID]._acquiredUpgrades.Add(upgradeID);
     }
 }
 

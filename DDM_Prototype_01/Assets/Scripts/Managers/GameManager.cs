@@ -39,6 +39,7 @@ public class GameManager : MonoBehaviour
 
     public Dictionary<string, Team> _teams;
     public Dictionary<string, Player> _players;
+    public Dictionary<string, Ballot> _globalBallots;
     public Player _activePlayer;
 
     public bool _debug = false;
@@ -237,7 +238,8 @@ public class GameManager : MonoBehaviour
                 player.SetBaseActionPoints(profile._baseActionPoints); //set at player creation
             }
             player.GainSparkPoints(profile._startingSparkPoints);
-            player.SetupPlayerToTeamData(_teams);
+            //player.SetupPlayerToTeamData(_teams);
+            // here! ^^^^^
         }
     }
 
@@ -284,6 +286,83 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    public void SpendActionOnJoiningFanClub(string playerID, string teamID)
+    {
+        Player player = _players[playerID];
+        Team team = _teams[teamID];
+        int actionPointCheck = player._actionPoints - 1;
+        bool fanCheck = player._playerToTeamData[team._teamID]._playerIsInFanClub;
+        if (actionPointCheck >= 0 && !fanCheck)
+        {
+            int actionCost = 1;
+            player.SpendActionPoints(actionCost);
+            player.JoinFanClub(team._teamID);
+            print("Username: " + player._username + " joined fan club of " + team._teamName);
+
+            if (playerID == _activePlayer._playerID)
+            {
+                ActivePlayerJoinsFanClub(teamID);
+            }
+            else
+            {
+                BotJoinsFanClub(teamID);
+            }
+        }
+    }
+
+    public void SpendActionOnUpgradingTeam(string playerID, string teamID, string upgradeID)
+    {
+        Player player = _players[playerID];
+        Team team = _teams[teamID];
+        int actionPointCheck = player._actionPoints - 1;
+        bool fanCheck = player._playerToTeamData[team._teamID]._playerIsInFanClub;
+        if (actionPointCheck >= 0 && fanCheck)
+        {
+            int actionCost = 1;
+            player.SpendActionPoints(actionCost);
+            player.UpgradeTeamRelationship(team._teamID, upgradeID);
+            print("Username: " + player._username + " gained the " + team._teamName + " " + team._teamUpgrades);
+
+            if (playerID == _activePlayer._playerID)
+            {
+                ActivePlayerJoinsFanClub(teamID);
+            }
+            else
+            {
+                BotJoinsFanClub(teamID);
+            }
+        }
+    }
+
+    public void SpendSparksOnGlobalVote(string playerID, string ballotID, string ballotChoiceID)
+    {
+        Player player = _players[playerID];
+        int actionPointCheck = player._sparkPoints - 1;
+        BallotOption option = _globalBallots[ballotID]._ballotOptions.FirstOrDefault(p => p._ballotOptionID == ballotChoiceID);
+
+        if (actionPointCheck >= 0)
+        {
+            int sparkCost = 1;
+            player.SpendSparkPoints(sparkCost);
+            _globalBallots[ballotID].SetChosenOption(option._ballotOptionID);
+            print("Username: " + player._username + " voted for  " + option._ballotOptionTitle);
+
+            if (playerID == _activePlayer._playerID)
+            {
+                ActivePlayerGlobalVote(playerID, ballotID, option._ballotOptionID);
+            }
+            else
+            {
+                BotGlobalVote(playerID, ballotID, option._ballotOptionID);
+            }
+        }
+    }
+
+    public void SpendSparksOnBriefcaseVote(string playerID, string voteID, int voteChoice)
+    {
+
+    }
+
     public void ActivePlayerDonates(string teamID)
     {
         //ui
@@ -310,6 +389,46 @@ public class GameManager : MonoBehaviour
         _uiMgr._avatarsUI[teamID].GetComponent<TeamAvatar>().SetHealthBar(getMaxHealth, getHealth);
         _uiMgr._teamProfilePopupsUI[teamID].GetComponent<TeamProfilePopup>().SetCTAText(getRemaining);
         _uiMgr._teamProfilePopupsUI[teamID].GetComponent<TeamProfilePopup>().SetHealthBar(getMaxHealth, getHealth);
+    }
+
+    public void ActivePlayerJoinsFanClub(string id)
+    {
+        //
+    }
+
+    public void BotJoinsFanClub(string id)
+    {
+        //
+    }
+
+    public void ActivePlayerUpgradesRelationship(string teamID, string upgradeID)
+    {
+        //
+    }
+
+    public void BotUpgradesRelationship(string teamID, string upgradeID)
+    {
+        //
+    }
+
+    public void ActivePlayerGlobalVote(string playerID, string ballotID, string choiceID)
+    {
+        //
+    }
+
+    public void BotGlobalVote(string playerID, string ballotID, string choiceID)
+    {
+        //
+    }
+
+    public void ActivePlayerBriefcaseVote(string teamID, string ballotID, string choiceID)
+    {
+        //
+    }
+
+    public void BotBriefcaseVote(string teamID, string ballotID, string choiceID)
+    {
+        //
     }
 
     public void BuyUpgrade(string playerID, string teamID, string upgradeID)

@@ -29,9 +29,16 @@ public class PlayerBotManager : MonoBehaviour
             int actionPoints = AllocateActionPoints(i);
             Player player = new Player(id, name, actionPoints, _gMgr._teams);
             player._playerIsBot = true;
-            player._playerToTeamData = GiveBotLikeDislikeBehaviour(player);
-            
+            Dictionary<string, PlayerToTeamData> dict = GiveBotLikeDislikeBehaviour(player);
+
+            player._playerToTeamData.Clear();
+            foreach (KeyValuePair<string, PlayerToTeamData> kvp in dict)
+            {
+                player._playerToTeamData.Add(kvp.Key, kvp.Value);
+                print(kvp.Value._botLikeDislike);
+            }
             _generatedPlayers.Add(player);
+            print("created :" + player._username);
         }
     }
 
@@ -53,20 +60,40 @@ public class PlayerBotManager : MonoBehaviour
     {
         foreach(KeyValuePair<string,Player> kvp in _gMgr._players)
         {
-            print("bots");
             Player player = kvp.Value;
             if(player._playerIsBot)
             {
-                print("bot");
                 Player bot = player;
+                print(_gMgr._players[bot._playerID]._username + ": " + _gMgr._players[bot._playerID]._actionPoints + " ///// " + bot._playerToTeamData.Count);
                 List<string> _teamFavs = new List<string>();
                 foreach (KeyValuePair<string, PlayerToTeamData> kvp2 in bot._playerToTeamData.OrderByDescending(p => p.Value._botLikeDislike))
                 {
                     string favTeamID = kvp2.Key;
-                    print("team " + favTeamID);
-                    while(_gMgr._teams[favTeamID]._donationNeeded > 0 || _gMgr._players[bot._playerID]._actionPoints > 0)
+                    print("team " + favTeamID + " likedislike" + kvp2.Value._botLikeDislike);
+                    while(_gMgr._players[bot._playerID]._actionPoints > 0)
                     {
-                        _gMgr.SpendActionOnHealthDonation(bot._playerID, favTeamID);
+                        if(!bot._playerToTeamData[favTeamID]._playerIsInFanClub)
+                        {
+                            if((Random.value) < 0.5f)
+                            {
+                                _gMgr.SpendActionOnJoiningFanClub(bot._playerID, favTeamID);
+                            }
+                        }
+                        else
+                        {
+                            if ((Random.value) < 0.5f)
+                            {
+                                _gMgr.SpendActionOnJoiningFanClub(bot._playerID, favTeamID);
+                            }
+                        }
+                        if(_gMgr._teams[favTeamID]._donationNeeded > 0)
+                        {
+                            _gMgr.SpendActionOnHealthDonation(bot._playerID, favTeamID);
+                        }
+                        else
+                        {
+                            break;
+                        }
                     }
                 }
             }
@@ -81,6 +108,7 @@ public class PlayerBotManager : MonoBehaviour
         {
             PlayerToTeamData pttd = kvp.Value;
             pttd._botLikeDislike = Random.Range(0, 10);
+            print(" likedislike " + pttd._botLikeDislike);
             _dict.Add(kvp.Key, pttd);
         }
         return _dict;
