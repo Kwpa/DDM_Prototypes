@@ -7,7 +7,7 @@ public class UpgradeElement : UIElement
 {
     public override void Init()
     {
-        //
+        InitBase();
     }
 
     public string _upgradeID;
@@ -28,25 +28,36 @@ public class UpgradeElement : UIElement
         _teamID = teamID;
         _nameText.text = name;
         _descriptionText.text = description;
-        _costText.text = cost + " sparks";
+        _costText.text = cost + " action points";
     }
 
     public void SetUpgradeElement(UpgradeDef upgradeDef, string teamID)
     {
+        Init();
         SetUpgradeElement(upgradeDef._upgradeID, teamID, upgradeDef._upgradeName, upgradeDef._upgradeDescription, upgradeDef._upgradeCost);
     }
 
     public void SetUpgradeButton(UpgradeDef upgradeDef)
     {
-        if (upgradeDef._locked)
+        List<string> acquiredUpgrades = _gMgr._activePlayer._playerToTeamData[_teamID]._acquiredUpgrades;
+        print("***checkcard! " + acquiredUpgrades.Contains(_upgradeID));
+        if (acquiredUpgrades.Contains(_upgradeID))
         {
-            LockUpgrade();
+            AcquiredUpgrade();
+            _upgradeAcquired = true;
         }
         else
         {
-            if (upgradeDef._acquired)
+            if(upgradeDef._requiresUpgrade)
             {
-                AcquiredUpgrade();
+                if(acquiredUpgrades.Contains(upgradeDef._requiredUpgradeID))
+                {
+                    UnlockUpgrade();
+                }
+                else
+                {
+                    LockUpgrade();
+                }
             }
             else
             {
@@ -80,6 +91,7 @@ public class UpgradeElement : UIElement
     {
         if(!_upgradeAcquired)
         {
+            print("Active player upgrade!!!");
             _gMgr.ActivePlayerUpgrade(_teamID, _upgradeID);
         }
     }

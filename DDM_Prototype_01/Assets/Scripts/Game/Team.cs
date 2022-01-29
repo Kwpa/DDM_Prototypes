@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 
-public class Team : IUpgradeMaxHealth
+public class Team
 {
     public string _teamID = "team id";
     public string _teamName = "team name";
@@ -12,10 +12,12 @@ public class Team : IUpgradeMaxHealth
     public int _teamMaxHealth = 0;
     public int _baseDonationAmount = 0;
     public int _donationAddModifier = 0;
+    public int _baseSparkRewardAmount = 0;
 
     public List<PersonalityStatDef> _teamPersonalityStats;
     public List<UpgradeDef> _teamUpgrades;
     public List<StoryRevealDef> _teamStoryReveals;
+    public List<BallotDef> _teamBriefcaseBallots;
 
     public GameObject _assignedAvatar;
     public GameObject _assignedProfilePopup;
@@ -23,7 +25,7 @@ public class Team : IUpgradeMaxHealth
 
     public bool _outOfCompetition = false;
 
-    public Team(string id, string name, string bio, int health, int maxHealth, int donationAmount, List<PersonalityStatDef> stats, List<UpgradeDef> upgrades, List<StoryRevealDef> reveals)
+    public Team(string id, string name, string bio, int health, int maxHealth, int donationAmount, int baseSparkReward, List<PersonalityStatDef> stats, List<UpgradeDef> upgrades, List<StoryRevealDef> reveals, List<BallotDef> briefcaseBallots)
     {
         _teamID = id;
         _teamName = name;
@@ -31,9 +33,11 @@ public class Team : IUpgradeMaxHealth
         _teamHealth = health;
         _teamMaxHealth = maxHealth;
         _baseDonationAmount = donationAmount;
+        _baseSparkRewardAmount = baseSparkReward;
         _teamPersonalityStats = stats;
         _teamUpgrades = upgrades;
         _teamStoryReveals = reveals;
+        _teamBriefcaseBallots = briefcaseBallots;
         GetDonationNeeded();
     }
 
@@ -43,9 +47,12 @@ public class Team : IUpgradeMaxHealth
         _teamName = profile._teamName;
         _teamBio = profile._teamBio;
         _baseDonationAmount = profile._teamDonationAmount;
+        _baseSparkRewardAmount = profile._baseSparkRewardAmount;
         _teamPersonalityStats = profile._teamPersonalityStats;
         _teamUpgrades = profile._teamUpgrades;
         _teamStoryReveals = profile._storyReveals;
+        _teamBriefcaseBallots = profile._briefcaseBallots;
+        Debug.Log(_teamID + ": team briefcase count" + _teamBriefcaseBallots.Count);
         GetDonationNeeded();
     }
 
@@ -136,26 +143,12 @@ public class UpgradeDef
     public string _upgradeID = "upgrade id";
     public string _upgradeName = "upgrade name";
     public string _upgradeDescription = "upgrade description";
+    public UpgradeType _upgradeType;
     public int _upgradeCost = 0;
-    public bool _locked = false;
-    public bool _acquired = false;
+    public int _upgradeBonus = 1;
 
     public bool _requiresUpgrade = false;
     public string _requiredUpgradeID;
-
-    public void LockUpgrade()
-    {
-        _locked = true;
-    }
-    public void UnlockUpgrade()
-    {
-        _locked = false;
-    }
-
-    public void GetUpgrade()
-    {
-        _acquired = true;
-    }
 }
 
 [System.Serializable]
@@ -186,3 +179,10 @@ public class StoryRevealDef
     public bool requiresStoryRevealID = false;
     public string _requiredStoryRevealID;
 }
+
+public enum UpgradeType
+{
+    MaxHealth,
+    SparkBonus
+}
+

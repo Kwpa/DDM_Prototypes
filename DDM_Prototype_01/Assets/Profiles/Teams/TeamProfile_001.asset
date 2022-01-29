@@ -18,6 +18,7 @@ MonoBehaviour:
     dramatic thermal changes on an hourly basis. They can switch between hibernationand
     an awakened state immediately!'
   _teamDonationAmount: 1
+  _baseSparkRewardAmount: 1
   _teamPersonalityStats:
   - _statID: Stat_001
     _statComparisonValueOne: WILD
@@ -30,18 +31,18 @@ MonoBehaviour:
   _teamUpgrades:
   - _upgradeID: Upgrade_001
     _upgradeName: Power Shoes
-    _upgradeDescription: Gain more energy!
+    _upgradeDescription: +1 spark per donation
+    _upgradeType: 1
     _upgradeCost: 1
-    _locked: 0
-    _acquired: 0
+    _upgradeBonus: 1
     _requiresUpgrade: 0
     _requiredUpgradeID: 
   - _upgradeID: Upgrade_002
     _upgradeName: Rocket  Shoes
-    _upgradeDescription: Gain more energy!
+    _upgradeDescription: +2 spark per donation
+    _upgradeType: 1
     _upgradeCost: 1
-    _locked: 0
-    _acquired: 0
+    _upgradeBonus: 1
     _requiresUpgrade: 1
     _requiredUpgradeID: Upgrade_001
   _storyReveals:
@@ -55,33 +56,4 @@ MonoBehaviour:
     _requiredAchievementID: 
     requiresStoryRevealID: 0
     _requiredStoryRevealID: 
-  - _storyRevealID: storyrevealID
-    _storySectionTitle: Story Reveal
-    _storySectionDescription: 1000 clicks
-    _storySectionContent: The big reveal!
-    _requiresUpgrade: 0
-    _requiredUpgradeID: 
-    _requiresAchievement: 0
-    _requiredAchievementID: 
-    requiresStoryRevealID: 0
-    _requiredStoryRevealID: 
-  - _storyRevealID: storyrevealID
-    _storySectionTitle: Story Reveal
-    _storySectionDescription: 1000 clicks
-    _storySectionContent: The big reveal!
-    _requiresUpgrade: 0
-    _requiredUpgradeID: 
-    _requiresAchievement: 0
-    _requiredAchievementID: 
-    requiresStoryRevealID: 0
-    _requiredStoryRevealID: 
-  - _storyRevealID: storyrevealID
-    _storySectionTitle: Story Reveal
-    _storySectionDescription: 1000 clicks
-    _storySectionContent: The big reveal!
-    _requiresUpgrade: 0
-    _requiredUpgradeID: 
-    _requiresAchievement: 0
-    _requiredAchievementID: 
-    requiresStoryRevealID: 0
-    _requiredStoryRevealID: 
+  _briefcaseBallots: []

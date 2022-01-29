@@ -64,12 +64,12 @@ public class PlayerBotManager : MonoBehaviour
             if(player._playerIsBot)
             {
                 Player bot = player;
-                print(_gMgr._players[bot._playerID]._username + ": " + _gMgr._players[bot._playerID]._actionPoints + " ///// " + bot._playerToTeamData.Count);
+                //print(_gMgr._players[bot._playerID]._username + ": " + _gMgr._players[bot._playerID]._actionPoints + " ///// " + bot._playerToTeamData.Count);
                 List<string> _teamFavs = new List<string>();
                 foreach (KeyValuePair<string, PlayerToTeamData> kvp2 in bot._playerToTeamData.OrderByDescending(p => p.Value._botLikeDislike))
                 {
                     string favTeamID = kvp2.Key;
-                    print("team " + favTeamID + " likedislike" + kvp2.Value._botLikeDislike);
+                    //print("team " + favTeamID + " likedislike" + kvp2.Value._botLikeDislike);
                     while(_gMgr._players[bot._playerID]._actionPoints > 0)
                     {
                         if(!bot._playerToTeamData[favTeamID]._playerIsInFanClub)

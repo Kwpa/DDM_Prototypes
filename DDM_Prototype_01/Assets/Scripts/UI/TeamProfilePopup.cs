@@ -17,22 +17,27 @@ public class TeamProfilePopup : Popup
     public List<GameObject> _stats;
     public List<GameObject> _upgrades;
     public List<GameObject> _storyReveals;
+    public List<GameObject> _briefcaseBallots;
+
 
     public GameObject _statParent;
     public GameObject _upgradeParent;
     public GameObject _storyRevealParent;
+    public GameObject _briefcaseBallotParent;
 
-    public GameObject _exclusiveContentLockPanel;
+    public GameObject _fanClubContentBlocker;
 
     public GameObject _statPrefab;
     public GameObject _upgradePrefab;
     public GameObject _storyRevealPrefab;
+    public GameObject _briefcaseBallotPrefab;
 
     public override void InitPopup()
     {
         _stats = new List<GameObject>();
         _upgrades = new List<GameObject>();
         _storyReveals = new List<GameObject>();
+        _briefcaseBallots = new List<GameObject>();
     }
 
     public void SetValues(string name, int requirement, string bio, int maxHealth, int currentHealth, bool playerInFanClub, bool outOfCompetition)
@@ -47,7 +52,7 @@ public class TeamProfilePopup : Popup
         }
     }
 
-    public void CreateCards(List<PersonalityStatDef> stats, List<UpgradeDef> upgrades, List<StoryRevealDef> storyReveals)
+    public void CreateCards(List<PersonalityStatDef> stats, List<UpgradeDef> upgrades, List<StoryRevealDef> storyReveals, List<BallotDef> briefcaseBallots)
     {
         foreach (PersonalityStatDef stat in stats)
         {
@@ -61,24 +66,31 @@ public class TeamProfilePopup : Popup
         {
             CreateStoryReveal(reveal);
         }
+        print("!!! - " + _teamID + "briefcount here ****000" + briefcaseBallots.Count);
+        foreach (BallotDef ballot in briefcaseBallots)
+        {
+            CreateBriefcaseBallot(ballot);
+        }
         SetUpgradeButtonStatuses();
+        SetBriefcaseBallotStatuses();
     }
 
-    public void SetCards(List<PersonalityStatDef> stats, List<UpgradeDef> upgrades, List<StoryRevealDef> storyReveals)
+    public void SetCards(List<PersonalityStatDef> stats, List<UpgradeDef> upgrades, List<StoryRevealDef> storyReveals, List<BallotDef> briefcaseBallots)
     {
-        foreach (PersonalityStatDef stat in stats)
-        {
-            CreatePersonalityStat(stat);
-        }
-        foreach (UpgradeDef upgrade in upgrades)
-        {
-            CreateUpgrade(upgrade);
-        }
-        foreach (StoryRevealDef reveal in storyReveals)
-        {
-            CreateStoryReveal(reveal);
-        }
+        //foreach (PersonalityStatDef stat in stats)
+        //{
+        //    //CreatePersonalityStat(stat);
+        //}
+        //foreach (UpgradeDef upgrade in upgrades)
+        //{
+        //    CreateUpgrade(upgrade);
+        //}
+        //foreach (StoryRevealDef reveal in storyReveals)
+        //{
+        //    //CreateStoryReveal(reveal);
+        //}
         SetUpgradeButtonStatuses();
+        SetBriefcaseBallotStatuses();
     }
 
     public void SetTeamNameText(string value)
@@ -169,13 +181,63 @@ public class TeamProfilePopup : Popup
         storyGo.GetComponent<StoryRevealElement>().SetStoryRevealElement(storyReveal, _teamID);
     }
 
-    public void UnlockExclusiveContent(bool unlocked)
+    public void CreateBriefcaseBallot(BallotDef ballot)
     {
-        _exclusiveContentLockPanel.SetActive(!unlocked);
+        GameObject ballotGo = Instantiate(_briefcaseBallotPrefab, _briefcaseBallotParent.transform);
+        ballotGo.GetComponent<BriefcaseBallotElement>().SetBriefcaseBallotElement(ballot, _teamID);
+        ballotGo.GetComponent<BriefcaseBallotElement>().CreateOptions();
+        _briefcaseBallots.Add(ballotGo);
+    }
+
+    public void SetBriefcaseBallot(BallotDef ballot)
+    {
+        GameObject ballotGo = _briefcaseBallots.FirstOrDefault(p => p.GetComponent<BriefcaseBallotElement>()._ballotID == ballot._ballotID);
+        if (ballotGo == null) return;
+
+        ballotGo.GetComponent<BriefcaseBallotElement>().SetBriefcaseBallotElement(ballot, _teamID);
+    }
+
+    public void SetBriefcaseBallotStatuses()
+    {
+        List<BallotDef> ballotDefs = _gMgr._teams[_teamID]._teamBriefcaseBallots;
+
+        foreach (GameObject go in _briefcaseBallots)
+        {
+            BriefcaseBallotElement ballotElement = go.GetComponent<BriefcaseBallotElement>();
+            BallotDef ballotDef = ballotDefs.FirstOrDefault(p => p._ballotID == ballotElement._ballotID);
+            ballotElement.SetBriefcaseBallotElement(ballotDef,_teamID);
+        }
+    }
+
+    public void SetBriefcaseBallotStatus(string ballotID)
+    {
+        GameObject go = _briefcaseBallots.FirstOrDefault(p => p.GetComponent<BriefcaseBallotElement>()._ballotID == ballotID);
+        BriefcaseBallotElement element = go.GetComponent<BriefcaseBallotElement>();
+        List<BallotDef> upgradeDefs = _gMgr._teams[_teamID]._teamBriefcaseBallots;
+        BallotDef upgradeDef = upgradeDefs.FirstOrDefault(p => p._ballotID == element._ballotID);
+        element.SetBriefcaseBallotElement(upgradeDef, _teamID);
+    }
+
+
+    public void UnlockFanClubContent()
+    {
+        _gMgr.SpendActionOnJoiningFanClub(_gMgr._activePlayer._playerID, _teamID);
+        _fanClubContentBlocker.SetActive(false);
     }
 
     public void KickTeamUI()
     {
 
+    }
+
+    public void EndBriefcaseBallot(int index)
+    {
+        if (index - 2 >= 0) _briefcaseBallots[index - 2].GetComponent<BriefcaseBallotElement>().EndBallot();
+    }
+
+    public void UnlockBriefcaseBallot(int index)
+    {
+        print("88888 " + _briefcaseBallots.Count);
+        if(index-1 >= 0) _briefcaseBallots[index - 1].GetComponent<BriefcaseBallotElement>().UnlockBallot();
     }
 }

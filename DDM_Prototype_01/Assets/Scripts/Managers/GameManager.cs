@@ -39,7 +39,7 @@ public class GameManager : MonoBehaviour
 
     public Dictionary<string, Team> _teams;
     public Dictionary<string, Player> _players;
-    public Dictionary<string, Ballot> _globalBallots;
+    public Dictionary<string, BallotDef> _globalBallots;
     public Player _activePlayer;
 
     public bool _debug = false;
@@ -239,7 +239,7 @@ public class GameManager : MonoBehaviour
             }
             player.GainSparkPoints(profile._startingSparkPoints);
             //player.SetupPlayerToTeamData(_teams);
-            // here! ^^^^^
+            // to remove ^^^
         }
     }
 
@@ -273,7 +273,10 @@ public class GameManager : MonoBehaviour
             int actionCost = 1;
             player.SpendActionPoints(actionCost);
             team.GainHealth(player._playerToTeamData[teamID]._teamDonationAmount);
+            int reward = player.GainSparksFromTeam(teamID, team._baseSparkRewardAmount);
+
             print("Username: " + player._username + " donated health to " + team._teamName);
+            print("Username: " + player._username + " gained " + reward + " sparks");
 
             if (playerID == _activePlayer._playerID)
             {
@@ -318,34 +321,39 @@ public class GameManager : MonoBehaviour
         bool fanCheck = player._playerToTeamData[team._teamID]._playerIsInFanClub;
         if (actionPointCheck >= 0 && fanCheck)
         {
-            int actionCost = 1;
-            player.SpendActionPoints(actionCost);
-            player.UpgradeTeamRelationship(team._teamID, upgradeID);
+            UpgradeDef upgrade = team._teamUpgrades.Find(p => p._upgradeID == upgradeID);
+            player.SpendActionPoints(upgrade._upgradeCost);
+
+            print(playerID);
+            player.GainTeamUpgrade(team._teamID, upgrade);
+            
             print("Username: " + player._username + " gained the " + team._teamName + " " + team._teamUpgrades);
 
             if (playerID == _activePlayer._playerID)
             {
-                ActivePlayerJoinsFanClub(teamID);
+                ActivePlayerUpgradesRelationship(teamID, upgradeID);
             }
             else
             {
-                BotJoinsFanClub(teamID);
+                BotUpgradesRelationship(teamID, upgradeID);
             }
         }
     }
 
-    public void SpendSparksOnGlobalVote(string playerID, string ballotID, string ballotChoiceID)
+    public void SpendSparksOnGlobalVote(string playerID, string ballotID, string ballotOptionID)
     {
         Player player = _players[playerID];
         int actionPointCheck = player._sparkPoints - 1;
-        BallotOption option = _globalBallots[ballotID]._ballotOptions.FirstOrDefault(p => p._ballotOptionID == ballotChoiceID);
+        
 
         if (actionPointCheck >= 0)
         {
             int sparkCost = 1;
             player.SpendSparkPoints(sparkCost);
-            _globalBallots[ballotID].SetChosenOption(option._ballotOptionID);
-            print("Username: " + player._username + " voted for  " + option._ballotOptionTitle);
+            BallotDef ballot = _globalBallots[ballotID];
+            ballot.SetChosenOption(ballotOptionID);
+            BallotOption option = ballot.GetChosenBallotOption();
+            print("Username: " + player._username + " voted for  " + option._ballotOptionTitle + " in the " + ballot._ballotTitle + " ballot");
 
             if (playerID == _activePlayer._playerID)
             {
@@ -358,9 +366,61 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public void SpendSparksOnBriefcaseVote(string playerID, string voteID, int voteChoice)
+    public void SpendSparksOnBriefcaseVote(string playerID, string teamID, string ballotID, string ballotOptionID)
     {
+        Player player = _players[playerID];
+        Team team = _teams[teamID];
+        int sparkCheck = player._sparkPoints - 1;
 
+        if (sparkCheck >= 0)
+        {
+            int sparkCost = 1;
+            player.SpendSparkPoints(sparkCost);
+            player._playerToTeamData[teamID].UpdateBallotContribution(ballotID, ballotOptionID, 1);
+            int voteCount = player._playerToTeamData[teamID].GetOptionCurrentContribution(ballotID, ballotOptionID);
+            
+            // this happens upon evaluation!
+            //BallotDef ballot = team._teamBriefcaseBallots.Find(p => p._ballotID == ballotID);
+            //ballot.SetChosenOption(ballotOptionID);
+            //BallotOption option = ballot.GetChosenBallotOption();
+
+            print("Username: " + player._username + " voted for  " + team._teamName + "'s " + ballotOptionID + " briefcase item");
+
+            if (playerID == _activePlayer._playerID)
+            {
+                ActivePlayerBriefcaseVote(teamID, ballotID, ballotOptionID, voteCount);
+            }
+            else
+            {
+                BotBriefcaseVote(teamID, ballotID, ballotOptionID);
+            }
+        }
+    }
+
+    public void RefundSparksOnBriefcaseVote(string playerID, string teamID, string ballotID, string ballotOptionID)
+    {
+        Player player = _players[playerID];
+        Team team = _teams[teamID];
+        int sparkCheck = player._playerToTeamData[teamID].GetOptionCurrentContribution(ballotID, ballotOptionID);
+
+        if (sparkCheck > 0)
+        {
+            int sparkRefund = 1;
+            player._playerToTeamData[teamID].UpdateBallotContribution(ballotID, ballotOptionID, -1);
+            player.GainSparkPoints(sparkRefund);
+            int voteCount = player._playerToTeamData[teamID].GetOptionCurrentContribution(ballotID, ballotOptionID);
+
+            print("Username: " + player._username + " removed a vote for  " + team._teamName + "'s " + ballotOptionID + " briefcase item");
+
+            if (playerID == _activePlayer._playerID)
+            {
+                ActivePlayerBriefcaseVote(teamID, ballotID, ballotOptionID, voteCount);
+            }
+            else
+            {
+                BotBriefcaseVote(teamID, ballotID, ballotOptionID);
+            }
+        }
     }
 
     public void ActivePlayerDonates(string teamID)
@@ -370,8 +430,10 @@ public class GameManager : MonoBehaviour
         int getRemaining = _teams[teamID]._donationNeeded;
         int getMaxHealth = _teams[teamID]._teamMaxHealth;
         int getHealth = _teams[teamID]._teamHealth;
+        int getSparks = _activePlayer._sparkPoints;
 
         _uiMgr._baseUI["infoBar"].GetComponent<InfoBar>().SetActionsText(getActions);
+        _uiMgr._baseUI["infoBar"].GetComponent<InfoBar>().SetSparksText(getSparks);
         _uiMgr._avatarsUI[teamID].GetComponent<TeamAvatar>().SetCTAText(getRemaining);
         _uiMgr._avatarsUI[teamID].GetComponent<TeamAvatar>().SetHealthBar(getMaxHealth, getHealth);
         _uiMgr._teamProfilePopupsUI[teamID].GetComponent<TeamProfilePopup>().SetCTAText(getRemaining);
@@ -391,9 +453,10 @@ public class GameManager : MonoBehaviour
         _uiMgr._teamProfilePopupsUI[teamID].GetComponent<TeamProfilePopup>().SetHealthBar(getMaxHealth, getHealth);
     }
 
-    public void ActivePlayerJoinsFanClub(string id)
+    public void ActivePlayerJoinsFanClub(string teamID)
     {
-        //
+        int getActions = _activePlayer._actionPoints;
+        _uiMgr._baseUI["infoBar"].GetComponent<InfoBar>().SetActionsText(getActions);
     }
 
     public void BotJoinsFanClub(string id)
@@ -403,7 +466,10 @@ public class GameManager : MonoBehaviour
 
     public void ActivePlayerUpgradesRelationship(string teamID, string upgradeID)
     {
-        //
+        int getActions = _activePlayer._actionPoints;
+        
+        _uiMgr._baseUI["infoBar"].GetComponent<InfoBar>().SetActionsText(getActions);
+        _uiMgr._teamProfilePopupsUI[teamID].GetComponent<TeamProfilePopup>().SetUpgradeButtonStatuses();
     }
 
     public void BotUpgradesRelationship(string teamID, string upgradeID)
@@ -421,9 +487,11 @@ public class GameManager : MonoBehaviour
         //
     }
 
-    public void ActivePlayerBriefcaseVote(string teamID, string ballotID, string choiceID)
+    public void ActivePlayerBriefcaseVote(string teamID, string ballotID, string optionID, int count)
     {
-        //
+        int getSparks = _activePlayer._sparkPoints;
+        _uiMgr.UpdateBriefcaseOption(teamID, ballotID, optionID, count);
+        _uiMgr._baseUI["infoBar"].GetComponent<InfoBar>().SetSparksText(getSparks);
     }
 
     public void BotBriefcaseVote(string teamID, string ballotID, string choiceID)
@@ -431,56 +499,10 @@ public class GameManager : MonoBehaviour
         //
     }
 
-    public void BuyUpgrade(string playerID, string teamID, string upgradeID)
-    {
-        UpgradeDef upgrade = _teams[teamID]._teamUpgrades.FirstOrDefault(p => p._upgradeID == upgradeID);
-        Player player = _players[playerID];
-
-        if (upgrade == null) return;
-        if (player._actionPoints - upgrade._upgradeCost < 0) return;
-        if (upgrade._requiresUpgrade && upgrade._requiredUpgradeID == upgradeID)
-        {
-            if (player.CheckTeamUpgrade(teamID, upgradeID) == false) return;
-        }
-
-        // if passed all checks
-        player.SpendActionPoints(upgrade._upgradeCost);
-        player.GainTeamUpgrade(teamID, upgradeID);
-        upgrade.GetUpgrade();
-    }
-
     public void ActivePlayerUpgrade(string teamID, string upgradeID)
     {
-        BuyUpgrade(_activePlayer._playerID, teamID, upgradeID);
+        SpendActionOnUpgradingTeam(_activePlayer._playerID, teamID, upgradeID);
         _uiMgr.UpdateTeamProfilePopup(teamID);
-    }
-
-    public void SetUpgradeStatus(string playerID, string teamID, string upgradeID)
-    {
-        UpgradeDef upgradeDef = _teams[teamID]._teamUpgrades.FirstOrDefault(p => p._upgradeID == upgradeID);
-        Player player = _players[playerID];
-        if (upgradeDef._requiresUpgrade)
-        {
-            if(player.CheckTeamUpgrade(teamID, upgradeDef._requiredUpgradeID))
-            {
-                if (!upgradeDef._acquired)
-                {
-                    upgradeDef.UnlockUpgrade();
-                }
-                else
-                {
-                    upgradeDef.GetUpgrade();
-                }
-            }
-            else
-            {
-                upgradeDef.LockUpgrade();
-            }
-
-        }
-        upgradeDef.UnlockUpgrade();
-
-        _uiMgr.UpdateUpgrade(teamID, upgradeID);
     }
 
     public void GainDays(int value)
@@ -569,6 +591,16 @@ public class GameManager : MonoBehaviour
         return loserIDs;
     }
 
+    public void UnlockRoundDependantElements()
+    {
+        //_uiMgr.
+    }
+
+    public void UnlockDayDependantElements()
+    {
+        //_uiMgr.UnlockBriefcaseBasedOnDay(_currentDay);
+    }
+
     //***************************************************************************
     //state delegate definitions
     //***************************************************************************
@@ -583,7 +615,7 @@ public class GameManager : MonoBehaviour
     {
         print("New Day");
         GainDays(1);
-
+        UnlockDayDependantElements();
         //ui
         _uiMgr._baseUI["infoBar"].GetComponent<InfoBar>().SetDaysText(_currentDay);
 
@@ -595,6 +627,7 @@ public class GameManager : MonoBehaviour
         print("New Round");
         GainRounds(1);
         SetTeamsMaxHealthPerPlayerCountPerRound(); // todo: could be put into new day at this stage?
+        UnlockRoundDependantElements();
         ResetPlayersActionPoints();
         _pbMgr.BotsPerformActions();
         //ui

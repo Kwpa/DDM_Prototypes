@@ -58,15 +58,10 @@ public class Player
         UpdatePlayer(teams);
     }
 
-    public void GainTeamUpgrade(string _teamID, string _upgradeID)
+    public bool CheckTeamUpgrade(string teamID, string upgradeID)
     {
-        _playerToTeamData[_teamID]._acquiredUpgrades.Add(_upgradeID);
-    }
-
-    public bool CheckTeamUpgrade(string _teamID, string _upgradeID)
-    {
-        List<string> upgrades = _playerToTeamData[_teamID]._acquiredUpgrades;
-        return upgrades.Contains(_upgradeID); 
+        List<string> upgrades = _playerToTeamData[teamID]._acquiredUpgrades;
+        return upgrades.Contains(upgradeID); 
     }
 
     public void SetBaseActionPoints(int value)
@@ -118,9 +113,25 @@ public class Player
         _playerToTeamData[teamID]._playerIsInFanClub = true;
     }
 
-    public void UpgradeTeamRelationship(string teamID, string upgradeID)
+    public void GainTeamUpgrade(string teamID, UpgradeDef upgrade)
     {
-        _playerToTeamData[teamID]._acquiredUpgrades.Add(upgradeID);
+        _playerToTeamData[teamID]._acquiredUpgrades.Add(upgrade._upgradeID);
+        switch (upgrade._upgradeType)
+        {
+            case UpgradeType.MaxHealth:
+                //_playerToTeamData[teamID]._sparkRewardBonus += upgrade._upgradeBonus;
+                break;
+            case UpgradeType.SparkBonus:
+                _playerToTeamData[teamID]._sparkRewardBonus += upgrade._upgradeBonus;
+                break;
+        }
+    }
+
+    public int GainSparksFromTeam(string teamID, int baseReward)
+    {
+        int amount = baseReward + _playerToTeamData[teamID]._sparkRewardBonus;
+        GainSparkPoints(amount);
+        return amount;
     }
 }
 
@@ -136,14 +147,58 @@ public class PlayerToTeamData
     public int _donationFactor = 1;
     public int _teamDonationAmount = 1;
     public bool _playerIsInFanClub = false;
+    public int _sparkRewardBonus = 0;
     public List<string> _acquiredUpgrades;
     public List<string> _acquiredStoryReveals;
     public int _botLikeDislike = 0;
+    public List<BallotContribution> _ballotContributions; 
 
     public PlayerToTeamData(string id)
     {
         _acquiredUpgrades = new List<string>();
         _acquiredStoryReveals = new List<string>();
+        _ballotContributions = new List<BallotContribution>();
         _teamID = id;
+    }
+
+    public void AddBallotContribution(string ballotID, string ballotOptionID, int voteContribution)
+    {
+        BallotContribution contribution = new BallotContribution(ballotID, ballotOptionID);
+        contribution._playerVoteTotal += voteContribution;
+        contribution._playerVoteTotal = Mathf.Clamp(contribution._playerVoteTotal, 0, 1000000000);
+        _ballotContributions.Add(contribution);
+    }
+
+    public void UpdateBallotContribution(string ballotID, string ballotOptionID, int voteContribution)
+    {
+        BallotContribution contribution = _ballotContributions.Find(p => p._ballotID == ballotID && p._ballotOptionID == ballotOptionID);
+        if(contribution != null)
+        {
+            contribution._playerVoteTotal += voteContribution;
+            contribution._playerVoteTotal = Mathf.Clamp(contribution._playerVoteTotal, 0, 1000000000);
+        }
+        else
+        {
+            AddBallotContribution(ballotID, ballotOptionID, voteContribution);
+        }
+    }
+
+    public int GetOptionCurrentContribution(string ballotID, string ballotOptionID)
+    {
+        BallotContribution contribution = _ballotContributions.Find(p => p._ballotID == ballotID && p._ballotOptionID == ballotOptionID);
+        return contribution._playerVoteTotal;
+    }
+}
+
+public class BallotContribution
+{
+    public string _ballotID;
+    public string _ballotOptionID;
+    public int _playerVoteTotal = 0;
+
+    public BallotContribution(string ballotID, string ballotOptionID)
+    {
+        _ballotID = ballotID;
+        _ballotOptionID = ballotOptionID;
     }
 }

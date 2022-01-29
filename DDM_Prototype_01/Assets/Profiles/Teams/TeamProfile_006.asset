@@ -16,6 +16,7 @@ MonoBehaviour:
   _teamName: Fabia and Folkstone
   _teamBio: bio
   _teamDonationAmount: 1
+  _baseSparkRewardAmount: 1
   _teamPersonalityStats:
   - _statID: Stat_001
     _statComparisonValueOne: comp 1
@@ -41,11 +42,19 @@ MonoBehaviour:
   - _upgradeID: Upgrade_001
     _upgradeName: Power Shoes
     _upgradeDescription: Gain more energy!
+    _upgradeType: 1
     _upgradeCost: 1
-    _locked: 0
-    _acquired: 0
+    _upgradeBonus: 1
     _requiresUpgrade: 0
     _requiredUpgradeID: 
+  - _upgradeID: Upgrade_002
+    _upgradeName: Rocket  Shoes
+    _upgradeDescription: Gain more energy!
+    _upgradeType: 1
+    _upgradeCost: 1
+    _upgradeBonus: 1
+    _requiresUpgrade: 1
+    _requiredUpgradeID: Upgrade_001
   _storyReveals:
   - _storyRevealID: storyrevealID
     _storySectionTitle: Story Reveal
@@ -57,3 +66,4 @@ MonoBehaviour:
     _requiredAchievementID: 
     requiresStoryRevealID: 0
     _requiredStoryRevealID: 
+  _briefcaseBallots: []

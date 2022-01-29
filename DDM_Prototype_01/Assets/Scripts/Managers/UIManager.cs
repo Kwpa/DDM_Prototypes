@@ -154,7 +154,8 @@ public class UIManager : MonoBehaviour
             popup.CreateCards(
                 teamRef._teamPersonalityStats,
                 teamRef._teamUpgrades,
-                teamRef._teamStoryReveals
+                teamRef._teamStoryReveals,
+                teamRef._teamBriefcaseBallots
                 );
         }
     }
@@ -178,7 +179,8 @@ public class UIManager : MonoBehaviour
         popup.SetCards(
             teamRef._teamPersonalityStats,
             teamRef._teamUpgrades,
-            teamRef._teamStoryReveals
+            teamRef._teamStoryReveals,
+            teamRef._teamBriefcaseBallots
             );
     }
 
@@ -262,4 +264,21 @@ public class UIManager : MonoBehaviour
     {
 
     }
+
+    public void UnlockBriefcaseBasedOnDay(int day)
+    {
+        foreach(KeyValuePair<string, GameObject> kvp in _teamProfilePopupsUI)
+        {
+            kvp.Value.GetComponent<TeamProfilePopup>().UnlockBriefcaseBallot(day);
+        }
+    }
+
+    public void UpdateBriefcaseOption(string teamID, string ballotID, string ballotOptionID, int count)
+    {
+        TeamProfilePopup popup = _teamProfilePopupsUI[teamID].GetComponent<TeamProfilePopup>();
+        BriefcaseBallotElement ballotElement = popup._briefcaseBallots.Find(p => p.GetComponent<BriefcaseBallotElement>()._ballotID == ballotID).GetComponent<BriefcaseBallotElement>();
+        BallotOptionElement ballotOptionElement = ballotElement._optionElements.Find(p => p.GetComponent<BallotOptionElement>()._ballotOptionID == ballotOptionID).GetComponent<BallotOptionElement>();
+        ballotOptionElement.UpdateNumber(count);
+    }
+
 }
