@@ -39,6 +39,7 @@ public class GameManager : MonoBehaviour
 
     public Dictionary<string, Team> _teams;
     public Dictionary<string, Player> _players;
+    [SerializeField]
     public Dictionary<string, BallotDef> _globalBallots;
     public Player _activePlayer;
 
@@ -141,10 +142,10 @@ public class GameManager : MonoBehaviour
             new State<GameStates>(GameStates.Resting, "Resting", RestingEnter, null, RestingUpdate, null));
 
         _fsm.Add(
-            new State<GameStates>(GameStates.EndRound, "EndRound", EndOfRound, null, null, null));
+            new State<GameStates>(GameStates.EndRound, "EndRound", EndOfRoundEnter, null, null, null));
 
         _fsm.Add(
-            new State<GameStates>(GameStates.EndGame, "EndGame", EndOfGame, null, null, null));
+            new State<GameStates>(GameStates.EndGame, "EndGame", EndOfGameEnter, null, null, null));
 
 
         _fsm.SetCurrentState(GameStates.FirstVisit);
@@ -153,6 +154,11 @@ public class GameManager : MonoBehaviour
     //***************************************************************************
     //game functions
     //***************************************************************************
+
+    public void SkipToEndOfRound()
+    {
+        _fsm.SetCurrentState(GameStates.EndRound);
+    }
 
     public void UpdateTime()
     {
@@ -210,8 +216,9 @@ public class GameManager : MonoBehaviour
         _dancingTime = profile._dancingTime;
 
         CreateTeams(profile);
-        _pbMgr.Init();
+        _pbMgr.Init(profile._numberOfBotPlayers);
         CreatePlayers(profile);
+        CreateGlobalBallots(profile);
 
         //temp: set active player
         _activePlayer = _players[profile._activePlayerID];
@@ -262,6 +269,19 @@ public class GameManager : MonoBehaviour
         }
 
         print("created teams");
+    }
+
+    public void CreateGlobalBallots(GameProfile profile)
+    {
+        _globalBallots = new Dictionary<string, BallotDef>();
+        List<BallotDef> globalBallots = profile._globalBallots;
+        foreach (BallotDef gb in globalBallots)
+        {
+            _globalBallots.Add(gb._ballotID, new BallotDef(gb));
+            _uiMgr.SpawnGlobalBallot(gb);
+        }
+
+        print("created ballots");
     }
 
     public void SpendActionOnHealthDonation(string playerID, string teamID)
@@ -324,9 +344,9 @@ public class GameManager : MonoBehaviour
         if (actionPointCheck >= 0 && fanCheck)
         {
             UpgradeDef upgrade = team._teamUpgrades.Find(p => p._upgradeID == upgradeID);
+            team._teamUpgradeLevel++;
             player.SpendActionPoints(upgrade._upgradeCost);
 
-            print(playerID);
             player.GainTeamUpgrade(team._teamID, upgrade);
             
             print("Username: " + player._username + " gained the " + team._teamName + " " + team._teamUpgrades);
@@ -342,30 +362,53 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    public void SpendActionOnNextUpgradeForTeam(string playerID, string teamID)
+    {
+        Player player = _players[playerID];
+        Team team = _teams[teamID];
+        if(team._teamUpgradeLevel + 1 < team._teamUpgrades.Count)
+        {
+            string nextUpgradeID = team._teamUpgrades[team._teamUpgradeLevel + 1]._upgradeID;
+            SpendActionOnUpgradingTeam(playerID, teamID, nextUpgradeID);
+        }
+    }
+
     public void SpendSparksOnGlobalVote(string playerID, string ballotID, string ballotOptionID)
     {
         Player player = _players[playerID];
         int actionPointCheck = player._sparkPoints - 1;
         
-
         if (actionPointCheck >= 0)
         {
+            BallotDef ballot = _globalBallots[ballotID];
+            ballot.IncreaseVote(ballotOptionID);
+
             int sparkCost = 1;
             player.SpendSparkPoints(sparkCost);
-            BallotDef ballot = _globalBallots[ballotID];
-            ballot.SetChosenOption(ballotOptionID);
-            BallotOption option = ballot.GetChosenBallotOption();
-            print("Username: " + player._username + " voted for  " + option._ballotOptionTitle + " in the " + ballot._ballotTitle + " ballot");
+            player.UpdateGlobalBallotContribution(ballotID, ballotOptionID, 1);
+            int voteCount = player.GetOptionCurrentGlobalContribution(ballotID, ballotOptionID);
+            print("Username: " + player._username + " voted for  " + ballotOptionID + " in the " + ballot._ballotTitle + " ballot");
 
             if (playerID == _activePlayer._playerID)
             {
-                ActivePlayerGlobalVote(playerID, ballotID, option._ballotOptionID);
+                ActivePlayerGlobalVote(ballotID, ballotOptionID, voteCount);
             }
             else
             {
-                BotGlobalVote(playerID, ballotID, option._ballotOptionID);
+                BotGlobalVote(playerID, ballotID, ballotOptionID);
             }
         }
+    }
+
+    public void SpendSparksOnCurrentGlobalVote(string playerID)
+    {
+        BallotDef ballot = _globalBallots.FirstOrDefault(p=>p.Value._dayActive == _currentDay).Value;
+        string ballotID = ballot._ballotID;
+        var rand = new System.Random();
+        int randIndex = rand.Next(0, ballot._ballotOptions.Count);
+        string randomBallotOptionID = ballot._ballotOptions[randIndex]._ballotOptionID;
+
+        SpendSparksOnGlobalVote(playerID, ballotID, randomBallotOptionID);
     }
 
     public void SpendSparksOnBriefcaseVote(string playerID, string teamID, string ballotID, string ballotOptionID)
@@ -376,6 +419,9 @@ public class GameManager : MonoBehaviour
 
         if (sparkCheck >= 0)
         {
+            BallotDef ballot = team._teamBriefcaseBallots.Find(p => p._ballotID == ballotID);
+            ballot.IncreaseVote(ballotOptionID);
+
             int sparkCost = 1;
             player.SpendSparkPoints(sparkCost);
             player._playerToTeamData[teamID].UpdateBallotContribution(ballotID, ballotOptionID, 1);
@@ -399,6 +445,18 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    public void SpendSparksOnCurrentBriefcaseVote(string playerID, string teamID)
+    {
+        Team team = _teams[teamID];
+        BallotDef ballot = team._teamBriefcaseBallots[_currentDay - 1];
+        string ballotID = ballot._ballotID;
+        var rand = new System.Random();
+        int randIndex = rand.Next(0, ballot._ballotOptions.Count);
+        string randomBallotOptionID = ballot._ballotOptions[randIndex]._ballotOptionID;
+
+        SpendSparksOnBriefcaseVote(playerID, teamID, ballotID, randomBallotOptionID);
+    }
+
     public void RefundSparksOnBriefcaseVote(string playerID, string teamID, string ballotID, string ballotOptionID)
     {
         Player player = _players[playerID];
@@ -407,6 +465,9 @@ public class GameManager : MonoBehaviour
 
         if (sparkCheck > 0)
         {
+            BallotDef ballot = team._teamBriefcaseBallots.Find(p => p._ballotID == ballotID);
+            ballot.DecreaseVote(ballotOptionID);
+
             int sparkRefund = 1;
             player._playerToTeamData[teamID].UpdateBallotContribution(ballotID, ballotOptionID, -1);
             player.GainSparkPoints(sparkRefund);
@@ -421,6 +482,34 @@ public class GameManager : MonoBehaviour
             else
             {
                 BotBriefcaseVote(teamID, ballotID, ballotOptionID);
+            }
+        }
+    }
+
+    public void RefundSparksOnGlobalVote(string playerID, string ballotID, string ballotOptionID)
+    {
+        Player player = _players[playerID];
+        int sparkCheck = player.GetOptionCurrentGlobalContribution(ballotID, ballotOptionID);
+
+        if (sparkCheck > 0)
+        {
+            BallotDef ballot = _globalBallots[ballotID];
+            ballot.DecreaseVote(ballotOptionID);
+
+            int sparkRefund = 1;
+            player.UpdateGlobalBallotContribution(ballotID, ballotOptionID, -1);
+            player.GainSparkPoints(sparkRefund);
+            int voteCount = player.GetOptionCurrentGlobalContribution(ballotID, ballotOptionID);
+
+            print("Username: " + player._username + " removed a vote for " + ballotOptionID + " glboal vote");
+
+            if (playerID == _activePlayer._playerID)
+            {
+                ActivePlayerGlobalVote(ballotID, ballotOptionID, voteCount);
+            }
+            else
+            {
+                BotBriefcaseVote(playerID, ballotID, ballotOptionID);
             }
         }
     }
@@ -460,6 +549,7 @@ public class GameManager : MonoBehaviour
         int getActions = _activePlayer._actionPoints;
         _uiMgr._baseUI["infoBar"].GetComponent<InfoBar>().SetActionsText(getActions);
         _uiMgr._avatarsUI[teamID].GetComponent<TeamAvatar>().JoinFanClub();
+        _uiMgr._teamProfilePopupsUI[teamID].GetComponent<TeamProfilePopup>().JoinFanClub();
     }
 
     public void BotJoinsFanClub(string id)
@@ -474,6 +564,7 @@ public class GameManager : MonoBehaviour
         _uiMgr._baseUI["infoBar"].GetComponent<InfoBar>().SetActionsText(getActions);
         _uiMgr._teamProfilePopupsUI[teamID].GetComponent<TeamProfilePopup>().SetUpgradeButtonStatuses();
         _uiMgr._avatarsUI[teamID].GetComponent<TeamAvatar>().UpgradeLevelIncrease();
+        _uiMgr._teamProfilePopupsUI[teamID].GetComponent<TeamProfilePopup>().UpgradeLevelIncrease();
     }
 
     public void BotUpgradesRelationship(string teamID, string upgradeID)
@@ -481,9 +572,11 @@ public class GameManager : MonoBehaviour
         //
     }
 
-    public void ActivePlayerGlobalVote(string playerID, string ballotID, string choiceID)
+    public void ActivePlayerGlobalVote(string ballotID, string optionID, int count)
     {
-        //
+        int getSparks = _activePlayer._sparkPoints;
+        _uiMgr.UpdateGlobalBallotOption(ballotID, optionID, count);
+        _uiMgr._baseUI["infoBar"].GetComponent<InfoBar>().SetSparksText(getSparks);
     }
 
     public void BotGlobalVote(string playerID, string ballotID, string choiceID)
@@ -605,6 +698,24 @@ public class GameManager : MonoBehaviour
     public void UnlockDayDependantElements()
     {
         _uiMgr.UnlockBriefcaseBasedOnDay(_currentDay);
+        _uiMgr.UnlockGlobalBallotBasedOnDay(_currentDay);
+    }
+
+    public void EvaluateVotes(int day)
+    {
+        BallotDef globalBallot = _globalBallots.FirstOrDefault(p => p.Value._dayActive == _currentDay).Value;
+        int winnerIndexGlobal = globalBallot.EvaluateBallot();
+        List<int> globalBallotScores = globalBallot.GetFinalVoteAmounts();
+        _uiMgr.EvaluateGlobalBallotUI(globalBallot._ballotID, winnerIndexGlobal, globalBallotScores);
+
+        foreach (KeyValuePair<string, Team> kvp in _teams)
+        {
+            Team team = kvp.Value;
+            BallotDef briefcaseBallot = team._teamBriefcaseBallots[day - 1];
+            int winnerIndexBriefcase = briefcaseBallot.EvaluateBallot();
+            List<int> briefcaseBallotScores = globalBallot.GetFinalVoteAmounts();
+            _uiMgr.EvalauteBriefcaseBallotUI(team._teamID, briefcaseBallot._ballotID, winnerIndexBriefcase, briefcaseBallotScores);
+        }
     }
 
     //***************************************************************************
@@ -679,10 +790,11 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public void EndOfRound()
+    public void EndOfRoundEnter()
     {
         print("EndOfRound");
         KickLosingTeams();
+        EvaluateVotes(_currentDay);
         //_uiMgr.ShowEndOfRoundPopup();
 
         if (_currentRound >= _roundsPerDay)
@@ -702,7 +814,7 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public void EndOfGame()
+    public void EndOfGameEnter()
     {
         print("EndOfGame");
     }

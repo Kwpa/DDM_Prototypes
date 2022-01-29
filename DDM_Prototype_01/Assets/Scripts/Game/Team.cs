@@ -22,6 +22,7 @@ public class Team
     public GameObject _assignedAvatar;
     public GameObject _assignedProfilePopup;
     public int _donationNeeded = 0;
+    public int _teamUpgradeLevel = -1;
 
     public bool _outOfCompetition = false;
 
@@ -149,6 +150,7 @@ public class UpgradeDef
 
     public bool _requiresUpgrade = false;
     public string _requiredUpgradeID;
+    public bool _acquired = false;
 }
 
 [System.Serializable]

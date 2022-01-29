@@ -40,21 +40,85 @@ MonoBehaviour:
     _statComparisonValueTwo: comp 2
   _teamUpgrades:
   - _upgradeID: Upgrade_001
-    _upgradeName: Power Shoes
-    _upgradeDescription: Gain more energy!
+    _upgradeName: SPARK BUFF 1
+    _upgradeDescription: +1 spark per donation
     _upgradeType: 1
     _upgradeCost: 1
     _upgradeBonus: 1
     _requiresUpgrade: 0
     _requiredUpgradeID: 
   - _upgradeID: Upgrade_002
-    _upgradeName: Rocket  Shoes
-    _upgradeDescription: Gain more energy!
+    _upgradeName: SPARK BUFF 2
+    _upgradeDescription: +2 spark per donation
     _upgradeType: 1
     _upgradeCost: 1
     _upgradeBonus: 1
     _requiresUpgrade: 1
     _requiredUpgradeID: Upgrade_001
+  - _upgradeID: Upgrade_003
+    _upgradeName: SPARK BUFF 3
+    _upgradeDescription: +3 spark per donation
+    _upgradeType: 1
+    _upgradeCost: 1
+    _upgradeBonus: 1
+    _requiresUpgrade: 1
+    _requiredUpgradeID: Upgrade_002
+  - _upgradeID: Upgrade_004
+    _upgradeName: SPARK BUFF 4
+    _upgradeDescription: +4 spark per donation
+    _upgradeType: 1
+    _upgradeCost: 1
+    _upgradeBonus: 1
+    _requiresUpgrade: 1
+    _requiredUpgradeID: Upgrade_003
+  - _upgradeID: Upgrade_005
+    _upgradeName: SPARK BUFF 5
+    _upgradeDescription: +5 spark per donation
+    _upgradeType: 1
+    _upgradeCost: 1
+    _upgradeBonus: 1
+    _requiresUpgrade: 1
+    _requiredUpgradeID: Upgrade_004
+  - _upgradeID: Upgrade_006
+    _upgradeName: SPARK BUFF 6
+    _upgradeDescription: +6 spark per donation
+    _upgradeType: 1
+    _upgradeCost: 1
+    _upgradeBonus: 1
+    _requiresUpgrade: 1
+    _requiredUpgradeID: Upgrade_005
+  - _upgradeID: Upgrade_007
+    _upgradeName: SPARK BUFF 7
+    _upgradeDescription: +7 spark per donation
+    _upgradeType: 1
+    _upgradeCost: 1
+    _upgradeBonus: 1
+    _requiresUpgrade: 1
+    _requiredUpgradeID: Upgrade_006
+  - _upgradeID: Upgrade_008
+    _upgradeName: SPARK BUFF 8
+    _upgradeDescription: +8 spark per donation
+    _upgradeType: 1
+    _upgradeCost: 1
+    _upgradeBonus: 1
+    _requiresUpgrade: 1
+    _requiredUpgradeID: Upgrade_007
+  - _upgradeID: Upgrade_009
+    _upgradeName: SPARK BUFF 9
+    _upgradeDescription: +9 spark per donation
+    _upgradeType: 1
+    _upgradeCost: 1
+    _upgradeBonus: 1
+    _requiresUpgrade: 1
+    _requiredUpgradeID: Upgrade_008
+  - _upgradeID: Upgrade_010
+    _upgradeName: SPARK BUFF MAX
+    _upgradeDescription: +10 spark per donation
+    _upgradeType: 1
+    _upgradeCost: 1
+    _upgradeBonus: 1
+    _requiresUpgrade: 1
+    _requiredUpgradeID: Upgrade_009
   _storyReveals:
   - _storyRevealID: storyrevealID
     _storySectionTitle: Story Reveal
@@ -98,8 +162,9 @@ MonoBehaviour:
       _unselectedOutcome: 
       _minVotesNeededToBeSelected: 1
       _totalVoteCount: 0
-    _chosenOptionID: 
+    _chosenOptionID: BB_001_0
     _chosenIndex: 0
+    _dayActive: 1
   - _ballotID: BriefcaseBallot_002
     _ballotTitle: Day 2 Briefcase Vote
     _ballotDescription: Which item this time?
@@ -133,6 +198,7 @@ MonoBehaviour:
       _totalVoteCount: 0
     _chosenOptionID: 
     _chosenIndex: 0
+    _dayActive: 2
   - _ballotID: BriefcaseBallot_003
     _ballotTitle: Day 3 Briefcase Vote
     _ballotDescription: Which item this time?
@@ -166,6 +232,7 @@ MonoBehaviour:
       _totalVoteCount: 0
     _chosenOptionID: 
     _chosenIndex: 0
+    _dayActive: 3
   - _ballotID: BriefcaseBallot_004
     _ballotTitle: Day 4 Briefcase Vote
     _ballotDescription: Which item this time?
@@ -199,6 +266,7 @@ MonoBehaviour:
       _totalVoteCount: 0
     _chosenOptionID: 
     _chosenIndex: 0
+    _dayActive: 4
   - _ballotID: BriefcaseBallot_005
     _ballotTitle: Day 5 Briefcase Vote
     _ballotDescription: Which item this time?
@@ -232,3 +300,4 @@ MonoBehaviour:
       _totalVoteCount: 0
     _chosenOptionID: 
     _chosenIndex: 0
+    _dayActive: 5

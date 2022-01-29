@@ -12,6 +12,7 @@ public class Player
     public int _sparkPoints = 0;
     public int _donationFactor = 1;
     public List<PlayerAttribute> _playerAttributes;
+    public List<BallotContribution> _globalBallotContributions;
 
     public Dictionary<string, PlayerToTeamData> _playerToTeamData;
 
@@ -20,6 +21,7 @@ public class Player
         _playerID = id;
         _username = name;
         _baseActionPoints = allocateBaseActionPoints;
+        _globalBallotContributions = new List<BallotContribution>();
         SetupPlayerToTeamData(teamsData);
     }
 
@@ -27,6 +29,7 @@ public class Player
     {
         _playerID = profile._playerID;
         _username = profile._username;
+        _globalBallotContributions = new List<BallotContribution>();
         SetupPlayerToTeamData(teamsData);
     }
 
@@ -132,6 +135,36 @@ public class Player
         GainSparkPoints(amount);
         return amount;
     }
+
+
+    public void AddGlobalBallotContribution(string ballotID, string ballotOptionID, int voteContribution)
+    {
+        BallotContribution contribution = new BallotContribution(ballotID, ballotOptionID);
+        contribution._playerVoteTotal += voteContribution;
+        contribution._playerVoteTotal = Mathf.Clamp(contribution._playerVoteTotal, 0, 1000000000);
+        _globalBallotContributions.Add(contribution);
+    }
+
+    public void UpdateGlobalBallotContribution(string ballotID, string ballotOptionID, int voteContribution)
+    {
+        BallotContribution contribution = _globalBallotContributions.Find(p => p._ballotID == ballotID && p._ballotOptionID == ballotOptionID);
+        if (contribution != null)
+        {
+            contribution._playerVoteTotal += voteContribution;
+            contribution._playerVoteTotal = Mathf.Clamp(contribution._playerVoteTotal, 0, 1000000000);
+        }
+        else
+        {
+            AddGlobalBallotContribution(ballotID, ballotOptionID, voteContribution);
+        }
+    }
+
+    public int GetOptionCurrentGlobalContribution(string ballotID, string ballotOptionID)
+    {
+        BallotContribution contribution = _globalBallotContributions.Find(p => p._ballotID == ballotID && p._ballotOptionID == ballotOptionID);
+        return contribution._playerVoteTotal;
+    }
+
 }
 
 public class PlayerAttribute

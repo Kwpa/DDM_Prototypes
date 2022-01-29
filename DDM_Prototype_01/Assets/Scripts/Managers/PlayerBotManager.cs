@@ -12,9 +12,10 @@ public class PlayerBotManager : MonoBehaviour
 
     public List<string> _usernames = new List<string>(){ "blantsargue", "instructorcosty", "carpentergillette", "luminouspipeweed", "parsleycautious", "flenchstore", "healthymullins", "rodolphmangoes", "mountmell", "eightyquietly", "risottorustica", "spinolaeeffluvium", "spreadproduct", "fastenguitar", "nairobiforemast", "longaristotelis", "fliskssample", "woodscoop", "residentmay", "reindeerpallograph", "narnishserrirostris", "ochotonafuga", "zoonderkinsscrap", "quaaltaghthumbsdown", "salfordeuropaeus", "felinetotalus", "covetloxahatchee", "pipchinadmired", "beepybaryphyma", "impossiblemoria", "toucancroe", "housewoots", "junkyixobrychus", "jarenhay", "atroflavahassel", "nitrogenlinhope", "egfordgadolinium", "travelermatutolypea", "bothlongifolia", "howickdodgeball", "fizkinaccess", "wootshealth", "sharpcomet", "hornseybreeding", "forgetfulwetsuit", "typicalvehicle", "paludosauncertain", "serpentinefraid", "macrocephalaholy", "biohazardflig", "pourcaring", "soldierclyde", "boreheadtraligill", "motheramalia", "crapulouspocket", "sanguinemecopisthes", "beefimperio", "overworldamon", "reubenpass", "moshgracilis", "enterpriseplunk", "tagespinicola", "spikesplastic", "crapulentcomplex", "pisicrawn", "incurvatumspumps", "majesticfobly", "berserkquiche", "askghast", "wryalvine", "adventillusion", "frequentpriscilla", "dewslitherum", "gorgedzhengzhou", "quiltcarneolutea", "sousaphonepurr", "otherdomesticus", "borealissetaceous", "suitstrudel", "platejukebox", "clipsdolphin", "cardellinahewn", "moneywhispering", "spustairplane", "tavernershimy", "radicalwolverhampton", "norboindiscreet", "bildbeauty", "frugilegusneomycin", "malkinrodge", "quagswagdroning", "koalalipsothrix", "troglodytecreamy", "acaulonherbert", "agilisclooves", "homestoat", "trelawneyjotten", "loyaltymelanoxeros", "vuffinfulgens", "diarsiamocking", "proposeborder", "existencehat", "smuetrounce", "phyteumaalve", "kosingmough", "cellsplume", "arklesamarium", "opossummann", "individualrange", "overallscells", "compressusboatswain", "googlenunney", "vouchgaywood", "weightspair", "griseawhirlwind", "chinebag", "winchesterjamesoniella", "defiantought", "portlandneodymium" };
 
-    public void Init()
+    public void Init(int genSize)
     {
         _gMgr = GameObject.Find("GameManager").GetComponent<GameManager>();
+        _genSize = genSize;
         GeneratePlayers(_genSize);
     }
 
@@ -81,7 +82,7 @@ public class PlayerBotManager : MonoBehaviour
                         {
                             if ((Random.value) < 0.5f)
                             {
-                                _gMgr.SpendActionOnJoiningFanClub(bot._playerID, favTeamID);
+                                _gMgr.SpendActionOnNextUpgradeForTeam(bot._playerID, favTeamID);
                             }
                         }
                         if(_gMgr._teams[favTeamID]._donationNeeded > 0)
@@ -91,6 +92,25 @@ public class PlayerBotManager : MonoBehaviour
                         else
                         {
                             break;
+                        }
+                    }
+                }
+                foreach (KeyValuePair<string, PlayerToTeamData> kvp3 in bot._playerToTeamData.OrderByDescending(p => p.Value._botLikeDislike))
+                {
+                    string favTeamID = kvp3.Key;
+                    
+                    while (_gMgr._players[bot._playerID]._sparkPoints > 0)
+                    {
+                        if (bot._playerToTeamData[favTeamID]._playerIsInFanClub)
+                        {
+                            if ((Random.value) < 0.5f)
+                            {
+                                _gMgr.SpendSparksOnCurrentBriefcaseVote(bot._playerID, favTeamID);
+                            }
+                        }
+                        if ((Random.value) < 0.5f)
+                        {
+                            _gMgr.SpendSparksOnCurrentGlobalVote(bot._playerID);
                         }
                     }
                 }

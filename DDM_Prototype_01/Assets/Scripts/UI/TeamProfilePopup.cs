@@ -14,6 +14,7 @@ public class TeamProfilePopup : Popup
     public TextMeshProUGUI _bio;
     public Image _iconBackground;
     public Image _icon;
+    public TextMeshProUGUI _upgradeLevelText;
     public List<GameObject> _stats;
     public List<GameObject> _upgrades;
     public List<GameObject> _storyReveals;
@@ -31,6 +32,12 @@ public class TeamProfilePopup : Popup
     public GameObject _upgradePrefab;
     public GameObject _storyRevealPrefab;
     public GameObject _briefcaseBallotPrefab;
+
+    public GameObject _inGamePanel;
+    public GameObject _kickedOutPanel;
+    public GameObject _fanHand;
+    public GameObject _upgradeStar;
+    int _upgradeLevel = 0;
 
     public override void InitPopup()
     {
@@ -245,5 +252,19 @@ public class TeamProfilePopup : Popup
             print("INDEX " + index + _briefcaseBallots.Count);
             _briefcaseBallots[index - 1].GetComponent<BriefcaseBallotElement>().UnlockBallot();
         }
+    }
+
+    public void JoinFanClub()
+    {
+        _fanHand.SetActive(true);
+        iTween.PunchScale(_fanHand.gameObject, new Vector3(1.2f, 1.2f, 1.2f), 1f);
+    }
+
+    public void UpgradeLevelIncrease()
+    {
+        _upgradeStar.SetActive(true);
+        _upgradeLevel++;
+        _upgradeLevelText.text = "+" + (_upgradeLevel).ToString();
+        iTween.PunchScale(_upgradeLevelText.gameObject, new Vector3(1.2f, 1.2f, 1.2f), 1f);
     }
 }

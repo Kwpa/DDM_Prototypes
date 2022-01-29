@@ -7,6 +7,8 @@ public class GameProfile : ScriptableObject
 {
     public List<TeamProfile> _teamProfiles;
     public List<PlayerProfile> _playerProfiles;
+    public List<BallotDef> _globalBallots;
+    public int _numberOfBotPlayers = 1;
     public string _activePlayerID;
     public int _daysPerGame = 5;
     public int _roundsPerDay = 24;

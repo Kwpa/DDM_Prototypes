@@ -21,6 +21,133 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 127d3a3e4c6219049b7b9df6564f0916, type: 2}
   _playerProfiles:
   - {fileID: 11400000, guid: 7eeba9d24de59dd44830d8a106646fc4, type: 2}
+  _globalBallots:
+  - _ballotID: Global_001
+    _ballotTitle: Who is better?
+    _ballotDescription: You decide!
+    _ballotOptions:
+    - _ballotOptionID: G_001_0
+      _ballotID: Global_001
+      _ballotOptionTitle: Dogs
+      _ballotOptionDescription: Woofers rock!
+      _iconID: 
+      _selectedOutcome: 
+      _unselectedOutcome: 
+      _minVotesNeededToBeSelected: 0
+      _totalVoteCount: 10
+    - _ballotOptionID: G_001_1
+      _ballotID: Global_001
+      _ballotOptionTitle: Cats
+      _ballotOptionDescription: Kittens are boss!
+      _iconID: 
+      _selectedOutcome: 
+      _unselectedOutcome: 
+      _minVotesNeededToBeSelected: 0
+      _totalVoteCount: 15
+    _chosenOptionID: G_001_1
+    _chosenIndex: 1
+    _dayActive: 1
+  - _ballotID: Global_002
+    _ballotTitle: Who is better?
+    _ballotDescription: You decide!
+    _ballotOptions:
+    - _ballotOptionID: G_002_0
+      _ballotID: Global_002
+      _ballotOptionTitle: Robots
+      _ballotOptionDescription: 010101001101
+      _iconID: 
+      _selectedOutcome: 
+      _unselectedOutcome: 
+      _minVotesNeededToBeSelected: 0
+      _totalVoteCount: 0
+    - _ballotOptionID: G_002_1
+      _ballotID: Global_002
+      _ballotOptionTitle: Aliens
+      _ballotOptionDescription: Take us to your leader!
+      _iconID: 
+      _selectedOutcome: 
+      _unselectedOutcome: 
+      _minVotesNeededToBeSelected: 0
+      _totalVoteCount: 0
+    _chosenOptionID: 
+    _chosenIndex: 0
+    _dayActive: 2
+  - _ballotID: Global_003
+    _ballotTitle: Who is better?
+    _ballotDescription: You decide!
+    _ballotOptions:
+    - _ballotOptionID: G_003_0
+      _ballotID: Global_003
+      _ballotOptionTitle: Bananas
+      _ballotOptionDescription: Mellow yellow!
+      _iconID: 
+      _selectedOutcome: 
+      _unselectedOutcome: 
+      _minVotesNeededToBeSelected: 0
+      _totalVoteCount: 0
+    - _ballotOptionID: G_003_1
+      _ballotID: Global_003
+      _ballotOptionTitle: Apples
+      _ballotOptionDescription: Cider and more!
+      _iconID: 
+      _selectedOutcome: 
+      _unselectedOutcome: 
+      _minVotesNeededToBeSelected: 0
+      _totalVoteCount: 0
+    _chosenOptionID: 
+    _chosenIndex: 0
+    _dayActive: 3
+  - _ballotID: Global_004
+    _ballotTitle: Who is better?
+    _ballotDescription: You decide!
+    _ballotOptions:
+    - _ballotOptionID: G_004_0
+      _ballotID: Global_004
+      _ballotOptionTitle: Ice Cream
+      _ballotOptionDescription: Cold as ice!
+      _iconID: 
+      _selectedOutcome: 
+      _unselectedOutcome: 
+      _minVotesNeededToBeSelected: 0
+      _totalVoteCount: 0
+    - _ballotOptionID: G_004_1
+      _ballotID: Global_004
+      _ballotOptionTitle: Coffee
+      _ballotOptionDescription: Cuppa joe!
+      _iconID: 
+      _selectedOutcome: 
+      _unselectedOutcome: 
+      _minVotesNeededToBeSelected: 0
+      _totalVoteCount: 0
+    _chosenOptionID: 
+    _chosenIndex: 0
+    _dayActive: 4
+  - _ballotID: Global_005
+    _ballotTitle: Who is better?
+    _ballotDescription: You decide!
+    _ballotOptions:
+    - _ballotOptionID: G_005_0
+      _ballotID: Global_005
+      _ballotOptionTitle: Promoter
+      _ballotOptionDescription: Me, the best!
+      _iconID: 
+      _selectedOutcome: 
+      _unselectedOutcome: 
+      _minVotesNeededToBeSelected: 0
+      _totalVoteCount: 0
+    - _ballotOptionID: G_005_1
+      _ballotID: Global_005
+      _ballotOptionTitle: Promoter
+      _ballotOptionDescription: Still me! So good!
+      _iconID: 
+      _selectedOutcome: 
+      _unselectedOutcome: 
+      _minVotesNeededToBeSelected: 0
+      _totalVoteCount: 0
+    _chosenOptionID: 
+    _chosenIndex: 0
+    _dayActive: 5
+  _numberOfBotPlayers: 1
   _activePlayerID: Player_001
   _daysPerGame: 5
   _roundsPerDay: 1

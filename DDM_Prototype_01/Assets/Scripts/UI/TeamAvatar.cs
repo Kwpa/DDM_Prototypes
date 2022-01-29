@@ -19,7 +19,7 @@ public class TeamAvatar : UIElement
     public GameObject _kickedOutPanel;
     public GameObject _fanHand;
     public GameObject _upgradeStar;
-    int _upgradeLevel = 1;
+    int _upgradeLevel = 0;
 
     public override void Init()
     {

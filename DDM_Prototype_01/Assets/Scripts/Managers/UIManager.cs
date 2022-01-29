@@ -13,6 +13,7 @@ public class UIManager : MonoBehaviour
     public GameObject _broadcasterMessagePrefab;
     public GameObject _avatarPrefab;
     public GameObject _teamProfilePopupPrefab;
+    public GameObject _globalBallotPrefab;
     public Dictionary<string, GameObject> _baseUI;
     public Dictionary<string, GameObject> _avatarsUI;
     public Dictionary<string, GameObject> _messagesUI;
@@ -74,6 +75,11 @@ public class UIManager : MonoBehaviour
         
         
         return avatarGo;
+    }
+
+    public void SpawnGlobalBallot(BallotDef ballot)
+    {
+        _baseUI["votingBooth"].GetComponent<VotingBooth>().CreateGlobalBallot(ballot);
     }
 
     public void UpdateInfoBar()
@@ -297,7 +303,14 @@ public class UIManager : MonoBehaviour
         foreach(KeyValuePair<string, GameObject> kvp in _teamProfilePopupsUI)
         {
             kvp.Value.GetComponent<TeamProfilePopup>().UnlockBriefcaseBallot(day);
+            kvp.Value.GetComponent<TeamProfilePopup>().EndBriefcaseBallot(day);
         }
+    }
+
+    public void UnlockGlobalBallotBasedOnDay(int day)
+    {
+        _baseUI["votingBooth"].GetComponent<VotingBooth>().UnlockBallot(day);
+        _baseUI["votingBooth"].GetComponent<VotingBooth>().EndBallot(day);
     }
 
     public void UpdateBriefcaseOption(string teamID, string ballotID, string ballotOptionID, int count)
@@ -306,6 +319,28 @@ public class UIManager : MonoBehaviour
         BriefcaseBallotElement ballotElement = popup._briefcaseBallots.Find(p => p.GetComponent<BriefcaseBallotElement>()._ballotID == ballotID).GetComponent<BriefcaseBallotElement>();
         BallotOptionElement ballotOptionElement = ballotElement._optionElements.Find(p => p.GetComponent<BallotOptionElement>()._ballotOptionID == ballotOptionID).GetComponent<BallotOptionElement>();
         ballotOptionElement.UpdateNumber(count);
+    }
+
+    public void UpdateGlobalBallotOption(string ballotID, string ballotOptionID, int count)
+    {
+        VotingBooth booth = _baseUI["votingBooth"].GetComponent<VotingBooth>();
+        GlobalBallotElement ballotElement = booth._globalBallotsUI.Find(p => p.GetComponent<GlobalBallotElement>()._ballotID == ballotID).GetComponent<GlobalBallotElement>();
+        BallotOptionElement ballotOptionElement = ballotElement._optionElements.Find(p => p.GetComponent<BallotOptionElement>()._ballotOptionID == ballotOptionID).GetComponent<BallotOptionElement>();
+        ballotOptionElement.UpdateNumber(count);
+    }
+
+    public void EvalauteBriefcaseBallotUI(string teamID, string ballotID, int winnerIndex, List<int> finalScores)
+    {
+        TeamProfilePopup popup = _teamProfilePopupsUI[teamID].GetComponent<TeamProfilePopup>();
+        BriefcaseBallotElement ballotElement = popup._briefcaseBallots.Find(p => p.GetComponent<BriefcaseBallotElement>()._ballotID == ballotID).GetComponent<BriefcaseBallotElement>();
+        ballotElement.SetBallotResult(winnerIndex, finalScores);
+    }
+
+    public void EvaluateGlobalBallotUI(string ballotID, int winnerIndex, List<int> finalScores)
+    {
+        VotingBooth booth = _baseUI["votingBooth"].GetComponent<VotingBooth>();
+        GlobalBallotElement ballotElement = booth._globalBallotsUI.Find(p => p.GetComponent<GlobalBallotElement>()._ballotID == ballotID).GetComponent<GlobalBallotElement>();
+        ballotElement.SetBallotResult(winnerIndex, finalScores);
     }
 
 }
