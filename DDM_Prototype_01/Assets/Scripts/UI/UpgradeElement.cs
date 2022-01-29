@@ -40,7 +40,6 @@ public class UpgradeElement : UIElement
     public void SetUpgradeButton(UpgradeDef upgradeDef)
     {
         List<string> acquiredUpgrades = _gMgr._activePlayer._playerToTeamData[_teamID]._acquiredUpgrades;
-        print("***checkcard! " + acquiredUpgrades.Contains(_upgradeID));
         if (acquiredUpgrades.Contains(_upgradeID))
         {
             AcquiredUpgrade();

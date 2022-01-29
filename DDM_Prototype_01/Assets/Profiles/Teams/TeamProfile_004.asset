@@ -66,4 +66,169 @@ MonoBehaviour:
     _requiredAchievementID: 
     requiresStoryRevealID: 0
     _requiredStoryRevealID: 
-  _briefcaseBallots: []
+  _briefcaseBallots:
+  - _ballotID: BriefcaseBallot_001
+    _ballotTitle: Day 1 Briefcase Vote
+    _ballotDescription: Which item this time?
+    _ballotOptions:
+    - _ballotOptionID: BB_001_0
+      _ballotID: BriefcaseBallot_001
+      _ballotOptionTitle: Ring of War
+      _ballotOptionDescription: A powerful artifact
+      _iconID: 
+      _selectedOutcome: 
+      _unselectedOutcome: 
+      _minVotesNeededToBeSelected: 1
+      _totalVoteCount: 0
+    - _ballotOptionID: BB_001_1
+      _ballotID: BriefcaseBallot_001
+      _ballotOptionTitle: Needle of Hope
+      _ballotOptionDescription: A glimmer in the night
+      _iconID: 
+      _selectedOutcome: 
+      _unselectedOutcome: 
+      _minVotesNeededToBeSelected: 1
+      _totalVoteCount: 0
+    - _ballotOptionID: BB_001_2
+      _ballotID: BriefcaseBallot_001
+      _ballotOptionTitle: Bell of Jesters
+      _ballotOptionDescription: A fops plaything
+      _iconID: 
+      _selectedOutcome: 
+      _unselectedOutcome: 
+      _minVotesNeededToBeSelected: 1
+      _totalVoteCount: 0
+    _chosenOptionID: 
+    _chosenIndex: 0
+  - _ballotID: BriefcaseBallot_002
+    _ballotTitle: Day 2 Briefcase Vote
+    _ballotDescription: Which item this time?
+    _ballotOptions:
+    - _ballotOptionID: BB_002_0
+      _ballotID: BriefcaseBallot_002
+      _ballotOptionTitle: Ring of War
+      _ballotOptionDescription: A powerful artifact
+      _iconID: 
+      _selectedOutcome: 
+      _unselectedOutcome: 
+      _minVotesNeededToBeSelected: 1
+      _totalVoteCount: 0
+    - _ballotOptionID: BB_002_1
+      _ballotID: BriefcaseBallot_002
+      _ballotOptionTitle: Needle of Hope
+      _ballotOptionDescription: A glimmer in the night
+      _iconID: 
+      _selectedOutcome: 
+      _unselectedOutcome: 
+      _minVotesNeededToBeSelected: 1
+      _totalVoteCount: 0
+    - _ballotOptionID: BB_002_2
+      _ballotID: BriefcaseBallot_002
+      _ballotOptionTitle: Bell of Jesters
+      _ballotOptionDescription: A fops plaything
+      _iconID: 
+      _selectedOutcome: 
+      _unselectedOutcome: 
+      _minVotesNeededToBeSelected: 1
+      _totalVoteCount: 0
+    _chosenOptionID: 
+    _chosenIndex: 0
+  - _ballotID: BriefcaseBallot_003
+    _ballotTitle: Day 3 Briefcase Vote
+    _ballotDescription: Which item this time?
+    _ballotOptions:
+    - _ballotOptionID: BB_003_0
+      _ballotID: BriefcaseBallot_003
+      _ballotOptionTitle: Ring of War
+      _ballotOptionDescription: A powerful artifact
+      _iconID: 
+      _selectedOutcome: 
+      _unselectedOutcome: 
+      _minVotesNeededToBeSelected: 1
+      _totalVoteCount: 0
+    - _ballotOptionID: BB_003_1
+      _ballotID: BriefcaseBallot_003
+      _ballotOptionTitle: Needle of Hope
+      _ballotOptionDescription: A glimmer in the night
+      _iconID: 
+      _selectedOutcome: 
+      _unselectedOutcome: 
+      _minVotesNeededToBeSelected: 1
+      _totalVoteCount: 0
+    - _ballotOptionID: BB_003_2
+      _ballotID: BriefcaseBallot_003
+      _ballotOptionTitle: Bell of Jesters
+      _ballotOptionDescription: A fops plaything
+      _iconID: 
+      _selectedOutcome: 
+      _unselectedOutcome: 
+      _minVotesNeededToBeSelected: 1
+      _totalVoteCount: 0
+    _chosenOptionID: 
+    _chosenIndex: 0
+  - _ballotID: BriefcaseBallot_004
+    _ballotTitle: Day 4 Briefcase Vote
+    _ballotDescription: Which item this time?
+    _ballotOptions:
+    - _ballotOptionID: BB_004_0
+      _ballotID: BriefcaseBallot_004
+      _ballotOptionTitle: Ring of War
+      _ballotOptionDescription: A powerful artifact
+      _iconID: 
+      _selectedOutcome: 
+      _unselectedOutcome: 
+      _minVotesNeededToBeSelected: 1
+      _totalVoteCount: 0
+    - _ballotOptionID: BB_004_1
+      _ballotID: BriefcaseBallot_004
+      _ballotOptionTitle: Needle of Hope
+      _ballotOptionDescription: A glimmer in the night
+      _iconID: 
+      _selectedOutcome: 
+      _unselectedOutcome: 
+      _minVotesNeededToBeSelected: 1
+      _totalVoteCount: 0
+    - _ballotOptionID: BB_004_2
+      _ballotID: BriefcaseBallot_004
+      _ballotOptionTitle: Bell of Jesters
+      _ballotOptionDescription: A fops plaything
+      _iconID: 
+      _selectedOutcome: 
+      _unselectedOutcome: 
+      _minVotesNeededToBeSelected: 1
+      _totalVoteCount: 0
+    _chosenOptionID: 
+    _chosenIndex: 0
+  - _ballotID: BriefcaseBallot_005
+    _ballotTitle: Day 5 Briefcase Vote
+    _ballotDescription: Which item this time?
+    _ballotOptions:
+    - _ballotOptionID: BB_005_0
+      _ballotID: BriefcaseBallot_005
+      _ballotOptionTitle: Ring of War
+      _ballotOptionDescription: A powerful artifact
+      _iconID: 
+      _selectedOutcome: 
+      _unselectedOutcome: 
+      _minVotesNeededToBeSelected: 1
+      _totalVoteCount: 0
+    - _ballotOptionID: BB_005_1
+      _ballotID: BriefcaseBallot_005
+      _ballotOptionTitle: Needle of Hope
+      _ballotOptionDescription: A glimmer in the night
+      _iconID: 
+      _selectedOutcome: 
+      _unselectedOutcome: 
+      _minVotesNeededToBeSelected: 1
+      _totalVoteCount: 0
+    - _ballotOptionID: BB_005_2
+      _ballotID: BriefcaseBallot_005
+      _ballotOptionTitle: Bell of Jesters
+      _ballotOptionDescription: A fops plaything
+      _iconID: 
+      _selectedOutcome: 
+      _unselectedOutcome: 
+      _minVotesNeededToBeSelected: 1
+      _totalVoteCount: 0
+    _chosenOptionID: 
+    _chosenIndex: 0

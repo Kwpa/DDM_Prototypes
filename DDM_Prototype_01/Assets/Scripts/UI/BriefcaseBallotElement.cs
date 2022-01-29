@@ -20,11 +20,11 @@ public class BriefcaseBallotElement : UIElement
     public GameObject _optionsParent;
     public List<GameObject> _optionElements;
 
-    
 
     public override void Init()
     {
         InitBase();
+        LockBallot();
     }
 
     public void SetBriefcaseBallotElement(string ballotID, string teamID, string name, string description, List<BallotOption> options)

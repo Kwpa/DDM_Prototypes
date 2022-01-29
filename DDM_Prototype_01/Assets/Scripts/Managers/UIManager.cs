@@ -57,7 +57,7 @@ public class UIManager : MonoBehaviour
 
         TeamProfilePopup popup = popupGo.GetComponent<TeamProfilePopup>();
         popup._teamID = team._teamID;
-        popup.InitBase();
+        popup.InitPopup();
         _teamProfilePopupsUI.Add(team._teamID, popupGo);
         
         return popupGo;
@@ -160,6 +160,33 @@ public class UIManager : MonoBehaviour
         }
     }
 
+    public void UpdateTeamProfilePopups()
+    {
+        foreach (KeyValuePair<string, GameObject> kvp in _teamProfilePopupsUI)
+        {
+            TeamProfilePopup popup = kvp.Value.GetComponent<TeamProfilePopup>();
+            Team teamRef = _gMgr._teams[popup._teamID];
+            PlayerToTeamData data = _gMgr._activePlayer._playerToTeamData[popup._teamID];
+
+            popup.SetValues(
+                teamRef._teamName,
+                teamRef._donationNeeded,
+                teamRef._teamBio,
+                teamRef._teamMaxHealth,
+                teamRef._teamHealth,
+                data._playerIsInFanClub,
+                teamRef._outOfCompetition
+                );
+
+            popup.SetCards(
+                teamRef._teamPersonalityStats,
+                teamRef._teamUpgrades,
+                teamRef._teamStoryReveals,
+                teamRef._teamBriefcaseBallots
+                );
+        }
+    }
+
     public void UpdateTeamProfilePopup(string teamID)
     {
         TeamProfilePopup popup = _teamProfilePopupsUI[teamID].GetComponent<TeamProfilePopup>();
@@ -195,7 +222,7 @@ public class UIManager : MonoBehaviour
     {
         UpdateInfoBar();
         UpdateAvatars();
-        SetTeamProfilePopups();
+        UpdateTeamProfilePopups();
 
         if (_baseUI != null && _baseUI.Count > 0)
         foreach (KeyValuePair<string,GameObject> entry in _baseUI)

@@ -35,10 +35,8 @@ public class PlayerBotManager : MonoBehaviour
             foreach (KeyValuePair<string, PlayerToTeamData> kvp in dict)
             {
                 player._playerToTeamData.Add(kvp.Key, kvp.Value);
-                print(kvp.Value._botLikeDislike);
             }
             _generatedPlayers.Add(player);
-            print("created :" + player._username);
         }
     }
 
@@ -108,7 +106,6 @@ public class PlayerBotManager : MonoBehaviour
         {
             PlayerToTeamData pttd = kvp.Value;
             pttd._botLikeDislike = Random.Range(0, 10);
-            print(" likedislike " + pttd._botLikeDislike);
             _dict.Add(kvp.Key, pttd);
         }
         return _dict;

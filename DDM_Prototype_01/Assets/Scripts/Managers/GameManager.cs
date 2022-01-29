@@ -84,12 +84,12 @@ public class GameManager : MonoBehaviour
         //ui
         _uiMgr.UpdateUI();
 
-        //set update to active
-        _activeUpdate = true;
-
         //time
         _timeSpan = new System.TimeSpan(0, 0, 0, 0);
         _startTime = DateTime.UtcNow;
+
+        //set update to active
+        _activeUpdate = true;
     }
 
     void Update()
@@ -215,6 +215,8 @@ public class GameManager : MonoBehaviour
 
         //temp: set active player
         _activePlayer = _players[profile._activePlayerID];
+
+        _uiMgr.SetTeamProfilePopups();
     }
 
     public void CreatePlayers(GameProfile profile)
@@ -457,6 +459,7 @@ public class GameManager : MonoBehaviour
     {
         int getActions = _activePlayer._actionPoints;
         _uiMgr._baseUI["infoBar"].GetComponent<InfoBar>().SetActionsText(getActions);
+        _uiMgr._avatarsUI[teamID].GetComponent<TeamAvatar>().JoinFanClub();
     }
 
     public void BotJoinsFanClub(string id)
@@ -470,6 +473,7 @@ public class GameManager : MonoBehaviour
         
         _uiMgr._baseUI["infoBar"].GetComponent<InfoBar>().SetActionsText(getActions);
         _uiMgr._teamProfilePopupsUI[teamID].GetComponent<TeamProfilePopup>().SetUpgradeButtonStatuses();
+        _uiMgr._avatarsUI[teamID].GetComponent<TeamAvatar>().UpgradeLevelIncrease();
     }
 
     public void BotUpgradesRelationship(string teamID, string upgradeID)
@@ -561,10 +565,10 @@ public class GameManager : MonoBehaviour
 
     public void KickLosingTeams()
     {
-        foreach(KeyValuePair<string,Team>kvp in _teams)
+
+        foreach (KeyValuePair<string, Team> kvp in _teams.OrderByDescending(p => p.Value._donationNeeded))
         {
             Team team = kvp.Value;
-            print("team - " + team._teamName);
             if(!team._outOfCompetition)
             {
                 team.EvaluateHealth();
@@ -573,7 +577,9 @@ public class GameManager : MonoBehaviour
                     print("Get them out! " + team._teamName);
                     _uiMgr.UpdateAvatar(team._teamID);
                     _uiMgr.UpdateTeamProfilePopup(team._teamID);
+                    return;
                 }
+                
             }
         }
     }
@@ -598,7 +604,7 @@ public class GameManager : MonoBehaviour
 
     public void UnlockDayDependantElements()
     {
-        //_uiMgr.UnlockBriefcaseBasedOnDay(_currentDay);
+        _uiMgr.UnlockBriefcaseBasedOnDay(_currentDay);
     }
 
     //***************************************************************************

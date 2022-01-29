@@ -32,21 +32,29 @@ public class InfoBar : UIElement
     public void SetDaysText(int value)
     {
         _daysText.text = value.ToString();
+
+        iTween.PunchScale(_daysText.gameObject, new Vector3(1.2f, 1.2f, 1.2f), 1f);
     }
 
     public void SetRoundsText(int value)
     {
         _roundsText.text = value.ToString();
+
+        iTween.PunchScale(_roundsText.gameObject, new Vector3(1.2f, 1.2f, 1.2f), 1f);
     }
 
     public void SetActionsText(int value)
     {
         _actionsText.text = value.ToString();
+
+        iTween.PunchScale(_actionsText.gameObject, new Vector3(1.2f, 1.2f, 1.2f), 1f);
     }
 
     public void SetSparksText(int value)
     {
         _sparksText.text = value.ToString();
+
+        iTween.PunchScale(_sparksText.gameObject, new Vector3(1.2f, 1.2f, 1.2f), 1f);
     }
 
     public void SetTimeLeftText(int minutes, int seconds)
@@ -60,7 +68,9 @@ public class InfoBar : UIElement
     {
         if(roundSectionName=="Dancing" || roundSectionName == "Resting")
         {
-            _roundSectionText.text = roundSectionName + " ends in:"; 
+            _roundSectionText.text = roundSectionName + " ends in:";
+
+            iTween.PunchScale(_roundSectionText.gameObject, new Vector3(1.2f, 1.2f, 1.2f), 1f);
         }
     }
 

@@ -54,7 +54,6 @@ public class Player
             Team team = teamVal.Value;
             _playerToTeamData.Add(team._teamID, new PlayerToTeamData(team._teamID));
         }
-        Debug.Log("Player " + _username + " ** " + teams.Count);
         UpdatePlayer(teams);
     }
 

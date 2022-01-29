@@ -6333,12 +6333,20 @@ PrefabInstance:
       value: TeamProfilePopup_V2
       objectReference: {fileID: 0}
     - target: {fileID: 8601021871903870210, guid: 8a66fbb6fd2e14b54a7a30a054fab4ba, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 4661.396
+      objectReference: {fileID: 0}
+    - target: {fileID: 8601021871903870210, guid: 8a66fbb6fd2e14b54a7a30a054fab4ba, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 2200.285
+      value: 2643.953
+      objectReference: {fileID: 0}
+    - target: {fileID: 8601021871903870210, guid: 8a66fbb6fd2e14b54a7a30a054fab4ba, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8601021871903870210, guid: 8a66fbb6fd2e14b54a7a30a054fab4ba, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -399.857
+      value: -621.691
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8a66fbb6fd2e14b54a7a30a054fab4ba, type: 3}

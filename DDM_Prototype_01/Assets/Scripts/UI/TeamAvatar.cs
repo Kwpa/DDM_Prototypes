@@ -10,11 +10,16 @@ public class TeamAvatar : UIElement
     public TextMeshProUGUI _teamNameText;
     public TextMeshProUGUI _callToActionText;
     public TextMeshProUGUI _donateEnergyText;
+    public TextMeshProUGUI _upgradeLevelText;
+
     public Slider _healthBar;
     public Image _iconBackground;
     public Image _icon;
     public GameObject _inGamePanel;
     public GameObject _kickedOutPanel;
+    public GameObject _fanHand;
+    public GameObject _upgradeStar;
+    int _upgradeLevel = 1;
 
     public override void Init()
     {
@@ -70,5 +75,19 @@ public class TeamAvatar : UIElement
     {
         _inGamePanel.SetActive(false);
         _kickedOutPanel.SetActive(true);
+    }
+
+    public void JoinFanClub()
+    {
+        _fanHand.SetActive(true);
+        iTween.PunchScale(_fanHand.gameObject, new Vector3(1.2f, 1.2f, 1.2f), 1f);
+    }
+
+    public void UpgradeLevelIncrease()
+    {
+        _upgradeStar.SetActive(true);
+        _upgradeLevel++;
+        _upgradeLevelText.text = "+" + (_upgradeLevel).ToString();
+        iTween.PunchScale(_upgradeLevelText.gameObject, new Vector3(1.2f, 1.2f, 1.2f), 1f);
     }
 }

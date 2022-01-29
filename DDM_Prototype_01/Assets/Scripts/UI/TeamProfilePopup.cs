@@ -34,6 +34,7 @@ public class TeamProfilePopup : Popup
 
     public override void InitPopup()
     {
+        base.InitBase();
         _stats = new List<GameObject>();
         _upgrades = new List<GameObject>();
         _storyReveals = new List<GameObject>();
@@ -66,7 +67,6 @@ public class TeamProfilePopup : Popup
         {
             CreateStoryReveal(reveal);
         }
-        print("!!! - " + _teamID + "briefcount here ****000" + briefcaseBallots.Count);
         foreach (BallotDef ballot in briefcaseBallots)
         {
             CreateBriefcaseBallot(ballot);
@@ -183,9 +183,12 @@ public class TeamProfilePopup : Popup
 
     public void CreateBriefcaseBallot(BallotDef ballot)
     {
+        print("Create ballot " + ballot._ballotTitle);
         GameObject ballotGo = Instantiate(_briefcaseBallotPrefab, _briefcaseBallotParent.transform);
         ballotGo.GetComponent<BriefcaseBallotElement>().SetBriefcaseBallotElement(ballot, _teamID);
         ballotGo.GetComponent<BriefcaseBallotElement>().CreateOptions();
+        ballotGo.GetComponent<BriefcaseBallotElement>().Init();
+
         _briefcaseBallots.Add(ballotGo);
     }
 
@@ -237,7 +240,10 @@ public class TeamProfilePopup : Popup
 
     public void UnlockBriefcaseBallot(int index)
     {
-        print("88888 " + _briefcaseBallots.Count);
-        if(index-1 >= 0) _briefcaseBallots[index - 1].GetComponent<BriefcaseBallotElement>().UnlockBallot();
+        if (index - 1 >= 0)
+        {
+            print("INDEX " + index + _briefcaseBallots.Count);
+            _briefcaseBallots[index - 1].GetComponent<BriefcaseBallotElement>().UnlockBallot();
+        }
     }
 }
