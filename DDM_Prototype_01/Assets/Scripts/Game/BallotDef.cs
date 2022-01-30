@@ -15,17 +15,18 @@ public class BallotDef
     public string _chosenOptionID;
     public int _chosenIndex = -1;
 
-    public BallotDef(BallotDef ballotDef)
+    public BallotDef(string ballotID, string ballotTitle, string ballotDescription, List<BallotOption> ballotOptions, int dayActive)
     {
-        _ballotID = ballotDef._ballotID;
-        _ballotTitle = ballotDef._ballotTitle;
-        _ballotDescription = ballotDef._ballotDescription;
+        _ballotID = ballotID;
+        _ballotTitle = ballotTitle;
+        _ballotDescription = ballotDescription;
         _ballotOptions = new List<BallotOption>();
-        foreach(BallotOption option in ballotDef._ballotOptions)
+        foreach(BallotOption option in ballotOptions)
         {
-            _ballotOptions.Add(new BallotOption(option));
+            _ballotOptions.Add(new BallotOption(option._ballotOptionID, option._ballotID, option._ballotOptionTitle, option._ballotOptionDescription, option._iconID, option._minVotesNeededToBeSelected, option._selectedOutcome, option._unselectedOutcome));
+            Debug.Log(option._totalVoteCount);
         }
-        _dayActive = ballotDef._dayActive;
+        _dayActive = dayActive;
     }
 
     public int EvaluateBallot()
@@ -42,6 +43,7 @@ public class BallotDef
         foreach(BallotOption ballotOption in _ballotOptions)
         {
             scores.Add(ballotOption._totalVoteCount);
+            Debug.Log(_ballotID + " " + ballotOption._totalVoteCount);
         }
         return scores;
     }
@@ -93,30 +95,28 @@ public class BallotOption
     public int _minVotesNeededToBeSelected = 1;
     public int _totalVoteCount = 0;
 
-    public BallotOption(BallotOption option)
+    public BallotOption(string ballotOptionID, string ballotID, string ballotOptionTitle, string ballotOptionDescription, string iconID, int minVotesNeededToBeSelected, string selectedOutcome, string unselectedOutcome)
     {
-        _ballotOptionID = option._ballotOptionID;
-        _ballotID = option._ballotID;
-        _ballotOptionTitle = option._ballotOptionTitle;
-        _ballotOptionDescription = option._ballotOptionDescription;
-        _iconID = option._iconID;
-        _selectedOutcome = option._selectedOutcome;
-        _unselectedOutcome = option._unselectedOutcome;
-        _minVotesNeededToBeSelected = option._minVotesNeededToBeSelected;
+        _ballotOptionID = ballotOptionID;
+        _ballotID = ballotID;
+        _ballotOptionTitle = ballotOptionTitle;
+        _ballotOptionDescription = ballotOptionDescription;
+        _iconID = iconID;
+        _selectedOutcome = selectedOutcome;
+        _unselectedOutcome = unselectedOutcome;
+        _minVotesNeededToBeSelected = minVotesNeededToBeSelected;
         _totalVoteCount = 0;
     }
 
     public void IncreaseVote(int amount)
     {
         _totalVoteCount += amount;
-        Debug.Log("TOTAL VOTE VALUE " + _totalVoteCount + " for " + _ballotOptionTitle);
         _totalVoteCount = Mathf.Clamp(_totalVoteCount, 0, 10000000);
     }
 
     public void DecreaseVote(int amount)
     {
         _totalVoteCount -= amount;
-        Debug.Log("TOTAL VOTE VALUE " + _totalVoteCount + " for " + _ballotOptionTitle);
         _totalVoteCount = Mathf.Clamp(_totalVoteCount, 0, 10000000);
     }
 }

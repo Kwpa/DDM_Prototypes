@@ -34,7 +34,7 @@ MonoBehaviour:
       _selectedOutcome: 
       _unselectedOutcome: 
       _minVotesNeededToBeSelected: 0
-      _totalVoteCount: 10
+      _totalVoteCount: 0
     - _ballotOptionID: G_001_1
       _ballotID: Global_001
       _ballotOptionTitle: Cats
@@ -43,10 +43,10 @@ MonoBehaviour:
       _selectedOutcome: 
       _unselectedOutcome: 
       _minVotesNeededToBeSelected: 0
-      _totalVoteCount: 15
+      _totalVoteCount: 0
+    _dayActive: 1
     _chosenOptionID: G_001_1
     _chosenIndex: 1
-    _dayActive: 1
   - _ballotID: Global_002
     _ballotTitle: Who is better?
     _ballotDescription: You decide!
@@ -69,9 +69,9 @@ MonoBehaviour:
       _unselectedOutcome: 
       _minVotesNeededToBeSelected: 0
       _totalVoteCount: 0
-    _chosenOptionID: 
-    _chosenIndex: 0
     _dayActive: 2
+    _chosenOptionID: G_002_0
+    _chosenIndex: 0
   - _ballotID: Global_003
     _ballotTitle: Who is better?
     _ballotDescription: You decide!
@@ -94,9 +94,9 @@ MonoBehaviour:
       _unselectedOutcome: 
       _minVotesNeededToBeSelected: 0
       _totalVoteCount: 0
-    _chosenOptionID: 
-    _chosenIndex: 0
     _dayActive: 3
+    _chosenOptionID: G_003_0
+    _chosenIndex: 0
   - _ballotID: Global_004
     _ballotTitle: Who is better?
     _ballotDescription: You decide!
@@ -119,16 +119,16 @@ MonoBehaviour:
       _unselectedOutcome: 
       _minVotesNeededToBeSelected: 0
       _totalVoteCount: 0
+    _dayActive: 4
     _chosenOptionID: 
     _chosenIndex: 0
-    _dayActive: 4
   - _ballotID: Global_005
     _ballotTitle: Who is better?
     _ballotDescription: You decide!
     _ballotOptions:
     - _ballotOptionID: G_005_0
       _ballotID: Global_005
-      _ballotOptionTitle: Promoter
+      _ballotOptionTitle: Promoter!
       _ballotOptionDescription: Me, the best!
       _iconID: 
       _selectedOutcome: 
@@ -137,16 +137,16 @@ MonoBehaviour:
       _totalVoteCount: 0
     - _ballotOptionID: G_005_1
       _ballotID: Global_005
-      _ballotOptionTitle: Promoter
+      _ballotOptionTitle: Promoter!!
       _ballotOptionDescription: Still me! So good!
       _iconID: 
       _selectedOutcome: 
       _unselectedOutcome: 
       _minVotesNeededToBeSelected: 0
       _totalVoteCount: 0
+    _dayActive: 5
     _chosenOptionID: 
     _chosenIndex: 0
-    _dayActive: 5
   _numberOfBotPlayers: 1
   _activePlayerID: Player_001
   _daysPerGame: 5
@@ -167,8 +167,8 @@ MonoBehaviour:
   - _roundNumber: 5
     _setMaxHealth: 4
     _setHealth: 0
-  _roundTime: 1
-  _dancingTime: 1
+  _roundTime: 5
+  _dancingTime: 5
   _timeFactor: 1
   _baseActionPoints: 5
   _startingSparkPoints: 0

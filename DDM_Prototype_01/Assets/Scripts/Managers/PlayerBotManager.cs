@@ -68,49 +68,54 @@ public class PlayerBotManager : MonoBehaviour
                 foreach (KeyValuePair<string, PlayerToTeamData> kvp2 in bot._playerToTeamData.OrderByDescending(p => p.Value._botLikeDislike))
                 {
                     string favTeamID = kvp2.Key;
-                    //print("team " + favTeamID + " likedislike" + kvp2.Value._botLikeDislike);
-                    while(_gMgr._players[bot._playerID]._actionPoints > 0)
+                    if(!_gMgr._teams[favTeamID]._outOfCompetition)
                     {
-                        if(!bot._playerToTeamData[favTeamID]._playerIsInFanClub)
+                        //print("team " + favTeamID + " likedislike" + kvp2.Value._botLikeDislike);
+                        while(_gMgr._players[bot._playerID]._actionPoints > 0)
                         {
-                            if((Random.value) < 0.5f)
+                            if(!bot._playerToTeamData[favTeamID]._playerIsInFanClub)
                             {
-                                _gMgr.SpendActionOnJoiningFanClub(bot._playerID, favTeamID);
+                                if((Random.value) < 0.5f)
+                                {
+                                    _gMgr.SpendActionOnJoiningFanClub(bot._playerID, favTeamID);
+                                }
                             }
-                        }
-                        else
-                        {
-                            if ((Random.value) < 0.5f)
+                            else
                             {
-                                _gMgr.SpendActionOnNextUpgradeForTeam(bot._playerID, favTeamID);
+                                if ((Random.value) < 0.5f)
+                                {
+                                    _gMgr.SpendActionOnNextUpgradeForTeam(bot._playerID, favTeamID);
+                                }
                             }
-                        }
-                        if(_gMgr._teams[favTeamID]._donationNeeded > 0)
-                        {
-                            _gMgr.SpendActionOnHealthDonation(bot._playerID, favTeamID);
-                        }
-                        else
-                        {
-                            break;
+                            if(_gMgr._teams[favTeamID]._donationNeeded > 0)
+                            {
+                                _gMgr.SpendActionOnHealthDonation(bot._playerID, favTeamID);
+                            }
+                            else
+                            {
+                                break;
+                            }
                         }
                     }
                 }
                 foreach (KeyValuePair<string, PlayerToTeamData> kvp3 in bot._playerToTeamData.OrderByDescending(p => p.Value._botLikeDislike))
                 {
                     string favTeamID = kvp3.Key;
-                    
-                    while (_gMgr._players[bot._playerID]._sparkPoints > 0)
+                    if (!_gMgr._teams[favTeamID]._outOfCompetition)
                     {
-                        if (bot._playerToTeamData[favTeamID]._playerIsInFanClub)
+                        while (_gMgr._players[bot._playerID]._sparkPoints > 0)
                         {
+                            if (bot._playerToTeamData[favTeamID]._playerIsInFanClub)
+                            {
+                                if ((Random.value) < 0.5f)
+                                {
+                                    _gMgr.SpendSparksOnCurrentBriefcaseVote(bot._playerID, favTeamID);
+                                }
+                            }
                             if ((Random.value) < 0.5f)
                             {
-                                _gMgr.SpendSparksOnCurrentBriefcaseVote(bot._playerID, favTeamID);
+                                _gMgr.SpendSparksOnCurrentGlobalVote(bot._playerID);
                             }
-                        }
-                        if ((Random.value) < 0.5f)
-                        {
-                            _gMgr.SpendSparksOnCurrentGlobalVote(bot._playerID);
                         }
                     }
                 }

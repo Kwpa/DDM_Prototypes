@@ -38,7 +38,11 @@ public class Team
         _teamPersonalityStats = stats;
         _teamUpgrades = upgrades;
         _teamStoryReveals = reveals;
-        _teamBriefcaseBallots = briefcaseBallots;
+        _teamBriefcaseBallots = new List<BallotDef>();
+        foreach (BallotDef bb in briefcaseBallots)
+        {
+            _teamBriefcaseBallots.Add(new BallotDef(bb._ballotID, bb._ballotTitle, bb._ballotDescription, bb._ballotOptions, bb._dayActive));
+        }
         GetDonationNeeded();
     }
 
@@ -52,8 +56,12 @@ public class Team
         _teamPersonalityStats = profile._teamPersonalityStats;
         _teamUpgrades = profile._teamUpgrades;
         _teamStoryReveals = profile._storyReveals;
-        _teamBriefcaseBallots = profile._briefcaseBallots;
-        Debug.Log(_teamID + ": team briefcase count" + _teamBriefcaseBallots.Count);
+        _teamBriefcaseBallots = new List<BallotDef>();
+        foreach (BallotDef bb in profile._briefcaseBallots)
+        {
+            _teamBriefcaseBallots.Add(new BallotDef(bb._ballotID, bb._ballotTitle, bb._ballotDescription, bb._ballotOptions, bb._dayActive));
+        }
+        //Debug.Log(_teamID + ": team briefcase count" + _teamBriefcaseBallots.Count);
         GetDonationNeeded();
     }
 

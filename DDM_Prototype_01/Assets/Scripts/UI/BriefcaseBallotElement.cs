@@ -66,11 +66,13 @@ public class BriefcaseBallotElement : UIElement
         _unlockedUI.SetActive(true);
     }
 
-    public void SetBallotResult(int winnerIndex, List<int> voteCounts)
+    public void SetBriefcaseBallotResult(int winnerIndex, List<int> voteCounts)
     {
+        print("SHHHHH " +_optionElements.Count);
         for (int i = 0; i < _optionElements.Count; i++)
         {
             BallotOptionElement optionEl = _optionElements[i].GetComponent<BallotOptionElement>();
+
             if (i == winnerIndex)
             {
                 optionEl.OptionWon();
@@ -79,7 +81,9 @@ public class BriefcaseBallotElement : UIElement
             {
                 optionEl.OptionLost();
             }
-            optionEl.SetTotalCount(voteCounts[i]);
+            int voteCount = voteCounts[i];
+            print("SDDDD " + voteCount + " " + i + " vote count total " + voteCounts.Count);
+            optionEl.SetTotalCount(voteCount);
         }
     }
 
@@ -89,7 +93,4 @@ public class BriefcaseBallotElement : UIElement
         _unlockedUI.SetActive(false);
         _ballotEndedUI.SetActive(true);
     }
-
-
-
 }

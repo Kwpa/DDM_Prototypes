@@ -198,6 +198,7 @@ public class PlayerToTeamData
         BallotContribution contribution = new BallotContribution(ballotID, ballotOptionID);
         contribution._playerVoteTotal += voteContribution;
         contribution._playerVoteTotal = Mathf.Clamp(contribution._playerVoteTotal, 0, 1000000000);
+        Debug.Log("*ballot " + ballotID + " " + ballotOptionID + contribution._playerVoteTotal);
         _ballotContributions.Add(contribution);
     }
 
@@ -208,6 +209,7 @@ public class PlayerToTeamData
         {
             contribution._playerVoteTotal += voteContribution;
             contribution._playerVoteTotal = Mathf.Clamp(contribution._playerVoteTotal, 0, 1000000000);
+            Debug.Log("*ballot " + ballotID + " " + ballotOptionID + contribution._playerVoteTotal);
         }
         else
         {

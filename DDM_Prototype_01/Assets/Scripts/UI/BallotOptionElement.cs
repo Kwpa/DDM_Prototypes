@@ -50,6 +50,7 @@ public class BallotOptionElement : UIElement
 
     public void OptionWon()
     {
+        _optionWon = true;
         _unlockedUI.SetActive(false);
         _optionLostUI.SetActive(false);
         _optionWonUI.SetActive(true);
@@ -58,6 +59,7 @@ public class BallotOptionElement : UIElement
 
     public void OptionLost()
     {
+        _optionLost = true;
         _unlockedUI.SetActive(false);
         _optionWonUI.SetActive(false);
         _optionLostUI.SetActive(true);
@@ -66,7 +68,6 @@ public class BallotOptionElement : UIElement
 
     public void SetTotalCount(int count)
     {
-        print("count = " + count + " for " + _titleText);
         _voteCount.text = count.ToString();
     }
 

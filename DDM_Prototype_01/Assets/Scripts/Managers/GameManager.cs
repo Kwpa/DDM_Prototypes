@@ -277,7 +277,7 @@ public class GameManager : MonoBehaviour
         List<BallotDef> globalBallots = profile._globalBallots;
         foreach (BallotDef gb in globalBallots)
         {
-            _globalBallots.Add(gb._ballotID, new BallotDef(gb));
+            _globalBallots.Add(gb._ballotID, new BallotDef(gb._ballotID, gb._ballotTitle, gb._ballotDescription, gb._ballotOptions, gb._dayActive));
             _uiMgr.SpawnGlobalBallot(gb);
         }
 
@@ -349,7 +349,7 @@ public class GameManager : MonoBehaviour
 
             player.GainTeamUpgrade(team._teamID, upgrade);
             
-            print("Username: " + player._username + " gained the " + team._teamName + " " + team._teamUpgrades);
+            print("Username: " + player._username + " gained the " + team._teamName + " " + upgrade._upgradeName);
 
             if (playerID == _activePlayer._playerID)
             {
@@ -634,7 +634,7 @@ public class GameManager : MonoBehaviour
             Team team = kvp.Value;
             
             RoundDef defFromRound = _gameProfile._roundDefs.FirstOrDefault(p => p._roundNumber == _currentRound);
-            print("Rounds values" + defFromRound._setMaxHealth + " " + defFromRound._setHealth);
+            //print("Rounds values" + defFromRound._setMaxHealth + " " + defFromRound._setHealth);
             if (defFromRound != null)
             {
                 team.SetMaxHealth(defFromRound._setMaxHealth);
@@ -713,7 +713,7 @@ public class GameManager : MonoBehaviour
             Team team = kvp.Value;
             BallotDef briefcaseBallot = team._teamBriefcaseBallots[day - 1];
             int winnerIndexBriefcase = briefcaseBallot.EvaluateBallot();
-            List<int> briefcaseBallotScores = globalBallot.GetFinalVoteAmounts();
+            List<int> briefcaseBallotScores = briefcaseBallot.GetFinalVoteAmounts();
             _uiMgr.EvalauteBriefcaseBallotUI(team._teamID, briefcaseBallot._ballotID, winnerIndexBriefcase, briefcaseBallotScores);
         }
     }
@@ -725,6 +725,7 @@ public class GameManager : MonoBehaviour
     public void FirstVisitEnter()
     {
         print("First Visit");
+        _uiMgr.SpawnFirstTimePopup(); 
         _fsm.SetCurrentState(GameStates.NewDay);
     }
 

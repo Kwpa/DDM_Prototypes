@@ -7,6 +7,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 15908319294866772, guid: 3ba33b9953c8940fba5e14cfa2afe77e, type: 3}
+      propertyPath: m_text
+      value: This section of voting booth will become unlocked with time...
+      objectReference: {fileID: 0}
     - target: {fileID: 161582696343568074, guid: 3ba33b9953c8940fba5e14cfa2afe77e, type: 3}
       propertyPath: m_IsActive
       value: 0

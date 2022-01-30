@@ -18,7 +18,7 @@ public class TeamProfilePopup : Popup
     public List<GameObject> _stats;
     public List<GameObject> _upgrades;
     public List<GameObject> _storyReveals;
-    public List<GameObject> _briefcaseBallots;
+    public List<GameObject> _briefcaseBallotsUI;
 
 
     public GameObject _statParent;
@@ -45,7 +45,7 @@ public class TeamProfilePopup : Popup
         _stats = new List<GameObject>();
         _upgrades = new List<GameObject>();
         _storyReveals = new List<GameObject>();
-        _briefcaseBallots = new List<GameObject>();
+        _briefcaseBallotsUI = new List<GameObject>();
     }
 
     public void SetValues(string name, int requirement, string bio, int maxHealth, int currentHealth, bool playerInFanClub, bool outOfCompetition)
@@ -190,18 +190,18 @@ public class TeamProfilePopup : Popup
 
     public void CreateBriefcaseBallot(BallotDef ballot)
     {
-        print("Create ballot " + ballot._ballotTitle);
+        //print("Create ballot " + ballot._ballotTitle);
         GameObject ballotGo = Instantiate(_briefcaseBallotPrefab, _briefcaseBallotParent.transform);
         ballotGo.GetComponent<BriefcaseBallotElement>().SetBriefcaseBallotElement(ballot, _teamID);
         ballotGo.GetComponent<BriefcaseBallotElement>().CreateOptions();
         ballotGo.GetComponent<BriefcaseBallotElement>().Init();
 
-        _briefcaseBallots.Add(ballotGo);
+        _briefcaseBallotsUI.Add(ballotGo);
     }
 
     public void SetBriefcaseBallot(BallotDef ballot)
     {
-        GameObject ballotGo = _briefcaseBallots.FirstOrDefault(p => p.GetComponent<BriefcaseBallotElement>()._ballotID == ballot._ballotID);
+        GameObject ballotGo = _briefcaseBallotsUI.FirstOrDefault(p => p.GetComponent<BriefcaseBallotElement>()._ballotID == ballot._ballotID);
         if (ballotGo == null) return;
 
         ballotGo.GetComponent<BriefcaseBallotElement>().SetBriefcaseBallotElement(ballot, _teamID);
@@ -211,7 +211,7 @@ public class TeamProfilePopup : Popup
     {
         List<BallotDef> ballotDefs = _gMgr._teams[_teamID]._teamBriefcaseBallots;
 
-        foreach (GameObject go in _briefcaseBallots)
+        foreach (GameObject go in _briefcaseBallotsUI)
         {
             BriefcaseBallotElement ballotElement = go.GetComponent<BriefcaseBallotElement>();
             BallotDef ballotDef = ballotDefs.FirstOrDefault(p => p._ballotID == ballotElement._ballotID);
@@ -221,11 +221,11 @@ public class TeamProfilePopup : Popup
 
     public void SetBriefcaseBallotStatus(string ballotID)
     {
-        GameObject go = _briefcaseBallots.FirstOrDefault(p => p.GetComponent<BriefcaseBallotElement>()._ballotID == ballotID);
+        GameObject go = _briefcaseBallotsUI.FirstOrDefault(p => p.GetComponent<BriefcaseBallotElement>()._ballotID == ballotID);
         BriefcaseBallotElement element = go.GetComponent<BriefcaseBallotElement>();
-        List<BallotDef> upgradeDefs = _gMgr._teams[_teamID]._teamBriefcaseBallots;
-        BallotDef upgradeDef = upgradeDefs.FirstOrDefault(p => p._ballotID == element._ballotID);
-        element.SetBriefcaseBallotElement(upgradeDef, _teamID);
+        List<BallotDef> ballotDefs = _gMgr._teams[_teamID]._teamBriefcaseBallots;
+        BallotDef ballot = ballotDefs.FirstOrDefault(p => p._ballotID == element._ballotID);
+        element.SetBriefcaseBallotElement(ballot, _teamID);
     }
 
 
@@ -237,20 +237,20 @@ public class TeamProfilePopup : Popup
 
     public void KickTeamUI()
     {
-
+        _kickedOutPanel.SetActive(true);
     }
 
     public void EndBriefcaseBallot(int index)
     {
-        if (index - 2 >= 0) _briefcaseBallots[index - 2].GetComponent<BriefcaseBallotElement>().EndBallot();
+        if (index - 2 >= 0) _briefcaseBallotsUI[index - 2].GetComponent<BriefcaseBallotElement>().EndBallot();
     }
 
     public void UnlockBriefcaseBallot(int index)
     {
         if (index - 1 >= 0)
         {
-            print("INDEX " + index + _briefcaseBallots.Count);
-            _briefcaseBallots[index - 1].GetComponent<BriefcaseBallotElement>().UnlockBallot();
+           
+            _briefcaseBallotsUI[index - 1].GetComponent<BriefcaseBallotElement>().UnlockBallot();
         }
     }
 
